@@ -2,9 +2,11 @@ package com.afss.impresario;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -34,7 +36,7 @@ public class GoogleSingInPage<mGoogleSignInClient> extends AppCompatActivity {
         setContentView(R.layout.activity_google_sing_in);
 
 
-        findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
+        findViewById(R.id.sign_in_button).setVisibility(View.INVISIBLE);
         // Configure sign-in to request the user's ID, email address, and basic
 // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -54,7 +56,7 @@ public class GoogleSingInPage<mGoogleSignInClient> extends AppCompatActivity {
         // Set the dimensions of the sign-in button.
         SignInButton signInButton = findViewById(R.id.sign_in_button);
         signInButton.setSize(SignInButton.SIZE_STANDARD);
-
+        signIn();
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,9 +114,20 @@ public class GoogleSingInPage<mGoogleSignInClient> extends AppCompatActivity {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
             Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
+
+            if (e.getStatusCode() == 7)
+            {
+                findViewById(R.id.Offline_thumnail).setVisibility(View.VISIBLE);
+                findViewById(R.id.no_internet_alert).setVisibility(View.VISIBLE);
+            }else if (e.getStatusCode() == 12501)
+            {
+                findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
+            }
 //            updateUI(null);
         }
     }
+
+
 
     private void saveCredentials(String personName, String personEmail, String personId ){
 //        save to shared preferences
@@ -129,6 +142,8 @@ public class GoogleSingInPage<mGoogleSignInClient> extends AppCompatActivity {
         editor.commit();
 
     }
+
+
 
 
 }

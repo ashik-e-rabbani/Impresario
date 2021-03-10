@@ -6,6 +6,63 @@
     android:layout_height="match_parent"
     tools:context=".GoogleSingInPage">
 
+    <LinearLayout
+        android:id="@+id/no_internet_alert"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:visibility="invisible"
+        android:padding="3dp"
+        >
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/ic_cloud_off_24px_whte"
+            ></ImageView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="16dp"
+
+            android:text="No internet connection"
+            android:textSize="12sp"
+            android:textColor="@color/white"
+            ></TextView>
+
+
+    </LinearLayout>
+
+<LinearLayout
+    android:id="@+id/Offline_thumnail"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    android:orientation="vertical"
+    android:visibility="invisible"
+    >
+    <ImageView
+        android:id="@+id/offline_center_svg"
+        android:layout_width="100dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_cloud_off_24px"
+        ></ImageView>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_below="@+id/offline_center_svg"
+        android:text="You'r Offline"
+        android:textSize="22sp"
+        android:textColor="#6F000000"
+        ></TextView>
+</LinearLayout>
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button"
