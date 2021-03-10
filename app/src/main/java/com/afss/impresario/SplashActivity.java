@@ -42,10 +42,10 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
                 //Do any action here. Now we are moving to next page
                 if (GG_Email != null && GG_ID != null && GG_NAME != null) {
-                    startActivity(new Intent(SplashActivity.this, homepage.class));
+                    startActivity(new Intent(SplashActivity.this, HomepageActivity.class));
 
                 } else {
-                    startActivity(new Intent(SplashActivity.this, GoogleSingInPage.class));
+                    startActivity(new Intent(SplashActivity.this, GoogleSingInPageActivity.class));
 
                 }
                 //This 'finish()' is for exiting the app when back button pressed from Home page which is ActivityHome

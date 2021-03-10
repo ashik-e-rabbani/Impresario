@@ -10,11 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Impresario">
 
-        <activity android:name=".GoogleSingInPage"
+        <activity android:name=".GoogleSingInPageActivity"
             android:theme="@style/Theme.SignIn"
             ></activity>
 
-        <activity android:name=".homepage" />
+        <activity android:name=".HomepageActivity" />
 
         <activity android:name=".SplashActivity"
             android:theme="@style/Theme.Splash">

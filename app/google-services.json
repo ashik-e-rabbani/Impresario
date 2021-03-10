@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "334166431960",
+    "project_id": "impresario-app-1615311250274",
+    "storage_bucket": "impresario-app-1615311250274.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:334166431960:android:64f1eb338244f7087fdfad",
+        "android_client_info": {
+          "package_name": "com.afss.impresario"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "334166431960-haegcqj65rf8cub2rtqop4t71mc2etqu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDw3EOm9RvCXlzzCe9lZcu9nqpTSM7BXEQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "334166431960-haegcqj65rf8cub2rtqop4t71mc2etqu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

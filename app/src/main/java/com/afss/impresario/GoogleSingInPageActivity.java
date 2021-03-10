@@ -2,11 +2,9 @@ package com.afss.impresario;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,7 +18,7 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
-public class GoogleSingInPage<mGoogleSignInClient> extends AppCompatActivity {
+public class GoogleSingInPageActivity<mGoogleSignInClient> extends AppCompatActivity {
 
 
 
@@ -103,7 +101,7 @@ public class GoogleSingInPage<mGoogleSignInClient> extends AppCompatActivity {
                 String personId = acct.getId();
 //                Uri personPhoto = acct.getPhotoUrl();
                 Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(GoogleSingInPage.this,homepage.class));
+                startActivity(new Intent(GoogleSingInPageActivity.this, HomepageActivity.class));
 
                 saveCredentials(personName,personEmail,personId);
             }
