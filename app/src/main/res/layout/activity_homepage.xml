@@ -11,9 +11,10 @@
 
     <Button
         android:id="@+id/show_transactions"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Show Txns"
+        android:layout_gravity="center|bottom"
         android:textColor="@color/white"
         ></Button>
     <TextView

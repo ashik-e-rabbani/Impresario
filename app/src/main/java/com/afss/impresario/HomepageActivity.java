@@ -22,12 +22,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
+import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
+
 public class HomepageActivity extends AppCompatActivity {
 
     ActivityHomepageBinding homepageBinding;
     String amount;
-    DatabaseReference myRef;
-    DatabaseReference myRef_reader;
+    private static FirebaseDatabase database;
 
 
     @Override
@@ -38,19 +41,40 @@ public class HomepageActivity extends AppCompatActivity {
         View view = homepageBinding.getRoot();
         setContentView(view);
 
+        if (database == null) {
+            database=FirebaseDatabase.getInstance();
+            database.setPersistenceEnabled(true);
+        }
+
+
+        ShowcaseConfig config = new ShowcaseConfig();
+        config.setDelay(50); // half second between each showcase view
+
+        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(this, "HomePage_show");
+
+        sequence.setConfig(config);
+
+        sequence.addSequenceItem(homepageBinding.addExpenseAndIncome,
+                "Single Tap to Add expense and Hold to Add Income", "GOT IT");
+
+        sequence.addSequenceItem(homepageBinding.showTransactions,
+                "Clicking All Transaction will be visible to You", "GOT IT");
+
+
+        sequence.start();
 
 //        Connecting to FireBase DB
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("Users/USER_002");
-        myRef_reader = database.getReference("Users");
+
+//        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("Users/USER_002");
+        DatabaseReference myRef_reader = database.getReference("Users");
 
         homepageBinding.addExpenseAndIncome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                showAddExpenseAndIncomeDialog(HomepageActivity.this, "Expense");
+                showAddExpenseAndIncomeDialog(HomepageActivity.this, "Expense",myRef);
             }
 
         });
@@ -59,7 +83,7 @@ public class HomepageActivity extends AppCompatActivity {
             @Override
             public boolean onLongClick(View v) {
 
-                showAddExpenseAndIncomeDialog(HomepageActivity.this, "Income");
+                showAddExpenseAndIncomeDialog(HomepageActivity.this, "Income",myRef);
 
                 return false;
             }
@@ -87,7 +111,7 @@ public class HomepageActivity extends AppCompatActivity {
     }
 
 
-    private String showAddExpenseAndIncomeDialog(Context c, String _amountType) {
+    private String showAddExpenseAndIncomeDialog(Context c, String _amountType, DatabaseReference myRef) {
         final EditText expenseIncomeAmount = new EditText(c);
         expenseIncomeAmount.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         expenseIncomeAmount.setHint("000.00");
