@@ -8,24 +8,7 @@
     tools:context=".HomepageActivity">
 
 
-<EditText
-    android:id="@+id/expense_amount"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:hint="Enter amount"
-    android:inputType="numberDecimal"
 
-    >
-
-</EditText>
-
-<Button
-    android:id="@+id/add_expense"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="Add Expense"
-    android:textColor="@color/white"
-    ></Button>
     <Button
         android:id="@+id/show_transactions"
         android:layout_width="match_parent"
@@ -39,5 +22,25 @@
         android:layout_height="wrap_content"
         android:textSize="12sp"
         android:text="------------"></TextView>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom">
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add_expense_and_income"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:src="@drawable/ic_plusminus"
+            app:rippleColor="@color/material_on_primary_emphasis_medium"
+            android:tooltipText="Hold to add Income"
+            android:contentDescription="Add Expense and income"
+            android:layout_margin="16dp" />
+    </LinearLayout>
+
+
 
 </LinearLayout>

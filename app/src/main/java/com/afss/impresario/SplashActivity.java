@@ -60,7 +60,7 @@ public class SplashActivity extends AppCompatActivity {
     //Method to run progress bar for 5 seconds
     private void playProgress() {
         ObjectAnimator.ofInt(splashProgress, "progress", 100)
-                .setDuration(2000)
+                .setDuration(1100)
                 .start();
     }
 
