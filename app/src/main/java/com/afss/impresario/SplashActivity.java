@@ -8,15 +8,20 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.ProgressBar;
+
+import com.afss.impresario.databinding.ActivitySplashBinding;
 
 public class SplashActivity extends AppCompatActivity {
 
     ProgressBar splashProgress;
-    int SPLASH_TIME = 3000; //This is 3 seconds
+    ActivitySplashBinding activitySplashBinding;
+    int SPLASH_TIME = 1100; //This is 3 seconds
     private String GG_Email = null;
     private String GG_NAME = null;
     private String GG_ID = null;
+    private static final String TAG = "SplashScreen";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +35,10 @@ public class SplashActivity extends AppCompatActivity {
             GG_Email = myPrefs.getString("GG_Email", null);
             GG_NAME = myPrefs.getString("GG_NAME", null);
             GG_ID = myPrefs.getString("GG_ID", null);
+            Log.d(TAG,"Credentials found in SharedPref");
         } catch (Exception e) {
             e.printStackTrace();
+            Log.e(TAG,"No Credentials found in SharedPref");
         }
         //This is additional feature, used to run a progress bar
         splashProgress = findViewById(R.id.splashProgress);
@@ -43,9 +50,11 @@ public class SplashActivity extends AppCompatActivity {
                 //Do any action here. Now we are moving to next page
                 if (GG_Email != null && GG_ID != null && GG_NAME != null) {
                     startActivity(new Intent(SplashActivity.this, HomepageActivity.class));
+                    Log.d(TAG,"Credentials available Landing to Homepage");
 
                 } else {
                     startActivity(new Intent(SplashActivity.this, GoogleSingInPageActivity.class));
+                    Log.d(TAG,"Credentials not available Landing to Signing page");
 
                 }
                 //This 'finish()' is for exiting the app when back button pressed from Home page which is ActivityHome

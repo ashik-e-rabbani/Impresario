@@ -21,11 +21,9 @@ import com.google.android.gms.tasks.Task;
 public class GoogleSingInPageActivity<mGoogleSignInClient> extends AppCompatActivity {
 
 
-
     private static final int RC_SIGN_IN = 100;
-    private static final String TAG = "SigingCode";
+    private static final String TAG = "SigningCode";
     GoogleSignInClient mGoogleSignInClient;
-
 
 
     @Override
@@ -64,10 +62,6 @@ public class GoogleSingInPageActivity<mGoogleSignInClient> extends AppCompatActi
     }
 
 
-
-
-
-
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
@@ -103,7 +97,7 @@ public class GoogleSingInPageActivity<mGoogleSignInClient> extends AppCompatActi
                 Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(GoogleSingInPageActivity.this, HomepageActivity.class));
 
-                saveCredentials(personName,personEmail,personId);
+                saveCredentials(personName, personEmail, personId);
             }
 
             // Signed in successfully, show authenticated UI.
@@ -113,12 +107,10 @@ public class GoogleSingInPageActivity<mGoogleSignInClient> extends AppCompatActi
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
             Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
 
-            if (e.getStatusCode() == 7)
-            {
+            if (e.getStatusCode() == 7) {
                 findViewById(R.id.Offline_thumnail).setVisibility(View.VISIBLE);
                 findViewById(R.id.no_internet_alert).setVisibility(View.VISIBLE);
-            }else if (e.getStatusCode() == 12501)
-            {
+            } else if (e.getStatusCode() == 12501) {
                 findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
             }
 //            updateUI(null);
@@ -126,8 +118,7 @@ public class GoogleSingInPageActivity<mGoogleSignInClient> extends AppCompatActi
     }
 
 
-
-    private void saveCredentials(String personName, String personEmail, String personId ){
+    private void saveCredentials(String personName, String personEmail, String personId) {
 //        save to shared preferences
         SharedPreferences sharedpreferences = getSharedPreferences("SING_IN_CREDS", Context.MODE_PRIVATE);
 
@@ -140,8 +131,6 @@ public class GoogleSingInPageActivity<mGoogleSignInClient> extends AppCompatActi
         editor.commit();
 
     }
-
-
 
 
 }

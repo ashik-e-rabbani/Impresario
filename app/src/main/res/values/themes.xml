@@ -16,6 +16,7 @@
 
 
     <style name="Theme.Splash" parent="@style/Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorSecondary">@color/blue_500</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>

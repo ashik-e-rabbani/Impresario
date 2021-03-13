@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:weightSum="100"
     tools:context=".HomepageActivity">
-
 
 
     <Button
@@ -15,32 +15,40 @@
         android:layout_height="wrap_content"
         android:text="Show Txns"
         android:layout_gravity="center|bottom"
-        android:textColor="@color/white"
-        ></Button>
-    <TextView
-        android:id="@+id/txn_summary"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:text="------------"></TextView>
+        android:layout_weight="15"
+        android:textColor="@color/white" />
+
+
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom">
-
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="end|bottom"
+        android:weightSum="75"
+        android:layout_weight="75"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/txn_summary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:layout_weight="70"
+            android:text="------------" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/add_expense_and_income"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
-            android:src="@drawable/ic_plusminus"
-            app:rippleColor="@color/material_on_primary_emphasis_medium"
-            android:tooltipText="Hold to add Income"
+            android:layout_margin="16dp"
             android:contentDescription="Add Expense and income"
-            android:layout_margin="16dp" />
+            android:src="@drawable/ic_plusminus"
+            android:tooltipText="Hold to add Income"
+
+            app:rippleColor="@color/material_on_primary_emphasis_medium" />
+
     </LinearLayout>
+
 
 
 
