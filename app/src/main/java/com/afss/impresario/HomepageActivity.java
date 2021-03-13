@@ -3,9 +3,16 @@ package com.afss.impresario;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
@@ -96,7 +103,7 @@ public class HomepageActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         String retrieve_amount = snapshot.getValue().toString();
-
+                        ShowNotification();
                         homepageBinding.txnSummary.setText(retrieve_amount);
                     }
 
@@ -140,6 +147,36 @@ public class HomepageActivity extends AppCompatActivity {
                 .create();
         dialog.show();
         return amount;
+    }
+
+    private void ShowNotification()
+    {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Amount_info_channel";
+            String description = "Onkkk";
+            int importance = NotificationManager.IMPORTANCE_MAX;
+            NotificationChannel channel = new NotificationChannel("Amount_info_channel", name, NotificationManager.IMPORTANCE_HIGH);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(HomepageActivity.this, "Amount_info_channel")
+                .setSmallIcon(R.drawable.ic_plusminus)
+                .setContentTitle("I am Title")
+                .setContentText("textContent")
+                .setPriority(NotificationCompat.PRIORITY_MAX)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setSound(alarmSound)
+                .setAutoCancel(true);
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(HomepageActivity.this);
+        notificationManagerCompat.notify(1,builder.build());
+
+
+
     }
 
 }
