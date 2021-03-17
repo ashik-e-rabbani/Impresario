@@ -35,14 +35,20 @@
 <!--            android:layout_weight="70"-->
 <!--            android:text="&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;" />-->
 
-        <ListView
-            android:id="@+id/txnListView"
+<!--        <ListView-->
+<!--            android:id="@+id/txnListView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_weight="70"-->
+<!--            >-->
+
+<!--        </ListView>-->
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="70"
-            >
-
-        </ListView>
+            android:layout_weight="70"></androidx.recyclerview.widget.RecyclerView>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/add_expense_and_income"

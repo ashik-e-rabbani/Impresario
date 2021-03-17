@@ -5,6 +5,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -26,6 +28,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.afss.impresario.Adapter.RecyclerAdapter;
 import com.afss.impresario.Model.TransactionsModel;
 import com.afss.impresario.databinding.ActivityHomepageBinding;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
@@ -41,6 +44,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
@@ -57,6 +61,9 @@ public class HomepageActivity extends AppCompatActivity {
 
     String GG_Email, GG_ID, GG_NAME;
     String year, month;
+
+    RecyclerView recyclerView;
+    RecyclerAdapter recyclerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,9 +99,11 @@ public class HomepageActivity extends AppCompatActivity {
         }
 
         final ArrayList<String> list = new ArrayList<>();
-        final ListAdapter listAdapter = new ArrayAdapter<String>(this, txnlist_layout, list);
-        ListView listView = homepageBinding.txnListView;
-        listView.setAdapter(listAdapter);
+
+        recyclerView=findViewById(R.id.recyclerView);
+        recyclerAdapter=new RecyclerAdapter(list);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(recyclerAdapter);
 
         if (database == null) {
             database=FirebaseDatabase.getInstance();
@@ -120,8 +129,6 @@ public class HomepageActivity extends AppCompatActivity {
 
 //        Connecting to FireBase DB
 
-
-//        FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference insertRtdbRef = database.getReference("Users/"+GG_ID+"/"+year+"/"+month);
         DatabaseReference myRef_reader = database.getReference("Users/"+GG_ID+"/"+year+"/"+month);
 
@@ -148,32 +155,22 @@ public class HomepageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
-
-//                            for (DataSnapshot snapshotToArray : snapshot.getChildren()){
-//                                String data = snapshotToArray.getValue(String.class);
-//                                snapToString.add(data);
-//                            }
-
-
-
                 myRef_reader.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         try {
                             String retrieve_amount = snapshot.getValue().toString();
 //                            ShowNotification();
-//                            Storing snapshotData in string array
-
                             list.clear();
                             for (DataSnapshot snapshot1 : snapshot.getChildren())
                             {
                                 list.add(snapshot1.child("txn_amount").getValue().toString());
-                                listView.setAdapter(listAdapter);
+
 
                             }
+                            Collections.reverse(list);
+                            recyclerView.setAdapter(recyclerAdapter);
 
-//                            homepageBinding.txnSummary.setText(retrieve_amount);
                         } catch (Exception e) {
                             e.printStackTrace();
                             Snackbar.make(view,"No Data Found", BaseTransientBottomBar.LENGTH_LONG).show();
