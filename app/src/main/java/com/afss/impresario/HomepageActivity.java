@@ -57,6 +57,7 @@ public class HomepageActivity extends AppCompatActivity {
 
     ActivityHomepageBinding homepageBinding;
     String amount;
+    String path;
     private static FirebaseDatabase database;
 
     String GG_Email, GG_ID, GG_NAME;
@@ -98,10 +99,11 @@ public class HomepageActivity extends AppCompatActivity {
 
         }
 
-        final ArrayList<String> list = new ArrayList<>();
+        final ArrayList<String> txnAmountList = new ArrayList<>();
+        final ArrayList<String> txnAmountPathList = new ArrayList<>();
 
         recyclerView=findViewById(R.id.recyclerView);
-        recyclerAdapter=new RecyclerAdapter(list);
+        recyclerAdapter=new RecyclerAdapter(txnAmountList,txnAmountPathList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(recyclerAdapter);
 
@@ -128,8 +130,9 @@ public class HomepageActivity extends AppCompatActivity {
         sequence.start();
 
 //        Connecting to FireBase DB
+        path = "Users/"+GG_ID+"/"+year+"/"+month;
+        DatabaseReference insertRtdbRef = database.getReference(path);
 
-        DatabaseReference insertRtdbRef = database.getReference("Users/"+GG_ID+"/"+year+"/"+month);
         DatabaseReference myRef_reader = database.getReference("Users/"+GG_ID+"/"+year+"/"+month);
 
         homepageBinding.addExpenseAndIncome.setOnClickListener(new View.OnClickListener() {
@@ -161,14 +164,18 @@ public class HomepageActivity extends AppCompatActivity {
                         try {
                             String retrieve_amount = snapshot.getValue().toString();
 //                            ShowNotification();
-                            list.clear();
-                            for (DataSnapshot snapshot1 : snapshot.getChildren())
+                            txnAmountList.clear();
+                            txnAmountPathList.clear();
+                            for (DataSnapshot snapshotTxn : snapshot.getChildren())
                             {
-                                list.add(snapshot1.child("txn_amount").getValue().toString());
+                                txnAmountList.add(snapshotTxn.child("txn_amount").getValue()+" "+snapshotTxn.getKey().toString());
+                                txnAmountPathList.add(path+"/"+snapshotTxn.getKey().toString());
+
 
 
                             }
-                            Collections.reverse(list);
+                            Collections.reverse(txnAmountList);
+                            Collections.reverse(txnAmountPathList);
                             recyclerView.setAdapter(recyclerAdapter);
 
                         } catch (Exception e) {
