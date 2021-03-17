@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -31,6 +32,7 @@ import android.widget.Toast;
 import com.afss.impresario.Adapter.RecyclerAdapter;
 import com.afss.impresario.Model.TransactionsModel;
 import com.afss.impresario.databinding.ActivityHomepageBinding;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
@@ -38,6 +40,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.orhanobut.dialogplus.DialogPlus;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -73,12 +76,15 @@ public class HomepageActivity extends AppCompatActivity {
         homepageBinding = ActivityHomepageBinding.inflate(getLayoutInflater());
         View view = homepageBinding.getRoot();
         setContentView(view);
+        setSupportActionBar(homepageBinding.homepageToolbar);
 
 //        Get passed Intent Data
         Intent myIntent = getIntent();
         GG_Email = myIntent.getStringExtra("GG_Email");
         GG_ID = myIntent.getStringExtra("GG_ID");
         GG_NAME = myIntent.getStringExtra("GG_NAME");
+        homepageBinding.homepageToolbar.setTitle(GG_NAME);
+
 
 //        Generating Date Year Month for hierarchy
 
@@ -86,11 +92,11 @@ public class HomepageActivity extends AppCompatActivity {
         LocalDate localDate = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            year  = Integer.toString(localDate.getYear());
+            year = Integer.toString(localDate.getYear());
             month = Integer.toString(localDate.getMonthValue());
 
 
-        }else{
+        } else {
 
             Calendar cal = Calendar.getInstance();
             cal.setTime(date);
@@ -102,13 +108,13 @@ public class HomepageActivity extends AppCompatActivity {
         final ArrayList<String> txnAmountList = new ArrayList<>();
         final ArrayList<String> txnAmountPathList = new ArrayList<>();
 
-        recyclerView=findViewById(R.id.recyclerView);
-        recyclerAdapter=new RecyclerAdapter(txnAmountList,txnAmountPathList);
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerAdapter = new RecyclerAdapter(txnAmountList, txnAmountPathList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(recyclerAdapter);
 
         if (database == null) {
-            database=FirebaseDatabase.getInstance();
+            database = FirebaseDatabase.getInstance();
             database.setPersistenceEnabled(true);
         }
 
@@ -130,16 +136,48 @@ public class HomepageActivity extends AppCompatActivity {
         sequence.start();
 
 //        Connecting to FireBase DB
-        path = "Users/"+GG_ID+"/"+year+"/"+month;
+        path = "Users/" + GG_ID + "/" + year + "/" + month;
         DatabaseReference insertRtdbRef = database.getReference(path);
 
-        DatabaseReference myRef_reader = database.getReference("Users/"+GG_ID+"/"+year+"/"+month);
+        DatabaseReference myRef_reader = database.getReference("Users/" + GG_ID + "/" + year + "/" + month);
+
+
+        myRef_reader.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                try {
+                    String retrieve_amount = snapshot.getValue().toString();
+//                            ShowNotification();
+                    txnAmountList.clear();
+                    txnAmountPathList.clear();
+                    for (DataSnapshot snapshotTxn : snapshot.getChildren()) {
+                        txnAmountList.add(snapshotTxn.child("txn_amount").getValue().toString());
+                        txnAmountPathList.add(path + "/" + snapshotTxn.getKey().toString());
+
+
+                    }
+                    Collections.reverse(txnAmountList);
+                    Collections.reverse(txnAmountPathList);
+                    recyclerView.setAdapter(recyclerAdapter);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Snackbar.make(view, "No Data Found", BaseTransientBottomBar.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
         homepageBinding.addExpenseAndIncome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                showAddExpenseAndIncomeDialog(HomepageActivity.this, "Expense",insertRtdbRef);
+                showAddExpenseAndIncomeDialog(HomepageActivity.this, "Expense", insertRtdbRef);
             }
 
         });
@@ -148,12 +186,14 @@ public class HomepageActivity extends AppCompatActivity {
             @Override
             public boolean onLongClick(View v) {
 
-                showAddExpenseAndIncomeDialog(HomepageActivity.this, "Income",insertRtdbRef);
+
+                showAddExpenseAndIncomeDialog(HomepageActivity.this, "Income", insertRtdbRef);
 
                 return false;
             }
         });
 
+//        Show txns by button Click
         homepageBinding.showTransactions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -166,11 +206,9 @@ public class HomepageActivity extends AppCompatActivity {
 //                            ShowNotification();
                             txnAmountList.clear();
                             txnAmountPathList.clear();
-                            for (DataSnapshot snapshotTxn : snapshot.getChildren())
-                            {
-                                txnAmountList.add(snapshotTxn.child("txn_amount").getValue()+" "+snapshotTxn.getKey().toString());
-                                txnAmountPathList.add(path+"/"+snapshotTxn.getKey().toString());
-
+                            for (DataSnapshot snapshotTxn : snapshot.getChildren()) {
+                                txnAmountList.add(snapshotTxn.child("txn_amount").getValue() + " " + snapshotTxn.getKey().toString());
+                                txnAmountPathList.add(path + "/" + snapshotTxn.getKey().toString());
 
 
                             }
@@ -180,7 +218,7 @@ public class HomepageActivity extends AppCompatActivity {
 
                         } catch (Exception e) {
                             e.printStackTrace();
-                            Snackbar.make(view,"No Data Found", BaseTransientBottomBar.LENGTH_LONG).show();
+                            Snackbar.make(view, "No Data Found", BaseTransientBottomBar.LENGTH_LONG).show();
                         }
                     }
 
@@ -196,14 +234,18 @@ public class HomepageActivity extends AppCompatActivity {
 
 
     private String showAddExpenseAndIncomeDialog(Context c, String _amountType, DatabaseReference insertRtdbRef) {
-        final EditText expenseIncomeAmount = new EditText(c);
-        expenseIncomeAmount.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-        expenseIncomeAmount.setHint("000.00");
 
-        AlertDialog dialog = new AlertDialog.Builder(c)
-                .setTitle("Enter " + _amountType)
-//                .setMessage("Enter your mobile number?")
-                .setView(expenseIncomeAmount)
+        LayoutInflater inflater = this.getLayoutInflater();
+
+
+        View dialogView = inflater.inflate(R.layout.alert_dialog_inputbox, null);
+        final EditText expenseIncomeAmount = (EditText) dialogView.findViewById(R.id.inputedAmount);
+
+        MaterialAlertDialogBuilder dialog = new MaterialAlertDialogBuilder(c);
+        dialog.setTitle("Enter " + _amountType)
+//                .setMessage("Enter your amount")
+                .setView(dialogView)
+
                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -238,11 +280,12 @@ public class HomepageActivity extends AppCompatActivity {
                 .setNegativeButton("Cancel", null)
                 .create();
         dialog.show();
+
+
         return amount;
     }
 
-    private void ShowNotification()
-    {
+    private void ShowNotification() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "Amount_info_channel";
@@ -265,8 +308,7 @@ public class HomepageActivity extends AppCompatActivity {
                 .setSound(alarmSound)
                 .setAutoCancel(true);
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(HomepageActivity.this);
-        notificationManagerCompat.notify(1,builder.build());
-
+        notificationManagerCompat.notify(1, builder.build());
 
 
     }
