@@ -95,7 +95,14 @@ public class GoogleSingInPageActivity<mGoogleSignInClient> extends AppCompatActi
                 String personId = acct.getId();
 //                Uri personPhoto = acct.getPhotoUrl();
                 Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(GoogleSingInPageActivity.this, HomepageActivity.class));
+
+                Intent HomePageIntent = new Intent(GoogleSingInPageActivity.this, HomepageActivity.class);
+                HomePageIntent.putExtra("GG_Email", personEmail);
+                HomePageIntent.putExtra("GG_ID", personId);
+                HomePageIntent.putExtra("GG_NAME", personName);
+                startActivity(HomePageIntent);
+
+
 
                 saveCredentials(personName, personEmail, personId);
             }

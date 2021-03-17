@@ -10,6 +10,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
@@ -18,20 +19,35 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
+import com.afss.impresario.Model.TransactionsModel;
 import com.afss.impresario.databinding.ActivityHomepageBinding;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
 import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
+
+import static com.afss.impresario.R.layout.txnlist_layout;
 
 public class HomepageActivity extends AppCompatActivity {
 
@@ -39,6 +55,8 @@ public class HomepageActivity extends AppCompatActivity {
     String amount;
     private static FirebaseDatabase database;
 
+    String GG_Email, GG_ID, GG_NAME;
+    String year, month;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +65,36 @@ public class HomepageActivity extends AppCompatActivity {
         homepageBinding = ActivityHomepageBinding.inflate(getLayoutInflater());
         View view = homepageBinding.getRoot();
         setContentView(view);
+
+//        Get passed Intent Data
+        Intent myIntent = getIntent();
+        GG_Email = myIntent.getStringExtra("GG_Email");
+        GG_ID = myIntent.getStringExtra("GG_ID");
+        GG_NAME = myIntent.getStringExtra("GG_NAME");
+
+//        Generating Date Year Month for hierarchy
+
+        Date date = new Date();
+        LocalDate localDate = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            year  = Integer.toString(localDate.getYear());
+            month = Integer.toString(localDate.getMonthValue());
+
+
+        }else{
+
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            month = Integer.toString(cal.get(Calendar.MONTH));
+            year = Integer.toString(cal.get(Calendar.YEAR));
+
+        }
+
+        final ArrayList<String> list = new ArrayList<>();
+        final ListAdapter listAdapter = new ArrayAdapter<String>(this, txnlist_layout, list);
+        ListView listView = homepageBinding.txnListView;
+        listView.setAdapter(listAdapter);
 
         if (database == null) {
             database=FirebaseDatabase.getInstance();
@@ -74,14 +122,14 @@ public class HomepageActivity extends AppCompatActivity {
 
 
 //        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("Users/USER_002");
-        DatabaseReference myRef_reader = database.getReference("Users");
+        DatabaseReference insertRtdbRef = database.getReference("Users/"+GG_ID+"/"+year+"/"+month);
+        DatabaseReference myRef_reader = database.getReference("Users/"+GG_ID+"/"+year+"/"+month);
 
         homepageBinding.addExpenseAndIncome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                showAddExpenseAndIncomeDialog(HomepageActivity.this, "Expense",myRef);
+                showAddExpenseAndIncomeDialog(HomepageActivity.this, "Expense",insertRtdbRef);
             }
 
         });
@@ -90,7 +138,7 @@ public class HomepageActivity extends AppCompatActivity {
             @Override
             public boolean onLongClick(View v) {
 
-                showAddExpenseAndIncomeDialog(HomepageActivity.this, "Income",myRef);
+                showAddExpenseAndIncomeDialog(HomepageActivity.this, "Income",insertRtdbRef);
 
                 return false;
             }
@@ -99,12 +147,37 @@ public class HomepageActivity extends AppCompatActivity {
         homepageBinding.showTransactions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+
+//                            for (DataSnapshot snapshotToArray : snapshot.getChildren()){
+//                                String data = snapshotToArray.getValue(String.class);
+//                                snapToString.add(data);
+//                            }
+
+
+
                 myRef_reader.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        String retrieve_amount = snapshot.getValue().toString();
-                        ShowNotification();
-                        homepageBinding.txnSummary.setText(retrieve_amount);
+                        try {
+                            String retrieve_amount = snapshot.getValue().toString();
+//                            ShowNotification();
+//                            Storing snapshotData in string array
+
+                            list.clear();
+                            for (DataSnapshot snapshot1 : snapshot.getChildren())
+                            {
+                                list.add(snapshot1.child("txn_amount").getValue().toString());
+                                listView.setAdapter(listAdapter);
+
+                            }
+
+//                            homepageBinding.txnSummary.setText(retrieve_amount);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Snackbar.make(view,"No Data Found", BaseTransientBottomBar.LENGTH_LONG).show();
+                        }
                     }
 
                     @Override
@@ -118,7 +191,7 @@ public class HomepageActivity extends AppCompatActivity {
     }
 
 
-    private String showAddExpenseAndIncomeDialog(Context c, String _amountType, DatabaseReference myRef) {
+    private String showAddExpenseAndIncomeDialog(Context c, String _amountType, DatabaseReference insertRtdbRef) {
         final EditText expenseIncomeAmount = new EditText(c);
         expenseIncomeAmount.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         expenseIncomeAmount.setHint("000.00");
@@ -137,7 +210,22 @@ public class HomepageActivity extends AppCompatActivity {
                             Toast.makeText(HomepageActivity.this, "Add Amount", Toast.LENGTH_SHORT).show();
 
                         } else {
-                            myRef.setValue(amount);
+                            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+                            String currentTime = sdf.format(new Date());
+                            TransactionsModel transactions = new TransactionsModel();
+
+                            transactions.setTxn_amount(amount);
+
+                            if (_amountType == "Income") {
+                                transactions.setTxn_type("inc");
+                            } else {
+                                transactions.setTxn_type("exp");
+                            }
+
+                            transactions.setTime_stamp(currentTime);
+
+                            insertRtdbRef.push()
+                                    .setValue(transactions);
                             expenseIncomeAmount.setText("");
                         }
 

@@ -49,7 +49,11 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
                 //Do any action here. Now we are moving to next page
                 if (GG_Email != null && GG_ID != null && GG_NAME != null) {
-                    startActivity(new Intent(SplashActivity.this, HomepageActivity.class));
+                    Intent HomePageIntent = new Intent(SplashActivity.this, HomepageActivity.class);
+                    HomePageIntent.putExtra("GG_Email", GG_Email);
+                    HomePageIntent.putExtra("GG_ID", GG_ID);
+                    HomePageIntent.putExtra("GG_NAME", GG_NAME);
+                    startActivity(HomePageIntent);
                     Log.d(TAG,"Credentials available Landing to Homepage");
 
                 } else {
