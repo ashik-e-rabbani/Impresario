@@ -1,21 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
-    <EditText
+    android:layout_margin="15dp"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        android:weightSum="3">
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.0"
+            android:src="@drawable/ic_baseline_keyboard_arrow_left_24">
+        </ImageView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="Edit"
+            android:textColor="#6B656565"
+            android:gravity="center_vertical"
+            android:textSize="18sp"
+            android:layout_weight="2.7"
+            android:textStyle="bold"></TextView>
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical|end"
+            android:layout_weight=".5"
+            android:src="@drawable/ic_trash">
+
+        </ImageView>
+
+    </LinearLayout>
+
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="amount here"
+        android:layout_marginTop="10dp"
+        android:text="Enter Amount"
+        android:textColor="#2196F3"
+        android:textFontWeight="500"
+        android:textSize="14sp"></TextView>
+
+
+    <EditText
         android:id="@+id/update_amount"
-        ></EditText>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="1234.56"></EditText>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Select Amount type"
+        android:textColor="#2196F3"
+        android:textFontWeight="500"
+        android:textSize="14sp"></TextView>
+
+
+    <RadioGroup
+        android:id="@+id/amount_type_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:tooltipText="Choose Amount Type">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+
+            >
+
+            <RadioButton
+                android:id="@+id/amount_type_expense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:checked="false"
+                android:textColor="#F44336"
+                android:text="Expense"
+                android:textSize="14dp" />
+
+            <RadioButton
+                android:id="@+id/amount_type_income"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:checked="false"
+                android:textColor="#009688"
+                android:text="Income"
+                android:textSize="14dp" />
+        </LinearLayout>
+
+    </RadioGroup>
+
 
     <Button
+        android:id="@+id/update_amountBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="Update"
-        android:id="@+id/update_amountBtn"></Button>
+        android:textColor="@color/white"></Button>
 
 
 </LinearLayout>

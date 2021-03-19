@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,7 +63,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 DialogPlus dialog = DialogPlus.newDialog(holder.editButton.getContext())
 
                         .setContentHolder(new com.orhanobut.dialogplus.ViewHolder(R.layout.update_item_layout))
-                        .setExpanded(true,500)  // This will enable the expand feature, (similar to android L share dialog)
+                        .setExpanded(true,1000)  // This will enable the expand feature, (similar to android L share dialog)
                         .create();
 
 
@@ -70,6 +71,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
                 Button updateBtn = updateView.findViewById(R.id.update_amountBtn);
                 EditText updateAmount = updateView.findViewById(R.id.update_amount);
+                int selectedId = updateView.findViewById(R.id.amount_type_group).getId();
+
+                // find the radiobutton by returned id
+                RadioButton radioButton = (RadioButton) updateView.findViewById(R.id.amount_type_income);
+                radioButton.setChecked(true);
+
+
                 updateAmount.setText(moviesList.get(position));
 
                 dialog.show();
@@ -87,11 +95,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                             public void onSuccess(Void aVoid) {
                                 dialog.dismiss();
                             }
+
                         })
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-
+                                dialog.dismiss();
                             }
                         });
                     }
