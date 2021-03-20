@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/smoke_white"
     android:orientation="vertical"
 
     tools:context=".HomepageActivity">
@@ -16,32 +17,91 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="150dp"
+            android:background="@color/blue_500"
+
+
+            >
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="10dp">
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Av">
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/ic_user"
 
-                </Button>
 
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/homepage_toolbar"
+                    ></ImageView>
+
+                <!--                <androidx.appcompat.widget.Toolbar-->
+                <!--                    android:id="@+id/homepage_toolbar"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="?attr/actionBarSize"-->
+                <!--                    android:background="@color/smoke_white"-->
+                <!--                    android:elevation="4dp"-->
+                <!--                    android:theme="@style/ThemeOverlay.AppCompat.ActionBar"-->
+                <!--                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"-->
+
+                <!--                    app:title="@string/app_name"-->
+                <!--                    app:titleTextColor="@color/black"></androidx.appcompat.widget.Toolbar>
+
+                -->
+
+                <TextView
+                    android:id="@+id/titleName"
                     android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:background="?attr/colorPrimary"
-                    android:elevation="4dp"
-                    android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/app_name"
+                    android:textAlignment="center"
+                    android:textColor="@color/smoke_white"
+                    android:textSize="16sp"
+                    android:textStyle="bold"></TextView>
 
-                    app:title="@string/app_name"
-                    app:titleTextColor="@color/white"></androidx.appcompat.widget.Toolbar>
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:stretchColumns="*">
 
+                    <TableRow
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:layout_marginTop="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center|left"
+
+                            android:text="March 2021"
+                            android:textColor="@color/ghost_white"
+                            android:textSize="12sp"></TextView>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="right"
+                            android:gravity="center|right"
+                            android:text="Tk 5240.525"
+                            android:textColor="#EDE7F6"
+                            android:textSize="12sp"
+                            android:textStyle="normal"></TextView>
+
+                    </TableRow>
+
+
+                </TableLayout>
 
             </LinearLayout>
 
@@ -59,56 +119,45 @@
             android:textColor="@color/white"
             android:visibility="gone" />
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="56dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="March 2021"
-                android:textSize="16sp"
-                android:layout_marginLeft="20dp"
-                android:gravity="center|left"></TextView>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Tk 5240.525"
-                android:textSize="16sp"
-                android:layout_marginLeft="20dp"
-                android:layout_gravity="right"
-                android:layout_marginRight="20dp"
-                android:gravity="center|right"></TextView>
-
-        </androidx.cardview.widget.CardView>
-
-
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="70"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp"
-            android:paddingTop="10dp"></androidx.recyclerview.widget.RecyclerView>
+            android:background="@color/smoke_white"
+            android:paddingLeft="15dp"
+            android:paddingTop="10dp"
+            android:paddingRight="15dp"></androidx.recyclerview.widget.RecyclerView>
 
 
     </LinearLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+    <!--        -->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        -->
+    <!--        -->
+    <!--        android:backgroundTint="@color/blue_500"-->
+    <!--        android:contentDescription="Add Expense and income"-->
+    <!--        android:src="@drawable/ic_plusminusicon"-->
+    <!--        android:tint="@color/smoke_white"-->
+    <!--        android:tooltipText="Hold to add Income"-->
+    <!--        app:fabSize="auto" />-->
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/add_expense_and_income"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:layout_gravity="end|bottom"
-        android:layout_margin="35dp"
-        android:contentDescription="Add Expense and income"
-        android:src="@drawable/ic_plusminusicon"
-
-        android:tooltipText="Hold to add Income"
-        app:fabSize="auto"
-
-        app:rippleColor="@color/material_on_primary_emphasis_medium" />
+        android:layout_margin="40dp"
+        android:backgroundTint="@color/blue_500"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:text="+"
+        android:textColor="@color/smoke_white"
+        android:textSize="28dp"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.rounded"></com.google.android.material.button.MaterialButton>
 
 
 </FrameLayout>

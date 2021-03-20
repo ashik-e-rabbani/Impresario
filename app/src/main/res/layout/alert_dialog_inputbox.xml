@@ -12,6 +12,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:inputType="numberDecimal"
+
         tools:ignore="MissingConstraints"></EditText>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

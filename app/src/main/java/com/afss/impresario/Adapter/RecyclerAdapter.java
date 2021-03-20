@@ -1,9 +1,11 @@
 package com.afss.impresario.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -26,6 +28,8 @@ import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.ViewHolder;
 
 import java.util.ArrayList;
+
+import static androidx.core.content.ContextCompat.getSystemService;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder>
 {
@@ -94,6 +98,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                             @Override
                             public void onSuccess(Void aVoid) {
                                 dialog.dismiss();
+
                             }
 
                         })
@@ -107,20 +112,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 });
 
 
-
-
-
-//                Snackbar.make(v,"Clicked "+pathList.get(position), BaseTransientBottomBar.LENGTH_SHORT).show();
-
-//                insertRtdbRef.child("time_stamp").setValue("17:50:00");
-//
-//                //                Delete Data
-////                insertRtdbRef.removeValue();
             }
         });
 
     }
-
 
 
     @Override

@@ -1,82 +1,163 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/smoke_white"
+    android:orientation="vertical">
 
-    android:layout_height="wrap_content">
 
-
-    <androidx.cardview.widget.CardView
-
+    <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="match_parent"
+        android:padding="5dp"
+        android:stretchColumns="1,2">
 
-       >
-        <LinearLayout
+        <TableRow
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="100"
-            android:padding="5dp"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content">
 
-            <ImageView
-                android:layout_width="15dp"
-                android:layout_height="10dp"
-                android:layout_weight="5"
-                android:layout_marginRight="5dp"
+            <TextView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:backgroundTint="#CAE4F8"
+                android:background="@drawable/rounded_btn_income"
+                android:gravity="center"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="৳"
+                android:textColor="@color/black"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.rounded"></TextView>
+
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_rec"
+                android:layout_marginLeft="20dp"
                 >
 
-            </ImageView>
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center_vertical"
+
+                    android:text="TextView"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:gravity="left"
+                    android:text="17 March"
+                    android:textSize="10sp"></TextView>
+            </LinearLayout>
 
 
-            <TextView
-                android:id="@+id/textView"
-                android:layout_weight="100"
-                android:layout_marginLeft="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:text="TextView"
-                android:textSize="18sp"
-                android:textStyle="normal"
-                android:textColor="@color/teal_700"/>
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="17 March"
-                android:textSize="10sp"
-                android:layout_marginRight="5dp"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"></TextView>
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="#C6F44336" />
-
-            <ImageView
-                android:id="@+id/btn_edit"
-                android:layout_weight="10"
-                android:layout_marginLeft="10dp"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/ic_edit"
+                android:layout_height="wrap_content"
+                android:gravity="right"
                 android:layout_gravity="center_vertical|end"
                 >
-
-            </ImageView>
-
-
-
-        </LinearLayout>
+                <ImageView
+                    android:id="@+id/btn_edit"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
 
 
+                    android:src="@drawable/ic_edit">
 
-    </androidx.cardview.widget.CardView>
+                </ImageView>
 
+            </LinearLayout>
+
+
+        </TableRow>
+
+
+
+    </TableLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="5dp"
+        android:stretchColumns="1,2">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:backgroundTint="#FAD196"
+                android:background="@drawable/rounded_btn_income"
+                android:gravity="center"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="৳"
+                android:textColor="@color/black"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.rounded"></TextView>
+
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="20dp"
+                >
+
+                <TextView
+                    android:id="@+id/textVifew"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center_vertical"
+
+                    android:text="TextView"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:gravity="left"
+                    android:text="17 March"
+                    android:textSize="10sp"></TextView>
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:layout_gravity="center_vertical|end"
+                >
+                <ImageView
+                    android:id="@+id/btn_egdit"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+
+
+                    android:src="@drawable/ic_edit">
+
+                </ImageView>
+
+            </LinearLayout>
+
+
+        </TableRow>
+
+
+
+    </TableLayout>
 </LinearLayout>

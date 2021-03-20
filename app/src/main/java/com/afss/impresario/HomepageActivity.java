@@ -76,14 +76,14 @@ public class HomepageActivity extends AppCompatActivity {
         homepageBinding = ActivityHomepageBinding.inflate(getLayoutInflater());
         View view = homepageBinding.getRoot();
         setContentView(view);
-        setSupportActionBar(homepageBinding.homepageToolbar);
+
 
 //        Get passed Intent Data
         Intent myIntent = getIntent();
         GG_Email = myIntent.getStringExtra("GG_Email");
         GG_ID = myIntent.getStringExtra("GG_ID");
         GG_NAME = myIntent.getStringExtra("GG_NAME");
-        homepageBinding.homepageToolbar.setTitle(GG_NAME);
+        homepageBinding.titleName.setText(GG_NAME);
 
 
 //        Generating Date Year Month for hierarchy
