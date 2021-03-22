@@ -129,8 +129,8 @@ public class HomepageActivity extends AppCompatActivity {
         sequence.addSequenceItem(homepageBinding.addExpenseAndIncome,
                 "Single Tap to Add expense and Hold to Add Income", "GOT IT");
 
-        sequence.addSequenceItem(homepageBinding.showTransactions,
-                "Clicking All Transaction will be visible to You", "GOT IT");
+//        sequence.addSequenceItem(homepageBinding.showTransactions,
+//                "Clicking All Transaction will be visible to You", "GOT IT");
 
 
         sequence.start();
@@ -194,41 +194,41 @@ public class HomepageActivity extends AppCompatActivity {
         });
 
 //        Show txns by button Click
-        homepageBinding.showTransactions.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                myRef_reader.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        try {
-                            String retrieve_amount = snapshot.getValue().toString();
-//                            ShowNotification();
-                            txnAmountList.clear();
-                            txnAmountPathList.clear();
-                            for (DataSnapshot snapshotTxn : snapshot.getChildren()) {
-                                txnAmountList.add(snapshotTxn.child("txn_amount").getValue() + " " + snapshotTxn.getKey().toString());
-                                txnAmountPathList.add(path + "/" + snapshotTxn.getKey().toString());
-
-
-                            }
-                            Collections.reverse(txnAmountList);
-                            Collections.reverse(txnAmountPathList);
-                            recyclerView.setAdapter(recyclerAdapter);
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            Snackbar.make(view, "No Data Found", BaseTransientBottomBar.LENGTH_LONG).show();
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-            }
-        });
+//        homepageBinding.showTransactions.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                myRef_reader.addValueEventListener(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                        try {
+//                            String retrieve_amount = snapshot.getValue().toString();
+////                            ShowNotification();
+//                            txnAmountList.clear();
+//                            txnAmountPathList.clear();
+//                            for (DataSnapshot snapshotTxn : snapshot.getChildren()) {
+//                                txnAmountList.add(snapshotTxn.child("txn_amount").getValue() + " " + snapshotTxn.getKey().toString());
+//                                txnAmountPathList.add(path + "/" + snapshotTxn.getKey().toString());
+//
+//
+//                            }
+//                            Collections.reverse(txnAmountList);
+//                            Collections.reverse(txnAmountPathList);
+//                            recyclerView.setAdapter(recyclerAdapter);
+//
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                            Snackbar.make(view, "No Data Found", BaseTransientBottomBar.LENGTH_LONG).show();
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError error) {
+//
+//                    }
+//                });
+//            }
+//        });
 
     }
 
