@@ -2,6 +2,7 @@ package com.afss.impresario.Adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,8 +32,7 @@ import java.util.ArrayList;
 
 import static androidx.core.content.ContextCompat.getSystemService;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder>
-{
+public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
 
     public RecyclerAdapter(ArrayList<String> moviesList, ArrayList<String> pathList) {
@@ -40,21 +40,34 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         this.pathList = pathList;
     }
 
+    FirebaseDatabase database;
+    DatabaseReference databaseReference;
+    boolean updateDialogDismiss;
+
     ArrayList<String> pathList;
     ArrayList<String> moviesList;
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater= LayoutInflater.from(parent.getContext());
-        View view=layoutInflater.inflate(R.layout.txnrecycler_layout,parent,false);
-        ViewHolder viewHolder= new ViewHolder(view);
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        View view = layoutInflater.inflate(R.layout.txnrecycler_layout, parent, false);
+        ViewHolder viewHolder = new ViewHolder(view);
+
+        database = FirebaseDatabase.getInstance();
+        if (database == null) {
+            database = FirebaseDatabase.getInstance();
+            database.setPersistenceEnabled(true);
+        }
+
+        updateDialogDismiss = true;
+
         return viewHolder;
     }
 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
 
 
 //        holder.editButton.setText(String.valueOf(position));
@@ -67,12 +80,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 DialogPlus dialog = DialogPlus.newDialog(holder.editButton.getContext())
 
                         .setContentHolder(new com.orhanobut.dialogplus.ViewHolder(R.layout.update_item_layout))
-                        .setExpanded(true,1000)  // This will enable the expand feature, (similar to android L share dialog)
+                        .setExpanded(true, 1000)  // This will enable the expand feature, (similar to android L share dialog)
                         .create();
 
 
                 View updateView = dialog.getHolderView();
-
+                ImageView deleteTransaction = updateView.findViewById(R.id.deleteTransactionBtn);
+                ImageView dismissDialogByBack = updateView.findViewById(R.id.backFromUpdateDialog);
                 Button updateBtn = updateView.findViewById(R.id.update_amountBtn);
                 EditText updateAmount = updateView.findViewById(R.id.update_amount);
                 int selectedId = updateView.findViewById(R.id.amount_type_group).getId();
@@ -90,24 +104,53 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                     @Override
                     public void onClick(View v) {
                         ////                update the data here
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference insertRtdbRef = database.getReference(pathList.get(position).toString());
+
+                        databaseReference = database.getReference(pathList.get(position).toString());
 //                Update child value
-                insertRtdbRef.child("txn_amount").setValue(updateAmount.getText().toString())
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                dialog.dismiss();
+                        try {
+                            databaseReference.child("txn_amount").setValue(updateAmount.getText().toString())
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            dialog.dismiss();
+                                            updateDialogDismiss = false;
+                                        }
 
-                            }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
 
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
+                                        }
+                                    });
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Log.d("ADA", "KAJ");
+                        } finally {
+                            if (updateDialogDismiss == true) {
                                 dialog.dismiss();
                             }
-                        });
+                        }
+                    }
+                });
+
+                deleteTransaction.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        databaseReference = database.getReference(pathList.get(position).toString());
+
+                        databaseReference.removeValue();
+                        dialog.dismiss();
+                        Snackbar.make(v, "Transaction Deleted", BaseTransientBottomBar.LENGTH_SHORT).show();
+
+                    }
+                });
+
+                dismissDialogByBack.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
                     }
                 });
 
@@ -127,11 +170,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
         TextView textView;
         ImageView editButton;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            textView=itemView.findViewById(R.id.textView);
-            editButton=itemView.findViewById(R.id.btn_edit);
+            textView = itemView.findViewById(R.id.textView);
+            editButton = itemView.findViewById(R.id.btn_edit);
         }
     }
 }

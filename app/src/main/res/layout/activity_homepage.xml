@@ -108,23 +108,23 @@
                     android:textSize="17sp"
                     android:textStyle="bold"></TextView>
 
-<!--                <TextView-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_gravity="center_vertical"-->
-<!--                    android:gravity="center_horizontal"-->
-<!--                    android:text="$5240.525"-->
-<!--                    android:textColor="#00F30C"-->
-<!--                    android:outlineSpotShadowColor="@color/smoke_white"-->
-<!--                    android:textSize="14sp"-->
-<!--                    android:textStyle="bold"></TextView>-->
+                <!--                <TextView-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_gravity="center_vertical"-->
+                <!--                    android:gravity="center_horizontal"-->
+                <!--                    android:text="$5240.525"-->
+                <!--                    android:textColor="#00F30C"-->
+                <!--                    android:outlineSpotShadowColor="@color/smoke_white"-->
+                <!--                    android:textSize="14sp"-->
+                <!--                    android:textStyle="bold"></TextView>-->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/rounded_balance_bg"
                     android:clickable="true"
-                    android:layout_gravity="center_horizontal"
                     android:gravity="center"
 
                     android:paddingLeft="20dp"
@@ -197,31 +197,20 @@
 
     </LinearLayout>
 
-    <!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-    <!--        -->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        -->
-    <!--        -->
-    <!--        android:backgroundTint="@color/blue_500"-->
-    <!--        android:contentDescription="Add Expense and income"-->
-    <!--        android:src="@drawable/ic_plusminusicon"-->
-    <!--        android:tint="@color/smoke_white"-->
-    <!--        android:tooltipText="Hold to add Income"-->
-    <!--        app:fabSize="auto" />-->
-    <com.google.android.material.button.MaterialButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_expense_and_income"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="45dp"
         android:backgroundTint="@color/blue_500"
-        android:insetTop="0dp"
-        android:insetBottom="0dp"
-        android:text="+"
-        android:textColor="@color/smoke_white"
-        android:textSize="28dp"
-        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.rounded"></com.google.android.material.button.MaterialButton>
+
+        android:contentDescription="Add Expense and income"
+        android:src="@drawable/ic_plusminusicon"
+
+        android:tint="@color/smoke_white"
+        android:tooltipText="Hold to add Income"
+        app:fabSize="auto" />
 
 
 </FrameLayout>

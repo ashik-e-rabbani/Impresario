@@ -62,7 +62,7 @@ public class HomepageActivity extends AppCompatActivity {
     String amount;
     String path;
     private static FirebaseDatabase database;
-
+    private static long back_pressed;
     String GG_Email, GG_ID, GG_NAME;
     String year, month;
 
@@ -137,7 +137,7 @@ public class HomepageActivity extends AppCompatActivity {
 
 //        Connecting to FireBase DB
         path = "Users/" + GG_ID + "/" + year + "/" + month;
-        DatabaseReference insertRtdbRef = database.getReference(path);
+        DatabaseReference databaseReference = database.getReference(path);
 
         DatabaseReference myRef_reader = database.getReference("Users/" + GG_ID + "/" + year + "/" + month);
 
@@ -177,7 +177,7 @@ public class HomepageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                showAddExpenseAndIncomeDialog(HomepageActivity.this, "Expense", insertRtdbRef);
+                showAddExpenseAndIncomeDialog(HomepageActivity.this, "Expense", databaseReference);
             }
 
         });
@@ -187,7 +187,7 @@ public class HomepageActivity extends AppCompatActivity {
             public boolean onLongClick(View v) {
 
 
-                showAddExpenseAndIncomeDialog(HomepageActivity.this, "Income", insertRtdbRef);
+                showAddExpenseAndIncomeDialog(HomepageActivity.this, "Income", databaseReference);
 
                 return false;
             }
@@ -232,8 +232,7 @@ public class HomepageActivity extends AppCompatActivity {
 
     }
 
-
-    private String showAddExpenseAndIncomeDialog(Context c, String _amountType, DatabaseReference insertRtdbRef) {
+    private String showAddExpenseAndIncomeDialog(Context c, String _amountType, DatabaseReference databaseReference) {
 
         LayoutInflater inflater = this.getLayoutInflater();
 
@@ -270,7 +269,7 @@ public class HomepageActivity extends AppCompatActivity {
 
                             transactions.setTime_stamp(currentTime);
 
-                            insertRtdbRef.push()
+                            databaseReference.push()
                                     .setValue(transactions);
                             expenseIncomeAmount.setText("");
                         }
@@ -311,6 +310,15 @@ public class HomepageActivity extends AppCompatActivity {
         notificationManagerCompat.notify(1, builder.build());
 
 
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        if (back_pressed + 2000 > System.currentTimeMillis()) super.onBackPressed();
+        else
+            Toast.makeText(getBaseContext(), "Press once again to exit!", Toast.LENGTH_SHORT).show();
+        back_pressed = System.currentTimeMillis();
     }
 
 }

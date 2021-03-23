@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/smoke_white"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
 
     android:orientation="vertical">
 
@@ -15,6 +15,7 @@
         android:weightSum="3">
 
         <ImageView
+            android:id="@+id/backFromUpdateDialog"
             android:layout_width="25dp"
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
@@ -32,10 +33,12 @@
             android:textStyle="bold"></TextView>
 
         <ImageView
+            android:id="@+id/deleteTransactionBtn"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_gravity="center_vertical|end"
             android:layout_weight=".5"
+            android:clickable="true"
             android:src="@drawable/ic_trash">
 
         </ImageView>
@@ -71,10 +74,11 @@
             android:id="@+id/update_amount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:clickable="true"
-            android:focusableInTouchMode="true"
-            android:hint="1234.56"></EditText>
+            android:digits="0123456789."
+            android:hapticFeedbackEnabled="true"
+            android:hint="1234.56"
+            android:inputType="text"
+            android:maxLength="7"></EditText>
 
 
         <TextView
@@ -132,8 +136,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Update"
             android:inputType="numberDecimal"
+            android:text="Update"
             android:textColor="@color/smoke_white"></Button>
 
     </LinearLayout>
