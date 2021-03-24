@@ -1,15 +1,11 @@
 package com.afss.impresario.Adapter;
 
-import android.app.Activity;
-import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -19,6 +15,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.afss.impresario.R;
+import com.afss.impresario.Services.JsonParsingService;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
@@ -26,26 +25,31 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.orhanobut.dialogplus.DialogPlus;
-import com.orhanobut.dialogplus.ViewHolder;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
-
-import static androidx.core.content.ContextCompat.getSystemService;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
 
-    public RecyclerAdapter(ArrayList<String> moviesList, ArrayList<String> pathList) {
-        this.moviesList = moviesList;
-        this.pathList = pathList;
+
+
+    public RecyclerAdapter(ArrayList<String> retrievesTransactions, ArrayList<String> transactionsPath) {
+        this.retrievesTransactions = retrievesTransactions;
+        this.transactionsPath = retrievesTransactions;
+
     }
 
     FirebaseDatabase database;
     DatabaseReference databaseReference;
     boolean updateDialogDismiss;
-
-    ArrayList<String> pathList;
-    ArrayList<String> moviesList;
+    JSONObject json;
+    String r_Amount;
+    ArrayList<String> retrievesTransactions;
+    private final ArrayList<String> transactionsPath;
 
     @NonNull
     @Override
@@ -61,7 +65,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         }
 
         updateDialogDismiss = true;
-
+        json = new JSONObject();
         return viewHolder;
     }
 
@@ -70,14 +74,27 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
 
+
+        String retrievesTransactionsJSON = retrievesTransactions.get(position);
+
+        JsonParsingService jsonParsingService = new JsonParsingService();
+        try {
+            r_Amount = jsonParsingService.parse(retrievesTransactionsJSON,"txn_amount");
+            Log.d("JSON", retrievesTransactionsJSON+" "+r_Amount);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
 //        holder.editButton.setText(String.valueOf(position));
-        holder.textView.setText(moviesList.get(position));
+        holder.textView.setText(r_Amount);
         holder.editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 
                 DialogPlus dialog = DialogPlus.newDialog(holder.editButton.getContext())
+
 
                         .setContentHolder(new com.orhanobut.dialogplus.ViewHolder(R.layout.update_item_layout))
                         .setExpanded(true, 1000)  // This will enable the expand feature, (similar to android L share dialog)
@@ -94,9 +111,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 // find the radiobutton by returned id
                 RadioButton radioButton = (RadioButton) updateView.findViewById(R.id.amount_type_income);
                 radioButton.setChecked(true);
-
-
-                updateAmount.setText(moviesList.get(position));
+                String retrievesTransactionsJSON = retrievesTransactions.get(position);
+                JsonParsingService jsonParsingService = new JsonParsingService();
+                try {
+                    r_Amount = jsonParsingService.parse(retrievesTransactionsJSON,"txn_amount");
+                    Log.d("JSON", retrievesTransactionsJSON+" "+r_Amount);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                updateAmount.setText(r_Amount);
 
                 dialog.show();
 
@@ -105,7 +128,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                     public void onClick(View v) {
                         ////                update the data here
 
-                        databaseReference = database.getReference(pathList.get(position).toString());
+                        databaseReference = database.getReference(transactionsPath.get(position).toString());
 //                Update child value
                         try {
                             databaseReference.child("txn_amount").setValue(updateAmount.getText().toString())
@@ -138,7 +161,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                     @Override
                     public void onClick(View v) {
 
-                        databaseReference = database.getReference(pathList.get(position).toString());
+                        databaseReference = database.getReference(transactionsPath.get(position).toString());
 
                         databaseReference.removeValue();
                         dialog.dismiss();
@@ -153,8 +176,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                         dialog.dismiss();
                     }
                 });
-
-
             }
         });
 
@@ -163,7 +184,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return moviesList.size();
+        return retrievesTransactions.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

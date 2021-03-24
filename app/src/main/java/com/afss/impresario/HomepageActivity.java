@@ -65,7 +65,7 @@ public class HomepageActivity extends AppCompatActivity {
     private static long back_pressed;
     String GG_Email, GG_ID, GG_NAME;
     String year, month;
-
+    String firebaseToJsonString;
     RecyclerView recyclerView;
     RecyclerAdapter recyclerAdapter;
 
@@ -105,11 +105,11 @@ public class HomepageActivity extends AppCompatActivity {
 
         }
 
-        final ArrayList<String> txnAmountList = new ArrayList<>();
+        final ArrayList<String> retrivesTransactions = new ArrayList<>();
         final ArrayList<String> txnAmountPathList = new ArrayList<>();
 
         recyclerView = findViewById(R.id.recyclerView);
-        recyclerAdapter = new RecyclerAdapter(txnAmountList, txnAmountPathList);
+        recyclerAdapter = new RecyclerAdapter(retrivesTransactions,txnAmountPathList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(recyclerAdapter);
 
@@ -147,16 +147,30 @@ public class HomepageActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 try {
                     String retrieve_amount = snapshot.getValue().toString();
+
+                    String TXN_TYPE;
+                    String TXN_AMOUNT;
+                    String TXN_TIMESTAMP;
+                    String TXN_PATH;
 //                            ShowNotification();
-                    txnAmountList.clear();
+                    retrivesTransactions.clear();
                     txnAmountPathList.clear();
                     for (DataSnapshot snapshotTxn : snapshot.getChildren()) {
-                        txnAmountList.add(snapshotTxn.child("txn_amount").getValue().toString());
+
+                        TXN_TYPE = snapshotTxn.child("txn_type").getValue().toString();
+                        TXN_AMOUNT = snapshotTxn.child("txn_amount").getValue().toString();
+                        TXN_TIMESTAMP = snapshotTxn.child("time_stamp").getValue().toString();
+                        TXN_PATH = "" + path + "+ \"/\" + " + snapshotTxn.getKey() + "";
+
+                        firebaseToJsonString = "{\"txn_type\":\"" + TXN_TYPE + "\",\"txn_amount\":\"" + TXN_AMOUNT + "\",\"time_stamp\":\"" + TXN_TIMESTAMP + "\"}";
+//                        firebaseToJsonString = "{\"txn_type\":\"" + TXN_TYPE + "\",\"txn_amount\":\"" + TXN_AMOUNT + "\",\"time_stamp\":\"" + TXN_TIMESTAMP + "\",\"txn_path\":\"" + TXN_PATH + "\"}";
+
+                        retrivesTransactions.add(firebaseToJsonString);
                         txnAmountPathList.add(path + "/" + snapshotTxn.getKey().toString());
 
 
                     }
-                    Collections.reverse(txnAmountList);
+                    Collections.reverse(retrivesTransactions);
                     Collections.reverse(txnAmountPathList);
                     recyclerView.setAdapter(recyclerAdapter);
 
@@ -204,15 +218,15 @@ public class HomepageActivity extends AppCompatActivity {
 //                        try {
 //                            String retrieve_amount = snapshot.getValue().toString();
 ////                            ShowNotification();
-//                            txnAmountList.clear();
+//                            retrivesTransactions.clear();
 //                            txnAmountPathList.clear();
 //                            for (DataSnapshot snapshotTxn : snapshot.getChildren()) {
-//                                txnAmountList.add(snapshotTxn.child("txn_amount").getValue() + " " + snapshotTxn.getKey().toString());
+//                                retrivesTransactions.add(snapshotTxn.child("txn_amount").getValue() + " " + snapshotTxn.getKey().toString());
 //                                txnAmountPathList.add(path + "/" + snapshotTxn.getKey().toString());
 //
 //
 //                            }
-//                            Collections.reverse(txnAmountList);
+//                            Collections.reverse(retrivesTransactions);
 //                            Collections.reverse(txnAmountPathList);
 //                            recyclerView.setAdapter(recyclerAdapter);
 //
