@@ -1,7 +1,9 @@
 package com.afss.impresario.Adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,9 +37,11 @@ import static androidx.core.content.ContextCompat.getSystemService;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
 
-    public RecyclerAdapter(ArrayList<String> moviesList, ArrayList<String> pathList) {
-        this.moviesList = moviesList;
+    public RecyclerAdapter(ArrayList<String> txnAmountList, ArrayList<String> pathList, ArrayList<String> txnTypeList, ArrayList<String> txnTimeList) {
+        this.txnAmountList = txnAmountList;
         this.pathList = pathList;
+        this.txnTypeList = txnTypeList;
+        this.txnTimeList = txnTimeList;
     }
 
     FirebaseDatabase database;
@@ -45,7 +49,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     boolean updateDialogDismiss;
 
     ArrayList<String> pathList;
-    ArrayList<String> moviesList;
+    ArrayList<String> txnAmountList;
+    ArrayList<String> txnTypeList;
+    ArrayList<String> txnTimeList;
 
     @NonNull
     @Override
@@ -66,12 +72,20 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     }
 
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
 
 //        holder.editButton.setText(String.valueOf(position));
-        holder.textView.setText(moviesList.get(position));
+        holder.timeview.setText(txnTimeList.get(position));
+        holder.textView.setText(txnAmountList.get(position));
+        if (txnTypeList.get(position).contains("exp"))
+        {
+            holder.avatarView.setBackgroundTintList(ColorStateList.valueOf(R.color.orange_200));
+        }
+
+
         holder.editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,7 +110,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 radioButton.setChecked(true);
 
 
-                updateAmount.setText(moviesList.get(position));
+                updateAmount.setText(txnAmountList.get(position));
 
                 dialog.show();
 
@@ -163,17 +177,18 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return moviesList.size();
+        return txnAmountList.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView textView;
+        TextView textView, timeview, avatarView;
         ImageView editButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
+            timeview = itemView.findViewById(R.id.timeText);
+            avatarView = itemView.findViewById(R.id.avatarHolder);
             textView = itemView.findViewById(R.id.textView);
             editButton = itemView.findViewById(R.id.btn_edit);
         }

@@ -107,9 +107,12 @@ public class HomepageActivity extends AppCompatActivity {
 
         final ArrayList<String> txnAmountList = new ArrayList<>();
         final ArrayList<String> txnAmountPathList = new ArrayList<>();
+        final ArrayList<String> txnTypeList = new ArrayList<>();
+        final ArrayList<String> txnTimeList = new ArrayList<>();
+
 
         recyclerView = findViewById(R.id.recyclerView);
-        recyclerAdapter = new RecyclerAdapter(txnAmountList, txnAmountPathList);
+        recyclerAdapter = new RecyclerAdapter(txnAmountList, txnAmountPathList,txnTypeList,txnTimeList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(recyclerAdapter);
 
@@ -150,14 +153,19 @@ public class HomepageActivity extends AppCompatActivity {
 //                            ShowNotification();
                     txnAmountList.clear();
                     txnAmountPathList.clear();
+                    txnTimeList.clear();
+                    txnTypeList.clear();
                     for (DataSnapshot snapshotTxn : snapshot.getChildren()) {
                         txnAmountList.add(snapshotTxn.child("txn_amount").getValue().toString());
                         txnAmountPathList.add(path + "/" + snapshotTxn.getKey().toString());
-
+                        txnTimeList.add(snapshotTxn.child("time_stamp").getValue().toString());
+                        txnTypeList.add(snapshotTxn.child("txn_type").getValue().toString());
 
                     }
                     Collections.reverse(txnAmountList);
                     Collections.reverse(txnAmountPathList);
+                    Collections.reverse(txnTypeList);
+                    Collections.reverse(txnTimeList);
                     recyclerView.setAdapter(recyclerAdapter);
 
                 } catch (Exception e) {
