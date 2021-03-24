@@ -30,16 +30,19 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.ViewHolder;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 
 import static androidx.core.content.ContextCompat.getSystemService;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
 
-    public RecyclerAdapter(ArrayList<String> txnAmountList, ArrayList<String> pathList, ArrayList<String> txnTypeList, ArrayList<String> txnTimeList) {
+    public RecyclerAdapter(ArrayList<String> txnAmountList, ArrayList<String> txnPathList, ArrayList<String> txnTypeList, ArrayList<String> txnTimeList) {
         this.txnAmountList = txnAmountList;
-        this.pathList = pathList;
+        this.txnPathList = txnPathList;
         this.txnTypeList = txnTypeList;
         this.txnTimeList = txnTimeList;
     }
@@ -48,10 +51,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     DatabaseReference databaseReference;
     boolean updateDialogDismiss;
 
-    ArrayList<String> pathList;
-    ArrayList<String> txnAmountList;
-    ArrayList<String> txnTypeList;
-    ArrayList<String> txnTimeList;
+    ArrayList<String> txnPathList, txnAmountList, txnTypeList, txnTimeList;
 
     @NonNull
     @Override
@@ -78,10 +78,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
 
 //        holder.editButton.setText(String.valueOf(position));
-        holder.timeview.setText(txnTimeList.get(position));
+        holder.timeView.setText(txnTimeList.get(position));
         holder.textView.setText(txnAmountList.get(position));
-        if (txnTypeList.get(position).contains("exp"))
-        {
+        if (txnTypeList.get(position).contains("exp")) {
             holder.avatarView.setBackgroundTintList(ColorStateList.valueOf(R.color.orange_200));
         }
 
@@ -94,7 +93,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 DialogPlus dialog = DialogPlus.newDialog(holder.editButton.getContext())
 
                         .setContentHolder(new com.orhanobut.dialogplus.ViewHolder(R.layout.update_item_layout))
-                        .setExpanded(true, 1000)  // This will enable the expand feature, (similar to android L share dialog)
+                        .setExpanded(false, 1000)  // This will enable the expand feature, (similar to android L share dialog)
                         .create();
 
 
@@ -106,26 +105,62 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 int selectedId = updateView.findViewById(R.id.amount_type_group).getId();
 
                 // find the radiobutton by returned id
-                RadioButton radioButton = (RadioButton) updateView.findViewById(R.id.amount_type_income);
-                radioButton.setChecked(true);
+                RadioButton incomeRadioBtn = (RadioButton) updateView.findViewById(R.id.amount_type_income);
+                RadioButton expenseRadioBtn = (RadioButton) updateView.findViewById(R.id.amount_type_expense);
+
+                if (txnTypeList.get(position).contains("exp")) {
+                    expenseRadioBtn.setChecked(true);
+                    incomeRadioBtn.setChecked(false);
+                } else {
+                    expenseRadioBtn.setChecked(false);
+                    incomeRadioBtn.setChecked(true);
+                }
 
 
                 updateAmount.setText(txnAmountList.get(position));
 
                 dialog.show();
 
+                expenseRadioBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        expenseRadioBtn.setChecked(true);
+                        incomeRadioBtn.setChecked(false);
+                    }
+                });
+
+                incomeRadioBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        expenseRadioBtn.setChecked(false);
+                        incomeRadioBtn.setChecked(true);
+                    }
+                });
+
                 updateBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ////                update the data here
+                        //                update the data here
+                        HashMap updateDataMap = new HashMap();
+                        updateDataMap.put("txn_amount", updateAmount.getText().toString());
+                        if (expenseRadioBtn.isChecked()) {
+                            updateDataMap.put("txn_type", "exp");
+                        } else {
+                            updateDataMap.put("txn_type", "inc");
+                        }
+                        SimpleDateFormat sdf = new SimpleDateFormat("E, dd MMM hh.mm aa");
+                        String currentTime = sdf.format(new Date());
+                        updateDataMap.put("time_stamp", currentTime);
 
-                        databaseReference = database.getReference(pathList.get(position).toString());
+                        databaseReference = database.getReference(txnPathList.get(position).toString());
 //                Update child value
                         try {
-                            databaseReference.child("txn_amount").setValue(updateAmount.getText().toString())
+//                            databaseReference.child("txn_amount").setValue(updateAmount.getText().toString())
+                            databaseReference.updateChildren(updateDataMap)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
+                                            updateView.clearFocus();
                                             dialog.dismiss();
                                             updateDialogDismiss = false;
                                         }
@@ -142,7 +177,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                             Log.d("ADA", "KAJ");
                         } finally {
                             if (updateDialogDismiss == true) {
+                                updateView.clearFocus();
                                 dialog.dismiss();
+
                             }
                         }
                     }
@@ -152,7 +189,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                     @Override
                     public void onClick(View v) {
 
-                        databaseReference = database.getReference(pathList.get(position).toString());
+                        databaseReference = database.getReference(txnPathList.get(position).toString());
 
                         databaseReference.removeValue();
                         dialog.dismiss();
@@ -164,11 +201,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 dismissDialogByBack.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        updateView.clearFocus();
                         dialog.dismiss();
                     }
                 });
-
-
             }
         });
 
@@ -182,12 +218,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView textView, timeview, avatarView;
+        TextView textView, timeView, avatarView;
         ImageView editButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            timeview = itemView.findViewById(R.id.timeText);
+            timeView = itemView.findViewById(R.id.timeText);
             avatarView = itemView.findViewById(R.id.avatarHolder);
             textView = itemView.findViewById(R.id.textView);
             editButton = itemView.findViewById(R.id.btn_edit);

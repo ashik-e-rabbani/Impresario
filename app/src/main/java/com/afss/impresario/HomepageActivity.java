@@ -13,13 +13,16 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -31,6 +34,7 @@ import android.widget.Toast;
 
 import com.afss.impresario.Adapter.RecyclerAdapter;
 import com.afss.impresario.Model.TransactionsModel;
+import com.afss.impresario.Services.DataService;
 import com.afss.impresario.databinding.ActivityHomepageBinding;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
@@ -58,16 +62,19 @@ import static com.afss.impresario.R.layout.txnlist_layout;
 
 public class HomepageActivity extends AppCompatActivity {
 
+    private static final String TAG = "Homepage";
     ActivityHomepageBinding homepageBinding;
     String amount;
     String path;
     private static FirebaseDatabase database;
     private static long back_pressed;
-    String GG_Email, GG_ID, GG_NAME;
+    String GG_Email, GG_ID, GG_NAME, BALANCEPREF;
     String year, month;
-
+    String balance;
+    SharedPreferences myPrefs;
     RecyclerView recyclerView;
     RecyclerAdapter recyclerAdapter;
+    DataService dataService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +83,18 @@ public class HomepageActivity extends AppCompatActivity {
         homepageBinding = ActivityHomepageBinding.inflate(getLayoutInflater());
         View view = homepageBinding.getRoot();
         setContentView(view);
+
+        myPrefs = this.getSharedPreferences("SING_IN_CREDS", Context.MODE_PRIVATE);
+
+        try {
+
+            BALANCEPREF = myPrefs.getString("BALANCE", "123");
+            homepageBinding.balance.setText(BALANCEPREF);
+            Log.d(TAG, "Balance found in SharedPref");
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e(TAG, "No balance found in SharedPref");
+        }
 
 
 //        Get passed Intent Data
@@ -103,6 +122,7 @@ public class HomepageActivity extends AppCompatActivity {
             month = Integer.toString(cal.get(Calendar.MONTH));
             year = Integer.toString(cal.get(Calendar.YEAR));
 
+
         }
 
         final ArrayList<String> txnAmountList = new ArrayList<>();
@@ -112,7 +132,7 @@ public class HomepageActivity extends AppCompatActivity {
 
 
         recyclerView = findViewById(R.id.recyclerView);
-        recyclerAdapter = new RecyclerAdapter(txnAmountList, txnAmountPathList,txnTypeList,txnTimeList);
+        recyclerAdapter = new RecyclerAdapter(txnAmountList, txnAmountPathList, txnTypeList, txnTimeList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(recyclerAdapter);
 
@@ -131,9 +151,14 @@ public class HomepageActivity extends AppCompatActivity {
 
         sequence.addSequenceItem(homepageBinding.addExpenseAndIncome,
                 "Single Tap to Add expense and Hold to Add Income", "GOT IT");
-
-//        sequence.addSequenceItem(homepageBinding.showTransactions,
-//                "Clicking All Transaction will be visible to You", "GOT IT");
+        sequence.addSequenceItem(homepageBinding.recyclerView,
+                "All Your monthly Transactions", "GOT IT");
+        sequence.addSequenceItem(homepageBinding.balance,
+                "Your Monthly Balance", "GOT IT");
+        sequence.addSequenceItem(homepageBinding.leftTopMenu,
+                "Menu to explore more", "GOT IT");
+        sequence.addSequenceItem(homepageBinding.topRightMenu,
+                "To set Everyday Alert Go there", "GOT IT");
 
 
         sequence.start();
@@ -162,16 +187,29 @@ public class HomepageActivity extends AppCompatActivity {
                         txnTypeList.add(snapshotTxn.child("txn_type").getValue().toString());
 
                     }
+
                     Collections.reverse(txnAmountList);
                     Collections.reverse(txnAmountPathList);
                     Collections.reverse(txnTypeList);
                     Collections.reverse(txnTimeList);
                     recyclerView.setAdapter(recyclerAdapter);
 
+
                 } catch (Exception e) {
                     e.printStackTrace();
                     Snackbar.make(view, "No Data Found", BaseTransientBottomBar.LENGTH_LONG).show();
                 }
+
+
+                dataService = new DataService();
+                balance = dataService.getBalance(txnAmountList, txnTypeList);
+
+                SharedPreferences.Editor editor = myPrefs.edit();
+
+                editor.putString("BALANCE", balance.toString());
+                homepageBinding.balance.setText("$" + balance);
+
+
             }
 
             @Override
@@ -201,43 +239,6 @@ public class HomepageActivity extends AppCompatActivity {
             }
         });
 
-//        Show txns by button Click
-//        homepageBinding.showTransactions.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                myRef_reader.addValueEventListener(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                        try {
-//                            String retrieve_amount = snapshot.getValue().toString();
-////                            ShowNotification();
-//                            txnAmountList.clear();
-//                            txnAmountPathList.clear();
-//                            for (DataSnapshot snapshotTxn : snapshot.getChildren()) {
-//                                txnAmountList.add(snapshotTxn.child("txn_amount").getValue() + " " + snapshotTxn.getKey().toString());
-//                                txnAmountPathList.add(path + "/" + snapshotTxn.getKey().toString());
-//
-//
-//                            }
-//                            Collections.reverse(txnAmountList);
-//                            Collections.reverse(txnAmountPathList);
-//                            recyclerView.setAdapter(recyclerAdapter);
-//
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                            Snackbar.make(view, "No Data Found", BaseTransientBottomBar.LENGTH_LONG).show();
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError error) {
-//
-//                    }
-//                });
-//            }
-//        });
-
     }
 
     private String showAddExpenseAndIncomeDialog(Context c, String _amountType, DatabaseReference databaseReference) {
@@ -263,7 +264,7 @@ public class HomepageActivity extends AppCompatActivity {
                             Toast.makeText(HomepageActivity.this, "Add Amount", Toast.LENGTH_SHORT).show();
 
                         } else {
-                            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+                            SimpleDateFormat sdf = new SimpleDateFormat("E, dd MMM hh.mm aa");
                             String currentTime = sdf.format(new Date());
                             TransactionsModel transactions = new TransactionsModel();
 

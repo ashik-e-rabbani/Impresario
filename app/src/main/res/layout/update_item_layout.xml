@@ -20,7 +20,7 @@
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
             android:layout_weight="0.0"
-            android:src="@drawable/ic_baseline_keyboard_arrow_left_24"></ImageView>
+            android:src="@drawable/ic_baseline_keyboard_arrow_down_24"></ImageView>
 
         <TextView
             android:layout_width="wrap_content"
@@ -74,10 +74,9 @@
             android:id="@+id/update_amount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:digits="0123456789."
             android:hapticFeedbackEnabled="true"
             android:hint="1234.56"
-            android:inputType="text"
+            android:inputType="numberDecimal"
             android:maxLength="7"></EditText>
 
 
