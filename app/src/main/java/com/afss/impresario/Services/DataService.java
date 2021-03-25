@@ -13,9 +13,9 @@ public class DataService {
         {
             if (txnTypeList.get(i).contains("exp"))
             {
-                balance-=Integer.parseInt(txnAmountList.get(i));
+                balance-=Double.parseDouble(txnAmountList.get(i));
             }else {
-                balance+=Integer.parseInt(txnAmountList.get(i));
+                balance+=Double.parseDouble(txnAmountList.get(i));
             }
 
         }
