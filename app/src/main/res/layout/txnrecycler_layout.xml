@@ -24,6 +24,7 @@
                 android:backgroundTint="#CAE4F8"
                 android:background="@drawable/rounded_btn_income"
                 android:gravity="center"
+                android:layout_gravity="center_vertical"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
                 android:text="৳"
@@ -43,11 +44,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left|center_vertical"
-
                     android:text="TextView"
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/txn_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center_vertical"
+
+                    android:text="Description"
+                    android:textColor="#E12A2A2B"
+                    android:textSize="14sp"
+                    android:textStyle="normal" />
 
                 <TextView
                     android:id="@+id/timeText"

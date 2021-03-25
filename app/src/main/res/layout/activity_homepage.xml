@@ -89,26 +89,29 @@
 
                 </TableLayout>
 
-                <ImageView
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="5dp"
-                    android:background="@drawable/ic_user"
-
-
-                    ></ImageView>
-
 
                 <TextView
                     android:id="@+id/titleName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
                     android:text="@string/app_name"
+
                     android:textAlignment="center"
                     android:textColor="@color/smoke_white"
-                    android:textSize="17sp"
+                    android:textSize="16sp"
                     android:textStyle="bold"></TextView>
+
+                <TextView
+                    android:id="@+id/emailPlaceholder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/app_name"
+                    android:textAlignment="center"
+                    android:textColor="#8AF8F8FF"
+                    android:textSize="10sp"
+                    android:textStyle="normal"></TextView>
 
                 <!--                <TextView-->
                 <!--                    android:layout_width="match_parent"-->
@@ -135,7 +138,7 @@
                     android:text="$1234.56"
                     android:textAllCaps="false"
                     android:textColor="@color/blue_500"
-                    android:textSize="13sp"
+                    android:textSize="14sp"
                     android:textStyle="bold"></TextView>
 
             </LinearLayout>

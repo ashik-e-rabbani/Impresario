@@ -14,6 +14,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
@@ -89,7 +91,16 @@ public class HomepageActivity extends AppCompatActivity {
         try {
 
             BALANCEPREF = myPrefs.getString("BALANCE", "123");
-            homepageBinding.balance.setText(BALANCEPREF);
+            if (BALANCEPREF.contains("-")) {
+                homepageBinding.balance.setTextColor(Color.parseColor("#B71C1C"));
+                homepageBinding.balance.setText("৳ " + balance);
+
+            } else {
+                homepageBinding.balance.setTextColor(Color.parseColor("#FF2196F3"));
+                homepageBinding.balance.setText("৳ " + balance);
+            }
+
+
             Log.d(TAG, "Balance found in SharedPref");
         } catch (Exception e) {
             e.printStackTrace();
@@ -102,6 +113,7 @@ public class HomepageActivity extends AppCompatActivity {
         GG_Email = myIntent.getStringExtra("GG_Email");
         GG_ID = myIntent.getStringExtra("GG_ID");
         GG_NAME = myIntent.getStringExtra("GG_NAME");
+        homepageBinding.emailPlaceholder.setText(GG_Email);
         homepageBinding.titleName.setText(GG_NAME);
 
 
@@ -207,7 +219,15 @@ public class HomepageActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = myPrefs.edit();
 
                 editor.putString("BALANCE", balance.toString());
-                homepageBinding.balance.setText("$" + balance);
+                if (balance.contains("-")) {
+                    homepageBinding.balance.setTextColor(Color.parseColor("#B71C1C"));
+                    homepageBinding.balance.setText("৳ " + balance);
+
+                } else {
+                    homepageBinding.balance.setTextColor(Color.parseColor("#FF2196F3"));
+                    homepageBinding.balance.setText("৳ " + balance);
+                }
+
 
 
             }
