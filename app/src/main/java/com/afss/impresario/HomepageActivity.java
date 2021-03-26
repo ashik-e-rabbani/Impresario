@@ -259,6 +259,14 @@ public class HomepageActivity extends AppCompatActivity {
             }
         });
 
+        homepageBinding.viewAllTxn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomepageActivity.this,AllTransactions.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private String showAddExpenseAndIncomeDialog(Context c, String _amountType, DatabaseReference databaseReference) {
