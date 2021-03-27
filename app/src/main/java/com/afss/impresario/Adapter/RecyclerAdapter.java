@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +37,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 import static androidx.core.content.ContextCompat.getSystemService;
+import static com.afss.impresario.R.drawable.rounded_expense_bg;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
@@ -79,9 +81,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
 //        holder.editButton.setText(String.valueOf(position));
         holder.timeView.setText(txnTimeList.get(position));
-        holder.textView.setText(txnAmountList.get(position));
+        holder.amountText.setText(txnAmountList.get(position));
         if (txnTypeList.get(position).contains("exp")) {
-            holder.avatarView.setBackgroundTintList(ColorStateList.valueOf(R.color.orange_200));
+            holder.avatarView.setBackgroundResource(R.drawable.rounded_expense_bg);
+            holder.amountText.setTextColor(Color.parseColor("#B71C1C"));
+        }else
+        {
+            holder.amountText.setTextColor(Color.parseColor("#009688"));
         }
 
 
@@ -218,14 +224,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView textView, timeView, avatarView;
+        TextView amountText, timeView, avatarView;
         ImageView editButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             timeView = itemView.findViewById(R.id.timeText);
             avatarView = itemView.findViewById(R.id.avatarHolder);
-            textView = itemView.findViewById(R.id.textView);
+            amountText = itemView.findViewById(R.id.amountText);
             editButton = itemView.findViewById(R.id.btn_edit);
         }
     }

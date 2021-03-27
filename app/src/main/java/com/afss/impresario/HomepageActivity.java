@@ -93,12 +93,11 @@ public class HomepageActivity extends AppCompatActivity {
             BALANCEPREF = myPrefs.getString("BALANCE", "123");
             if (BALANCEPREF.contains("-")) {
                 homepageBinding.balance.setTextColor(Color.parseColor("#B71C1C"));
-                homepageBinding.balance.setText("৳ " + balance);
 
             } else {
                 homepageBinding.balance.setTextColor(Color.parseColor("#FF2196F3"));
-                homepageBinding.balance.setText("৳ " + balance);
             }
+            homepageBinding.balance.setText("৳ " + balance);
 
 
             Log.d(TAG, "Balance found in SharedPref");
