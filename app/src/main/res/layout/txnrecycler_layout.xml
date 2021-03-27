@@ -7,96 +7,119 @@
     android:orientation="vertical">
 
 
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="5dp"
-        android:stretchColumns="1,2">
+   <LinearLayout
+       android:id="@+id/itemContainer"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:paddingLeft="15dp"
+       android:paddingRight="15dp"
+       android:orientation="vertical"
+       android:clickable="true"
+       android:background="@drawable/rippler_bg"
+       >
+       <TableLayout
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
 
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/avatarHolder"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:backgroundTint="#CAE4F8"
-                android:background="@drawable/rounded_income_bg"
-                android:backgroundTintMode="multiply"
-                android:gravity="center"
-                android:layout_gravity="center_vertical"
-                android:insetTop="0dp"
-                android:insetBottom="0dp"
-                android:text="৳"
-                android:textColor="@color/black"
-                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.rounded"></TextView>
-
-            <LinearLayout
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:orientation="vertical"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="20dp"
-                >
-
-                <TextView
-                    android:id="@+id/amountText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left|center_vertical"
-                    android:text="TextView"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-                <TextView
-                    android:id="@+id/txn_description"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left|center_vertical"
-
-                    android:text="Description"
-                    android:textColor="#E12A2A2B"
-                    android:textSize="14sp"
-                    android:textStyle="normal" />
-
-                <TextView
-                    android:id="@+id/timeText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:gravity="left"
-                    android:text="17 March"
-                    android:textSize="10sp"></TextView>
-            </LinearLayout>
+           android:padding="5dp"
+           android:stretchColumns="1,2">
 
 
+           <TableRow
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:layout_gravity="center_vertical|end"
-                >
-                <ImageView
-                    android:id="@+id/btn_edit"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
 
+               >
 
-                    android:src="@drawable/ic_edit">
+               <TextView
+                   android:id="@+id/avatarHolder"
+                   android:layout_width="48dp"
+                   android:layout_height="48dp"
+                   android:backgroundTint="#CAE4F8"
+                   android:background="@drawable/rounded_income_bg"
+                   android:gravity="center"
+                   android:layout_gravity="center_vertical"
+                   android:insetTop="0dp"
+                   android:insetBottom="0dp"
+                   android:text="৳"
+                   android:textColor="@color/color_green"
+                   android:textStyle="bold"
+                   app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.rounded"></TextView>
 
-                </ImageView>
+               <LinearLayout
+                   android:layout_height="wrap_content"
+                   android:layout_width="wrap_content"
+                   android:orientation="vertical"
+                   android:layout_gravity="center_vertical"
+                   android:layout_marginLeft="20dp"
+                   >
 
-            </LinearLayout>
+                   <TextView
+                       android:id="@+id/amountText"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_gravity="left|center_vertical"
+                       android:text="TextView"
+                       android:textColor="@color/black"
+                       android:textSize="15sp"
+                       android:textStyle="bold" />
+                   <TextView
+                       android:id="@+id/txn_description"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_gravity="left|center_vertical"
 
+                       android:text="Description"
+                       android:textColor="#E12A2A2B"
+                       android:textSize="11sp"
+                       android:textStyle="normal" />
 
-        </TableRow>
+                   <TextView
+                       android:id="@+id/timeText"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+
+                       android:gravity="left"
+                       android:text="17 March"
+                       android:textSize="10sp"></TextView>
+               </LinearLayout>
 
 
 
-    </TableLayout>
+               <LinearLayout
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:gravity="right"
+                   android:layout_gravity="center_vertical|end"
+                   >
+
+                   <ImageView
+                       android:id="@+id/btn_edit"
+                       android:layout_width="20dp"
+                       android:layout_height="20dp"
+
+                       android:background="@drawable/ic_fi_rr_edit"
+                       android:backgroundTint="#4B424242">
+
+                   </ImageView>
+
+               </LinearLayout>
+
+
+           </TableRow>
+
+
+
+       </TableLayout>
+       <View
+           android:layout_marginLeft="73dp"
+
+           android:layout_width="match_parent"
+           android:background="#2C000000"
+           android:layout_height="0.5dp"></View>
+   </LinearLayout>
 
 
 </LinearLayout>

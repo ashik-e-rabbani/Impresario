@@ -151,8 +151,7 @@
         android:layout_height="match_parent"
         android:layout_weight="60"
         android:background="@color/smoke_white"
-        android:paddingLeft="15dp"
         android:paddingTop="0dp"
-        android:paddingRight="15dp"></androidx.recyclerview.widget.RecyclerView>
+        ></androidx.recyclerview.widget.RecyclerView>
 
 </LinearLayout>

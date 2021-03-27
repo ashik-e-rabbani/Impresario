@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -83,13 +85,25 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         holder.timeView.setText(txnTimeList.get(position));
         holder.amountText.setText(txnAmountList.get(position));
         if (txnTypeList.get(position).contains("exp")) {
-            holder.avatarView.setBackgroundResource(R.drawable.rounded_expense_bg);
-            holder.amountText.setTextColor(Color.parseColor("#B71C1C"));
-        }else
-        {
-            holder.amountText.setTextColor(Color.parseColor("#009688"));
+
+            holder.avatarView.setTextColor(Color.parseColor("#B71C1C"));
         }
 
+        holder.itemContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                DialogPlus dialog = DialogPlus.newDialog(holder.itemContainer.getContext())
+
+                        .setContentHolder(new com.orhanobut.dialogplus.ViewHolder(R.layout.transaction_info_dialog))
+                        .setExpanded(false, 1000)  // This will enable the expand feature, (similar to android L share dialog)
+                        .setGravity(Gravity.TOP)
+                        .setOnBackPressListener(dialogPlus -> dialogPlus.dismiss())
+                        .setCancelable(true)
+                        .create();
+                dialog.show();
+            }
+        });
 
         holder.editButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,6 +156,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                         incomeRadioBtn.setChecked(true);
                     }
                 });
+
 
                 updateBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -226,9 +241,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
         TextView amountText, timeView, avatarView;
         ImageView editButton;
+        LinearLayout itemContainer;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            itemContainer = itemView.findViewById(R.id.itemContainer);
             timeView = itemView.findViewById(R.id.timeText);
             avatarView = itemView.findViewById(R.id.avatarHolder);
             amountText = itemView.findViewById(R.id.amountText);
