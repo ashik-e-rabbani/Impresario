@@ -2,11 +2,23 @@ package com.afss.impresario.Model;
 
 public class TransactionsModel {
 
-    private String txn_amount, txn_type, time_stamp;
+    private String txn_amount;
+    private String txn_type;
+    private String time_stamp;
+
+
+
+    private String txn_description;
 
     public TransactionsModel() {
     }
+    public String getTxn_description() {
+        return txn_description;
+    }
 
+    public void setTxn_description(String txn_description) {
+        this.txn_description = txn_description;
+    }
     public String getTxn_amount() {
         return txn_amount;
     }

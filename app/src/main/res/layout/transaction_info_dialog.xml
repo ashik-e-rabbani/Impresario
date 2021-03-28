@@ -3,17 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="20dp">
+    android:layout_marginTop="25dp"
+    android:layout_marginBottom="5dp"
+    android:layout_marginRight="25dp"
+    android:layout_marginLeft="25dp">
 
-    <ImageView
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+    <TextView
+        android:id="@+id/txnAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:src="@drawable/rounded_income_bg">
-
-    </ImageView>
-
+        android:text="125.56"
+        android:textColor="@color/black100"
+        android:textSize="22sp"
+        android:textStyle="bold"></TextView>
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,18 +30,16 @@
 
             android:layout_marginTop="3dp">
 
-
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/timeTextView"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center|left"
-                android:text="125.56"
-                android:textColor="@color/black100"
-                android:textSize="16sp"
-                android:textStyle="bold"></TextView>
+                android:text="March 2014"
+                android:textSize="14sp"></TextView>
+
 
             <TextView
-                android:id="@+id/viewAllTxn"
+                android:id="@+id/txnTypeTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@drawable/rounded_btn_blue200"
@@ -55,13 +56,10 @@
 
         </TableRow>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="March 2014"
-            android:textSize="14sp"></TextView>
+
 
         <TextView
+            android:id="@+id/txnDescription"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="All Description Goes here No Tension"
@@ -70,5 +68,13 @@
 
     </TableLayout>
 
+    <ImageView
+        android:id="@+id/txnHideBtn"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/ripple_button_bg_oval"
+
+        android:src="@drawable/ic_fi_rr_angle_double_up"></ImageView>
 
 </LinearLayout>

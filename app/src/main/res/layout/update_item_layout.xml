@@ -1,57 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
 
     android:orientation="vertical">
 
+    <ImageView
+        android:id="@+id/backFromUpdateDialog"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/ripple_button_bg_oval"
+        android:padding="5dp"
+        android:src="@drawable/ic_fi_rr_angle_double_down"></ImageView>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal"
-        android:weightSum="3">
-
-        <ImageView
-            android:id="@+id/backFromUpdateDialog"
-            android:layout_width="25dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="0.0"
-            android:src="@drawable/ic_baseline_keyboard_arrow_down_24"></ImageView>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_weight="2.7"
-            android:gravity="center_vertical"
-            android:text="Edit"
-            android:textColor="#6B656565"
-            android:textSize="18sp"
-            android:textStyle="bold"></TextView>
-
-        <ImageView
-            android:id="@+id/deleteTransactionBtn"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center_vertical|end"
-            android:layout_weight=".5"
-            android:clickable="true"
-            android:src="@drawable/ic_trash">
-
-        </ImageView>
-
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="10dp"
-        android:background="#BDBDBD">
-
-    </View>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -64,20 +28,87 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Enter Amount"
+            android:text="Transaction Details"
+            android:textAlignment="center"
             android:textColor="#2196F3"
-            android:textFontWeight="500"
             android:textSize="14sp"></TextView>
 
-
-        <EditText
-            android:id="@+id/update_amount"
+        <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hapticFeedbackEnabled="true"
-            android:hint="1234.56"
-            android:inputType="numberDecimal"
-            android:maxLength="7"></EditText>
+            android:layout_gravity="center_horizontal"
+            android:padding="15dp"
+            android:stretchColumns="0">
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp">
+
+                <TextView
+                    android:id="@+id/timeTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="March 2014"
+                    android:textSize="14sp"></TextView>
+
+
+                <ImageView
+                    android:id="@+id/deleteTransactionBtn"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:clickable="true"
+                    android:src="@drawable/ic_trash">
+
+                </ImageView>
+
+
+            </TableRow>
+
+
+        </TableLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/amountHolderLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Amount"
+            app:counterEnabled="true"
+            app:counterMaxLength="8">
+
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/update_amount"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hapticFeedbackEnabled="true"
+                android:inputType="numberDecimal"></com.google.android.material.textfield.TextInputEditText>
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/descriptionHolderLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Description"
+            app:counterEnabled="true"
+            app:counterMaxLength="60">
+
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/update_description"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hapticFeedbackEnabled="true"
+
+                ></com.google.android.material.textfield.TextInputEditText>
+
+
+        </com.google.android.material.textfield.TextInputLayout>
 
 
         <TextView
@@ -112,7 +143,7 @@
                     android:layout_weight="1"
                     android:checked="false"
                     android:text="Expense"
-                    android:textColor="#F44336"
+                    android:textColor="@color/red"
                     android:textSize="14dp" />
 
                 <RadioButton
@@ -132,12 +163,16 @@
 
         <Button
             android:id="@+id/update_amountBtn"
-            android:layout_width="match_parent"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:inputType="numberDecimal"
-            android:text="Update"
-            android:textColor="@color/smoke_white"></Button>
+            android:text="UPDATE"
+            android:textColor="@color/blue_500"
+            app:icon="@drawable/ic_fi_rr_check"></Button>
 
     </LinearLayout>
 

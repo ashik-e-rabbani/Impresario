@@ -61,7 +61,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:gravity="center|left"
-                                android:text="Bit"
+                                android:text="Ash"
                                 android:textColor="@color/white"
                                 android:textSize="18sp"
                                 android:textStyle="bold"></TextView>
@@ -71,7 +71,7 @@
                                 android:layout_height="match_parent"
                                 android:gravity="center|left"
                                 android:text="Pay"
-                                android:textColor="@color/ghost_white"
+                                android:textColor="#BBDEFB"
                                 android:textSize="18sp"
                                 android:textStyle="bold"></TextView>
                         </LinearLayout>

@@ -44,18 +44,19 @@ import static com.afss.impresario.R.drawable.rounded_expense_bg;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
 
-    public RecyclerAdapter(ArrayList<String> txnAmountList, ArrayList<String> txnPathList, ArrayList<String> txnTypeList, ArrayList<String> txnTimeList) {
+    public RecyclerAdapter(ArrayList<String> txnAmountList, ArrayList<String> txnPathList, ArrayList<String> txnTypeList, ArrayList<String> txnTimeList,ArrayList<String> txnDescriptionList) {
         this.txnAmountList = txnAmountList;
         this.txnPathList = txnPathList;
         this.txnTypeList = txnTypeList;
         this.txnTimeList = txnTimeList;
+        this.txnDescriptionList =txnDescriptionList;
     }
 
     FirebaseDatabase database;
     DatabaseReference databaseReference;
     boolean updateDialogDismiss;
 
-    ArrayList<String> txnPathList, txnAmountList, txnTypeList, txnTimeList;
+    ArrayList<String> txnPathList, txnAmountList, txnTypeList, txnTimeList,txnDescriptionList;
 
     @NonNull
     @Override
@@ -83,6 +84,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
 //        holder.editButton.setText(String.valueOf(position));
         holder.timeView.setText(txnTimeList.get(position));
+        holder.txn_description.setText(txnDescriptionList.get(position));
         holder.amountText.setText(txnAmountList.get(position));
         if (txnTypeList.get(position).contains("exp")) {
 
@@ -93,27 +95,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             @Override
             public void onClick(View v) {
 
+
                 DialogPlus dialog = DialogPlus.newDialog(holder.itemContainer.getContext())
 
-                        .setContentHolder(new com.orhanobut.dialogplus.ViewHolder(R.layout.transaction_info_dialog))
-                        .setExpanded(false, 1000)  // This will enable the expand feature, (similar to android L share dialog)
-                        .setGravity(Gravity.TOP)
-                        .setOnBackPressListener(dialogPlus -> dialogPlus.dismiss())
-                        .setCancelable(true)
-                        .create();
-                dialog.show();
-            }
-        });
-
-        holder.editButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                DialogPlus dialog = DialogPlus.newDialog(holder.editButton.getContext())
-
                         .setContentHolder(new com.orhanobut.dialogplus.ViewHolder(R.layout.update_item_layout))
-                        .setExpanded(false, 1000)  // This will enable the expand feature, (similar to android L share dialog)
+                        .setExpanded(false,700)  // This will enable the expand feature, (similar to android L share dialog)
+                        .setOnBackPressListener(dialogPlus -> dialogPlus.dismiss())
+
                         .create();
 
 
@@ -122,7 +110,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 ImageView dismissDialogByBack = updateView.findViewById(R.id.backFromUpdateDialog);
                 Button updateBtn = updateView.findViewById(R.id.update_amountBtn);
                 EditText updateAmount = updateView.findViewById(R.id.update_amount);
+                TextView timeTextView = updateView.findViewById(R.id.timeTextView);
+                EditText update_description = updateView.findViewById(R.id.update_description);
                 int selectedId = updateView.findViewById(R.id.amount_type_group).getId();
+                timeTextView.setText(txnTimeList.get(position));
 
                 // find the radiobutton by returned id
                 RadioButton incomeRadioBtn = (RadioButton) updateView.findViewById(R.id.amount_type_income);
@@ -137,8 +128,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 }
 
 
-                updateAmount.setText(txnAmountList.get(position));
 
+                updateAmount.setText(txnAmountList.get(position));
+                update_description.setText(txnDescriptionList.get(position));
                 dialog.show();
 
                 expenseRadioBtn.setOnClickListener(new View.OnClickListener() {
@@ -164,6 +156,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                         //                update the data here
                         HashMap updateDataMap = new HashMap();
                         updateDataMap.put("txn_amount", updateAmount.getText().toString());
+                        updateDataMap.put("txn_description", update_description.getText().toString());
                         if (expenseRadioBtn.isChecked()) {
                             updateDataMap.put("txn_type", "exp");
                         } else {
@@ -239,7 +232,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView amountText, timeView, avatarView;
+        TextView amountText, timeView, avatarView, txn_description;
         ImageView editButton;
         LinearLayout itemContainer;
 
@@ -247,6 +240,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             super(itemView);
             itemContainer = itemView.findViewById(R.id.itemContainer);
             timeView = itemView.findViewById(R.id.timeText);
+            txn_description = itemView.findViewById(R.id.txn_description);
             avatarView = itemView.findViewById(R.id.avatarHolder);
             amountText = itemView.findViewById(R.id.amountText);
             editButton = itemView.findViewById(R.id.btn_edit);

@@ -57,6 +57,7 @@ public class AllTransactions extends AppCompatActivity {
     ArrayList<String> txnAmountPathList;
     ArrayList<String> txnTypeList;
     ArrayList<String> txnTimeList;
+    ArrayList<String> txnDescriptionList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,10 +94,10 @@ public class AllTransactions extends AppCompatActivity {
         txnAmountPathList = new ArrayList<>();
         txnTypeList = new ArrayList<>();
         txnTimeList = new ArrayList<>();
-
+        txnDescriptionList = new ArrayList<>();
 
         recyclerView = findViewById(R.id.recyclerView);
-        recyclerAdapter = new RecyclerAdapter(txnAmountList, txnAmountPathList, txnTypeList, txnTimeList);
+        recyclerAdapter = new RecyclerAdapter(txnAmountList, txnAmountPathList, txnTypeList, txnTimeList, txnDescriptionList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(recyclerAdapter);
 
@@ -167,18 +168,20 @@ public class AllTransactions extends AppCompatActivity {
                     txnAmountPathList.clear();
                     txnTimeList.clear();
                     txnTypeList.clear();
+                    txnDescriptionList.clear();
                     for (DataSnapshot snapshotTxn : snapshot.getChildren()) {
                         txnAmountList.add(snapshotTxn.child("txn_amount").getValue().toString());
                         txnAmountPathList.add(path + "/" + snapshotTxn.getKey().toString());
                         txnTimeList.add(snapshotTxn.child("time_stamp").getValue().toString());
                         txnTypeList.add(snapshotTxn.child("txn_type").getValue().toString());
-
+                        txnDescriptionList.add(snapshotTxn.child("txn_description").getValue().toString());
                     }
 
                     Collections.reverse(txnAmountList);
                     Collections.reverse(txnAmountPathList);
                     Collections.reverse(txnTypeList);
                     Collections.reverse(txnTimeList);
+                    Collections.reverse(txnDescriptionList);
                     recyclerView.setAdapter(recyclerAdapter);
 
                 } catch (Exception e) {
@@ -187,6 +190,7 @@ public class AllTransactions extends AppCompatActivity {
                     txnAmountPathList.clear();
                     txnTimeList.clear();
                     txnTypeList.clear();
+                    txnDescriptionList.clear();
                     Snackbar.make(view, "No Data Found "+path, BaseTransientBottomBar.LENGTH_LONG).show();
                 }
 

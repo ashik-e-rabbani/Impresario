@@ -66,7 +66,7 @@ public class HomepageActivity extends AppCompatActivity {
 
     private static final String TAG = "Homepage";
     ActivityHomepageBinding homepageBinding;
-    String amount;
+    String amount, description;
     String path;
     private static FirebaseDatabase database;
     private static long back_pressed;
@@ -85,6 +85,8 @@ public class HomepageActivity extends AppCompatActivity {
         homepageBinding = ActivityHomepageBinding.inflate(getLayoutInflater());
         View view = homepageBinding.getRoot();
         setContentView(view);
+
+        description = "";
 
         myPrefs = this.getSharedPreferences("SING_IN_CREDS", Context.MODE_PRIVATE);
 
@@ -140,10 +142,11 @@ public class HomepageActivity extends AppCompatActivity {
         final ArrayList<String> txnAmountPathList = new ArrayList<>();
         final ArrayList<String> txnTypeList = new ArrayList<>();
         final ArrayList<String> txnTimeList = new ArrayList<>();
+        final ArrayList<String> txnDescriptionList = new ArrayList<>();
 
 
         recyclerView = findViewById(R.id.recyclerView);
-        recyclerAdapter = new RecyclerAdapter(txnAmountList, txnAmountPathList, txnTypeList, txnTimeList);
+        recyclerAdapter = new RecyclerAdapter(txnAmountList, txnAmountPathList, txnTypeList, txnTimeList,txnDescriptionList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(recyclerAdapter);
 
@@ -191,11 +194,13 @@ public class HomepageActivity extends AppCompatActivity {
                     txnAmountPathList.clear();
                     txnTimeList.clear();
                     txnTypeList.clear();
+                    txnDescriptionList.clear();
                     for (DataSnapshot snapshotTxn : snapshot.getChildren()) {
                         txnAmountList.add(snapshotTxn.child("txn_amount").getValue().toString());
                         txnAmountPathList.add(path + "/" + snapshotTxn.getKey().toString());
                         txnTimeList.add(snapshotTxn.child("time_stamp").getValue().toString());
                         txnTypeList.add(snapshotTxn.child("txn_type").getValue().toString());
+                        txnDescriptionList.add(snapshotTxn.child("txn_description").getValue().toString());
 
                     }
 
@@ -203,6 +208,7 @@ public class HomepageActivity extends AppCompatActivity {
                     Collections.reverse(txnAmountPathList);
                     Collections.reverse(txnTypeList);
                     Collections.reverse(txnTimeList);
+                    Collections.reverse(txnDescriptionList);
                     recyclerView.setAdapter(recyclerAdapter);
 
 
@@ -275,7 +281,8 @@ public class HomepageActivity extends AppCompatActivity {
 
         View dialogView = inflater.inflate(R.layout.alert_dialog_inputbox, null);
         final EditText expenseIncomeAmount = (EditText) dialogView.findViewById(R.id.inputedAmount);
-
+        final EditText expenseIncomeDescription = (EditText) dialogView.findViewById(R.id.inputedDescription);
+        
         MaterialAlertDialogBuilder dialog = new MaterialAlertDialogBuilder(c);
         dialog.setTitle("Enter " + _amountType)
 //                .setMessage("Enter your amount")
@@ -286,7 +293,8 @@ public class HomepageActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
 
                         amount = String.valueOf(expenseIncomeAmount.getText());
-
+                        description = String.valueOf(expenseIncomeDescription.getText());
+                        
                         if (amount.isEmpty()) {
                             Toast.makeText(HomepageActivity.this, "Add Amount", Toast.LENGTH_SHORT).show();
 
@@ -302,6 +310,7 @@ public class HomepageActivity extends AppCompatActivity {
                             } else {
                                 transactions.setTxn_type("exp");
                             }
+                            transactions.setTxn_description(description);
 
                             transactions.setTime_stamp(currentTime);
 
