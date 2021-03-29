@@ -272,6 +272,16 @@ public class HomepageActivity extends AppCompatActivity {
             }
         });
 
+        homepageBinding.leftTopMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MaterialAlertDialogBuilder dialog = new MaterialAlertDialogBuilder(homepageBinding.leftTopMenu.getContext());
+                dialog.setView(R.layout.developer_info_layout)
+                        .show();
+//                .setMessage("Enter your amount")
+            }
+        });
+
     }
 
     private String showAddExpenseAndIncomeDialog(Context c, String _amountType, DatabaseReference databaseReference) {
