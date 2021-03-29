@@ -12,14 +12,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Impresario">
-        <activity android:name=".AllTransactions"></activity>
+        <activity android:name=".AllTransactions"
+            android:screenOrientation="portrait"
+            ></activity>
         <activity
             android:name=".GoogleSingInPageActivity"
-            android:theme="@style/Theme.SignIn" />
-        <activity android:name=".HomepageActivity" />
+            android:theme="@style/Theme.SignIn" android:screenOrientation="portrait"/>
+        <activity android:name=".HomepageActivity" android:screenOrientation="portrait"/>
         <activity
             android:name=".SplashActivity"
-            android:theme="@style/Theme.Splash">
+            android:theme="@style/Theme.Splash" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
