@@ -55,6 +55,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:layout_marginRight="10dp"
+                                android:background="@drawable/ripple_button_bg_oval"
+                                android:clickable="true"
                                 android:src="@drawable/ic_fi_rr_apps"></ImageView>
 
                             <TextView
@@ -81,6 +83,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_gravity="right"
+                            android:background="@drawable/ripple_button_bg_oval"
+                            android:clickable="true"
                             android:gravity="center|right"
                             android:src="@drawable/ic_baseline_more_vert_24"></ImageView>
 
@@ -123,8 +127,7 @@
                 <!--                    android:outlineSpotShadowColor="@color/smoke_white"-->
                 <!--                    android:textSize="14sp"-->
                 <!--                    android:textStyle="bold"></TextView>-->
-                <TextView
-                    xmlns:android="http://schemas.android.com/apk/res/android"
+                <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                     android:id="@+id/balance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
