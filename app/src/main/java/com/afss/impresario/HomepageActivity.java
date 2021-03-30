@@ -41,6 +41,7 @@ import com.afss.impresario.databinding.ActivityHomepageBinding;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -151,8 +152,13 @@ public class HomepageActivity extends AppCompatActivity {
         recyclerView.setAdapter(recyclerAdapter);
 
         if (database == null) {
-            database = FirebaseDatabase.getInstance();
-            database.setPersistenceEnabled(true);
+            try {
+                database = FirebaseDatabase.getInstance();
+                database.setPersistenceEnabled(true);
+            } catch (Exception e) {
+                FirebaseCrashlytics.getInstance().recordException(e);
+                e.printStackTrace();
+            }
         }
 
 
@@ -226,13 +232,11 @@ public class HomepageActivity extends AppCompatActivity {
                 editor.putString("BALANCE", balance.toString());
                 if (balance.contains("-")) {
                     homepageBinding.balance.setTextColor(Color.parseColor("#B71C1C"));
-                    homepageBinding.balance.setText("৳ " + balance);
 
                 } else {
                     homepageBinding.balance.setTextColor(Color.parseColor("#FF2196F3"));
-                    homepageBinding.balance.setText("৳ " + balance);
                 }
-
+                homepageBinding.balance.setText("৳ " + balance);
 
 
             }

@@ -21,6 +21,7 @@ import com.afss.impresario.Services.DataService;
 import com.afss.impresario.databinding.ActivityAllTransactionsBinding;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -79,6 +80,7 @@ public class AllTransactions extends AppCompatActivity {
             Log.d(TAG,"Credentials found in SharedPref");
             allTransactionsBinding.selectedDate.setText(months[Integer.parseInt(FILTERED_MONTH)] + " " + FILTERED_YEAR);
         } catch (Exception e) {
+            FirebaseCrashlytics.getInstance().recordException(e);
             e.printStackTrace();
             Log.e(TAG,"No Credentials found in SharedPref");
         }
@@ -103,13 +105,23 @@ public class AllTransactions extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance();
         if (database == null) {
-            database = FirebaseDatabase.getInstance();
-            database.setPersistenceEnabled(true);
+            try {
+                database = FirebaseDatabase.getInstance();
+                database.setPersistenceEnabled(true);
+            } catch (Exception e) {
+                FirebaseCrashlytics.getInstance().recordException(e);
+                e.printStackTrace();
+            }
         }
 
         //        Connecting to FireBase DB
-        path = "Users/" + GG_ID + "/" + FILTERED_YEAR + "/" + FILTERED_MONTH_INC;
-        TransactionsLoader(path,view);
+        try {
+            path = "Users/" + GG_ID + "/" + FILTERED_YEAR + "/" + FILTERED_MONTH_INC;
+            TransactionsLoader(path,view);
+        } catch (Exception e) {
+            FirebaseCrashlytics.getInstance().recordException(e);
+            e.printStackTrace();
+        }
 
         allTransactionsBinding.goBackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,30 +134,35 @@ public class AllTransactions extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                calendar = Calendar.getInstance();
-                year = calendar.get(Calendar.YEAR);
-                month = calendar.get(Calendar.MONTH);
-                dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-                datePickerDialog = new DatePickerDialog(AllTransactions.this,
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker datePicker, int pickedYear, int pickedMonth, int day) {
-//                                allTransactionsBinding.selectedDate.setText(day + "/" + (month +1) + "/" + year);
-                                allTransactionsBinding.selectedDate.setText(months[pickedMonth] + " " + pickedYear);
-                                int incrementedPickedMonth = pickedMonth+1;
-                                path = "Users/" + GG_ID + "/" + pickedYear + "/" + incrementedPickedMonth;
-                                TransactionsLoader(path, v);
-                                saveFilter(String.valueOf(pickedMonth),String.valueOf(incrementedPickedMonth),String.valueOf(day), String.valueOf(pickedYear));
+                try {
+                    calendar = Calendar.getInstance();
+                    year = calendar.get(Calendar.YEAR);
+                    month = calendar.get(Calendar.MONTH);
+                    dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+                    datePickerDialog = new DatePickerDialog(AllTransactions.this,
+                            new DatePickerDialog.OnDateSetListener() {
+                                @Override
+                                public void onDateSet(DatePicker datePicker, int pickedYear, int pickedMonth, int day) {
+    //                                allTransactionsBinding.selectedDate.setText(day + "/" + (month +1) + "/" + year);
+                                    allTransactionsBinding.selectedDate.setText(months[pickedMonth] + " " + pickedYear);
+                                    int incrementedPickedMonth = pickedMonth+1;
+                                    path = "Users/" + GG_ID + "/" + pickedYear + "/" + incrementedPickedMonth;
+                                    TransactionsLoader(path, v);
+                                    saveFilter(String.valueOf(pickedMonth),String.valueOf(incrementedPickedMonth),String.valueOf(day), String.valueOf(pickedYear));
 
-                            }
+                                }
 
 
-                        }, year, month, dayOfMonth);
+                            }, year, month, dayOfMonth);
 
 
 //                datePickerDialog.getDatePicker().setMinDate();
-                datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
-                datePickerDialog.show();
+                    datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+                    datePickerDialog.show();
+                } catch (Exception e) {
+                    FirebaseCrashlytics.getInstance().recordException(e);
+                    e.printStackTrace();
+                }
 
 
             }
@@ -185,6 +202,7 @@ public class AllTransactions extends AppCompatActivity {
                     recyclerView.setAdapter(recyclerAdapter);
 
                 } catch (Exception e) {
+                    FirebaseCrashlytics.getInstance().recordException(e);
                     e.printStackTrace();
                     txnAmountList.clear();
                     txnAmountPathList.clear();
@@ -218,17 +236,22 @@ public class AllTransactions extends AppCompatActivity {
     }
 
     private void saveFilter(String month,String incrementedMonth, String day, String year) {
+        try {
 //        save to shared preferences
-        SharedPreferences sharedpreferences = getSharedPreferences("SING_IN_CREDS", Context.MODE_PRIVATE);
+            SharedPreferences sharedpreferences = getSharedPreferences("SING_IN_CREDS", Context.MODE_PRIVATE);
 
-        SharedPreferences.Editor editor = sharedpreferences.edit();
+            SharedPreferences.Editor editor = sharedpreferences.edit();
 
-        editor.putString("FILTERED_MONTH", month);
-        editor.putString("FILTERED_MONTH_INC", incrementedMonth);
-        editor.putString("FILTERED_DAY", day);
-        editor.putString("FILTERED_YEAR", year);
+            editor.putString("FILTERED_MONTH", month);
+            editor.putString("FILTERED_MONTH_INC", incrementedMonth);
+            editor.putString("FILTERED_DAY", day);
+            editor.putString("FILTERED_YEAR", year);
 
-        editor.commit();
+            editor.commit();
+        } catch (Exception e) {
+            FirebaseCrashlytics.getInstance().recordException(e);
+            e.printStackTrace();
+        }
 
     }
 }

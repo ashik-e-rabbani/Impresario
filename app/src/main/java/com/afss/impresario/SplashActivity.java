@@ -12,6 +12,7 @@ import android.util.Log;
 import android.widget.ProgressBar;
 
 import com.afss.impresario.databinding.ActivitySplashBinding;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -38,6 +39,7 @@ public class SplashActivity extends AppCompatActivity {
             Log.d(TAG,"Credentials found in SharedPref");
         } catch (Exception e) {
             e.printStackTrace();
+            FirebaseCrashlytics.getInstance().recordException(e);
             Log.e(TAG,"No Credentials found in SharedPref");
         }
         //This is additional feature, used to run a progress bar

@@ -17,6 +17,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 public class GoogleSingInPageActivity<mGoogleSignInClient> extends AppCompatActivity {
 
@@ -112,6 +113,7 @@ public class GoogleSingInPageActivity<mGoogleSignInClient> extends AppCompatActi
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
+            FirebaseCrashlytics.getInstance().recordException(e);
             Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
 
             if (e.getStatusCode() == 7) {
@@ -126,16 +128,21 @@ public class GoogleSingInPageActivity<mGoogleSignInClient> extends AppCompatActi
 
 
     private void saveCredentials(String personName, String personEmail, String personId) {
+        try {
 //        save to shared preferences
-        SharedPreferences sharedpreferences = getSharedPreferences("SING_IN_CREDS", Context.MODE_PRIVATE);
+            SharedPreferences sharedpreferences = getSharedPreferences("SING_IN_CREDS", Context.MODE_PRIVATE);
 
-        SharedPreferences.Editor editor = sharedpreferences.edit();
+            SharedPreferences.Editor editor = sharedpreferences.edit();
 
-        editor.putString("GG_ID", personId);
-        editor.putString("GG_NAME", personName);
-        editor.putString("GG_Email", personEmail);
+            editor.putString("GG_ID", personId);
+            editor.putString("GG_NAME", personName);
+            editor.putString("GG_Email", personEmail);
 
-        editor.commit();
+            editor.commit();
+        } catch (Exception e) {
+            FirebaseCrashlytics.getInstance().recordException(e);
+            e.printStackTrace();
+        }
 
     }
 
