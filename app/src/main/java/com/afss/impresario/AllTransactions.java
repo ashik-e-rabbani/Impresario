@@ -1,5 +1,6 @@
 package com.afss.impresario;
 
+import androidx.annotation.LongDef;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -117,6 +118,7 @@ public class AllTransactions extends AppCompatActivity {
         //        Connecting to FireBase DB
         try {
             path = "Users/" + GG_ID + "/" + FILTERED_YEAR + "/" + FILTERED_MONTH_INC;
+            Log.d(TAG,"Saved Path "+path);
             TransactionsLoader(path,view);
         } catch (Exception e) {
             FirebaseCrashlytics.getInstance().recordException(e);
@@ -147,6 +149,7 @@ public class AllTransactions extends AppCompatActivity {
                                     allTransactionsBinding.selectedDate.setText(months[pickedMonth] + " " + pickedYear);
                                     int incrementedPickedMonth = pickedMonth+1;
                                     path = "Users/" + GG_ID + "/" + pickedYear + "/" + incrementedPickedMonth;
+                                    Log.d(TAG,"Changed Path "+path);
                                     TransactionsLoader(path, v);
                                     saveFilter(String.valueOf(pickedMonth),String.valueOf(incrementedPickedMonth),String.valueOf(day), String.valueOf(pickedYear));
 

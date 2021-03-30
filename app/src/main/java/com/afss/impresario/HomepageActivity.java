@@ -127,15 +127,15 @@ public class HomepageActivity extends AppCompatActivity {
             localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             year = Integer.toString(localDate.getYear());
             month = Integer.toString(localDate.getMonthValue());
-
+            Log.d(TAG,"Parsing for OS OREO (or above)'s Month "+month);
 
         } else {
 
             Calendar cal = Calendar.getInstance();
             cal.setTime(date);
-            month = Integer.toString(cal.get(Calendar.MONTH));
+            month = Integer.toString(cal.get(Calendar.MONTH)+1);
             year = Integer.toString(cal.get(Calendar.YEAR));
-
+            Log.d(TAG,"Parsing OS below OREO's Month "+month);
 
         }
 
@@ -327,7 +327,7 @@ public class HomepageActivity extends AppCompatActivity {
                             transactions.setTxn_description(description);
 
                             transactions.setTime_stamp(currentTime);
-
+                            Log.d(TAG,"Data stored to "+databaseReference);
                             databaseReference.push()
                                     .setValue(transactions);
                             expenseIncomeAmount.setText("");
