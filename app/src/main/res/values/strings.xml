@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">AshPay-Expense Manager</string>
+    <string name="long_shortcut">All Transactions</string>
+    <string name="short_shortcut">All Transactions</string>
 </resources>
