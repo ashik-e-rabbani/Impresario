@@ -79,6 +79,12 @@ public class HomepageActivity extends AppCompatActivity {
     RecyclerAdapter recyclerAdapter;
     DataService dataService;
 
+    ArrayList<String> txnAmountList;
+    ArrayList<String> txnAmountPathList;
+    ArrayList<String> txnTypeList;
+    ArrayList<String> txnTimeList;
+    ArrayList<String> txnDescriptionList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,12 +145,11 @@ public class HomepageActivity extends AppCompatActivity {
 
         }
 
-        final ArrayList<String> txnAmountList = new ArrayList<>();
-        final ArrayList<String> txnAmountPathList = new ArrayList<>();
-        final ArrayList<String> txnTypeList = new ArrayList<>();
-        final ArrayList<String> txnTimeList = new ArrayList<>();
-        final ArrayList<String> txnDescriptionList = new ArrayList<>();
-
+        txnAmountList = new ArrayList<>();
+        txnAmountPathList = new ArrayList<>();
+        txnTypeList = new ArrayList<>();
+        txnTimeList = new ArrayList<>();
+        txnDescriptionList = new ArrayList<>();
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerAdapter = new RecyclerAdapter(txnAmountList, txnAmountPathList, txnTypeList, txnTimeList,txnDescriptionList);
@@ -186,21 +191,64 @@ public class HomepageActivity extends AppCompatActivity {
 //        Connecting to FireBase DB
         path = "Users/" + GG_ID + "/" + year + "/" + month;
         DatabaseReference databaseReference = database.getReference(path);
+        TransactionsLoader(databaseReference, view);
 
-        DatabaseReference myRef_reader = database.getReference("Users/" + GG_ID + "/" + year + "/" + month);
+        homepageBinding.addExpenseAndIncome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                showAddExpenseAndIncomeDialog(HomepageActivity.this, "Expense", databaseReference);
+            }
+
+        });
+
+        homepageBinding.addExpenseAndIncome.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+
+                showAddExpenseAndIncomeDialog(HomepageActivity.this, "Income", databaseReference);
+
+                return false;
+            }
+        });
+
+        homepageBinding.viewAllTxn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomepageActivity.this,AllTransactions.class);
+                startActivity(intent);
+            }
+        });
+
+        homepageBinding.leftTopMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MaterialAlertDialogBuilder dialog = new MaterialAlertDialogBuilder(homepageBinding.leftTopMenu.getContext());
+                dialog.setView(R.layout.developer_info_layout)
+                        .show();
+//                .setMessage("Enter your amount")
+            }
+        });
+
+    }
+
+    public void TransactionsLoader(DatabaseReference  myRef_reader, View view)
+    {
+//        DatabaseReference myRef_reader = database.getReference(path);
 
         myRef_reader.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 try {
-                    String retrieve_amount = snapshot.getValue().toString();
+
 //                            ShowNotification();
                     txnAmountList.clear();
                     txnAmountPathList.clear();
                     txnTimeList.clear();
                     txnTypeList.clear();
                     txnDescriptionList.clear();
+
                     for (DataSnapshot snapshotTxn : snapshot.getChildren()) {
                         txnAmountList.add(snapshotTxn.child("txn_amount").getValue().toString());
                         txnAmountPathList.add(path + "/" + snapshotTxn.getKey().toString());
@@ -246,46 +294,6 @@ public class HomepageActivity extends AppCompatActivity {
 
             }
         });
-
-
-        homepageBinding.addExpenseAndIncome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                showAddExpenseAndIncomeDialog(HomepageActivity.this, "Expense", databaseReference);
-            }
-
-        });
-
-        homepageBinding.addExpenseAndIncome.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-
-
-                showAddExpenseAndIncomeDialog(HomepageActivity.this, "Income", databaseReference);
-
-                return false;
-            }
-        });
-
-        homepageBinding.viewAllTxn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(HomepageActivity.this,AllTransactions.class);
-                startActivity(intent);
-            }
-        });
-
-        homepageBinding.leftTopMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MaterialAlertDialogBuilder dialog = new MaterialAlertDialogBuilder(homepageBinding.leftTopMenu.getContext());
-                dialog.setView(R.layout.developer_info_layout)
-                        .show();
-//                .setMessage("Enter your amount")
-            }
-        });
-
     }
 
     private String showAddExpenseAndIncomeDialog(Context c, String _amountType, DatabaseReference databaseReference) {
