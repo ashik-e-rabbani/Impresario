@@ -18,7 +18,7 @@ public class SplashActivity extends AppCompatActivity {
 
     ProgressBar splashProgress;
     ActivitySplashBinding activitySplashBinding;
-    int SPLASH_TIME = 2000; //This is 3 seconds
+    int SPLASH_TIME = 1000; //This is 3 seconds
     private String GG_Email = null;
     private String GG_NAME = null;
     private String GG_ID = null;
@@ -75,7 +75,7 @@ public class SplashActivity extends AppCompatActivity {
     //Method to run progress bar for 1.1 seconds
     private void playProgress() {
         ObjectAnimator.ofInt(splashProgress, "progress", 100)
-                .setDuration(2000)
+                .setDuration(900)
                 .start();
     }
 

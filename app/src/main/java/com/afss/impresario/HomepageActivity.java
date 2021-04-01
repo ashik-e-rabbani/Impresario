@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -107,6 +108,8 @@ public class HomepageActivity extends AppCompatActivity {
                 homepageBinding.balance.setTextColor(Color.parseColor("#FF2196F3"));
             }
             homepageBinding.balance.setText("৳ " + balance);
+
+
 
 
             Log.d(TAG, "Balance found in SharedPref");
@@ -278,6 +281,8 @@ public class HomepageActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = myPrefs.edit();
 
                 editor.putString("BALANCE", balance.toString());
+                editor.commit();
+
                 if (balance.contains("-")) {
                     homepageBinding.balance.setTextColor(Color.parseColor("#B71C1C"));
 
