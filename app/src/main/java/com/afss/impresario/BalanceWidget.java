@@ -3,10 +3,14 @@ package com.afss.impresario;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Implementation of App Widget functionality.
@@ -18,16 +22,20 @@ public class BalanceWidget extends AppWidgetProvider {
         SharedPreferences myPrefs;
         myPrefs = context.getSharedPreferences("SING_IN_CREDS", Context.MODE_PRIVATE);
 
+        SimpleDateFormat sdf = new SimpleDateFormat("hh.mm aa");
+        String currentTime = sdf.format(new Date());
 
+        
         String balance = myPrefs.getString("BALANCE", null);
 //        Log.d("NOW","Got balance"+ balance);
 
 
-        CharSequence widgetText = balance;
-        Log.d("NOW","Got balance"+ widgetText);
+        CharSequence widgetTextBalance = "$"+balance;
+        Log.d("NOW","Got balance"+ widgetTextBalance);
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.balance_widget);
-        views.setTextViewText(R.id.appwidget_text, widgetText);
+        views.setTextViewText(R.id.currentTime, "Last Update: "+currentTime);
+        views.setTextViewText(R.id.appwidget_text, widgetTextBalance);
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
@@ -40,6 +48,13 @@ public class BalanceWidget extends AppWidgetProvider {
             updateAppWidget(context, appWidgetManager, appWidgetId);
         }
     }
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        super.onReceive(context, intent);
+    }
+
+
 
     @Override
     public void onEnabled(Context context) {

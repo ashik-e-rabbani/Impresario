@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -300,6 +301,8 @@ public class HomepageActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
     private String showAddExpenseAndIncomeDialog(Context c, String _amountType, DatabaseReference databaseReference) {
 
