@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
@@ -35,6 +36,11 @@ public class BalanceWidget extends AppWidgetProvider {
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.balance_widget);
         views.setTextViewText(R.id.currentTime, "Last Update: "+currentTime);
+        if (balance.contains("-")) {
+            views.setTextColor(R.id.appwidget_text,Color.parseColor("#B71C1C"));
+
+
+        }
         views.setTextViewText(R.id.appwidget_text, widgetTextBalance);
 
         // Instruct the widget manager to update the widget
