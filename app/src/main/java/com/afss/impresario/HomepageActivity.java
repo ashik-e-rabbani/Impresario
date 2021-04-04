@@ -67,7 +67,7 @@ import static com.afss.impresario.R.layout.txnlist_layout;
 
 public class HomepageActivity extends AppCompatActivity {
 
-    private static final String TAG = "Homepage";
+    private static final String TAG = "HomepageActivity";
     ActivityHomepageBinding homepageBinding;
     String amount, description;
     String path;
@@ -111,8 +111,6 @@ public class HomepageActivity extends AppCompatActivity {
             homepageBinding.balance.setText("৳ " + balance);
 
 
-
-
             Log.d(TAG, "Balance found in SharedPref");
         } catch (Exception e) {
             e.printStackTrace();
@@ -137,15 +135,15 @@ public class HomepageActivity extends AppCompatActivity {
             localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             year = Integer.toString(localDate.getYear());
             month = Integer.toString(localDate.getMonthValue());
-            Log.d(TAG,"Parsing for OS OREO (or above)'s Month "+month);
+            Log.d(TAG, "Parsing for OS OREO (or above)'s Month " + month);
 
         } else {
 
             Calendar cal = Calendar.getInstance();
             cal.setTime(date);
-            month = Integer.toString(cal.get(Calendar.MONTH)+1);
+            month = Integer.toString(cal.get(Calendar.MONTH) + 1);
             year = Integer.toString(cal.get(Calendar.YEAR));
-            Log.d(TAG,"Parsing OS below OREO's Month "+month);
+            Log.d(TAG, "Parsing OS below OREO's Month " + month);
 
         }
 
@@ -156,7 +154,7 @@ public class HomepageActivity extends AppCompatActivity {
         txnDescriptionList = new ArrayList<>();
 
         recyclerView = findViewById(R.id.recyclerView);
-        recyclerAdapter = new RecyclerAdapter(txnAmountList, txnAmountPathList, txnTypeList, txnTimeList,txnDescriptionList);
+        recyclerAdapter = new RecyclerAdapter(txnAmountList, txnAmountPathList, txnTypeList, txnTimeList, txnDescriptionList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(recyclerAdapter);
 
@@ -220,7 +218,7 @@ public class HomepageActivity extends AppCompatActivity {
         homepageBinding.viewAllTxn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomepageActivity.this,AllTransactions.class);
+                Intent intent = new Intent(HomepageActivity.this, AllTransactions.class);
                 startActivity(intent);
             }
         });
@@ -237,8 +235,7 @@ public class HomepageActivity extends AppCompatActivity {
 
     }
 
-    public void TransactionsLoader(DatabaseReference  myRef_reader, View view)
-    {
+    public void TransactionsLoader(DatabaseReference myRef_reader, View view) {
 //        DatabaseReference myRef_reader = database.getReference(path);
 
         myRef_reader.addValueEventListener(new ValueEventListener() {
@@ -268,7 +265,8 @@ public class HomepageActivity extends AppCompatActivity {
                     Collections.reverse(txnTimeList);
                     Collections.reverse(txnDescriptionList);
                     recyclerView.setAdapter(recyclerAdapter);
-
+                    widgetUpdater();
+                    Log.d(TAG,"Server got new data");
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -303,7 +301,6 @@ public class HomepageActivity extends AppCompatActivity {
     }
 
 
-
     private String showAddExpenseAndIncomeDialog(Context c, String _amountType, DatabaseReference databaseReference) {
 
         LayoutInflater inflater = this.getLayoutInflater();
@@ -312,7 +309,7 @@ public class HomepageActivity extends AppCompatActivity {
         View dialogView = inflater.inflate(R.layout.alert_dialog_inputbox, null);
         final EditText expenseIncomeAmount = (EditText) dialogView.findViewById(R.id.inputedAmount);
         final EditText expenseIncomeDescription = (EditText) dialogView.findViewById(R.id.inputedDescription);
-        
+
         MaterialAlertDialogBuilder dialog = new MaterialAlertDialogBuilder(c);
         dialog.setTitle("Enter " + _amountType)
 //                .setMessage("Enter your amount")
@@ -324,7 +321,7 @@ public class HomepageActivity extends AppCompatActivity {
 
                         amount = String.valueOf(expenseIncomeAmount.getText());
                         description = String.valueOf(expenseIncomeDescription.getText());
-                        
+
                         if (amount.isEmpty()) {
                             Toast.makeText(HomepageActivity.this, "Add Amount", Toast.LENGTH_SHORT).show();
 
@@ -343,7 +340,7 @@ public class HomepageActivity extends AppCompatActivity {
                             transactions.setTxn_description(description);
 
                             transactions.setTime_stamp(currentTime);
-                            Log.d(TAG,"Data stored to "+databaseReference);
+                            Log.d(TAG, "Data stored to " + databaseReference);
                             databaseReference.push()
                                     .setValue(transactions);
                             expenseIncomeAmount.setText("");
@@ -387,13 +384,41 @@ public class HomepageActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        widgetUpdater();
+        Log.d(TAG, "App send to Background");
+
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        widgetUpdater();
+        Log.d(TAG, "App Stopped");
+    }
 
     @Override
     public void onBackPressed() {
-        if (back_pressed + 2000 > System.currentTimeMillis()) super.onBackPressed();
-        else
+        if (back_pressed + 2000 > System.currentTimeMillis()) {
+            super.onBackPressed();
+            widgetUpdater();
+            Log.d(TAG, "App Exited by Back button");
+
+        } else {
             Toast.makeText(getBaseContext(), "Press once again to exit!", Toast.LENGTH_SHORT).show();
-        back_pressed = System.currentTimeMillis();
+            back_pressed = System.currentTimeMillis();
+        }
+    }
+
+    public void widgetUpdater() {
+        Intent intent = new Intent(this, BalanceWidget.class);
+        intent.setAction("android.appwidget.action.APPWIDGET_UPDATE");
+        int ids[] = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), BalanceWidget.class));
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+        sendBroadcast(intent);
     }
 
 }

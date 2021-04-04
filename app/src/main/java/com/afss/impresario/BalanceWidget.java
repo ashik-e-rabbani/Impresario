@@ -26,20 +26,21 @@ public class BalanceWidget extends AppWidgetProvider {
         SimpleDateFormat sdf = new SimpleDateFormat("hh.mm aa");
         String currentTime = sdf.format(new Date());
 
-        
+
         String balance = myPrefs.getString("BALANCE", null);
 //        Log.d("NOW","Got balance"+ balance);
 
 
-        CharSequence widgetTextBalance = "$"+balance;
-        Log.d("NOW","Got balance"+ widgetTextBalance);
+        CharSequence widgetTextBalance = "$" + balance;
+        Log.d("NOW", "Got balance" + widgetTextBalance);
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.balance_widget);
-        views.setTextViewText(R.id.currentTime, "Last Update: "+currentTime);
+        views.setTextViewText(R.id.currentTime, "Last Update: " + currentTime);
         if (balance.contains("-")) {
-            views.setTextColor(R.id.appwidget_text,Color.parseColor("#B71C1C"));
+            views.setTextColor(R.id.appwidget_text, Color.parseColor("#B71C1C"));
 
-
+        } else {
+            views.setTextColor(R.id.appwidget_text, Color.parseColor("#2196F3"));
         }
         views.setTextViewText(R.id.appwidget_text, widgetTextBalance);
 
@@ -59,8 +60,6 @@ public class BalanceWidget extends AppWidgetProvider {
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
     }
-
-
 
     @Override
     public void onEnabled(Context context) {

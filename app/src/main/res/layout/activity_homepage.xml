@@ -14,13 +14,10 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="165dp"
             android:background="@color/blue_500"
-
-
             >
 
             <LinearLayout
@@ -117,16 +114,7 @@
                     android:textSize="10sp"
                     android:textStyle="normal"></TextView>
 
-                <!--                <TextView-->
-                <!--                    android:layout_width="match_parent"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:layout_gravity="center_vertical"-->
-                <!--                    android:gravity="center_horizontal"-->
-                <!--                    android:text="$5240.525"-->
-                <!--                    android:textColor="#00F30C"-->
-                <!--                    android:outlineSpotShadowColor="@color/smoke_white"-->
-                <!--                    android:textSize="14sp"-->
-                <!--                    android:textStyle="bold"></TextView>-->
+
                 <TextView
                     android:id="@+id/balance"
                     android:layout_width="wrap_content"
@@ -160,7 +148,6 @@
             <TableRow
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:layout_marginTop="3dp">
 
 
@@ -214,12 +201,9 @@
         android:layout_gravity="end|bottom"
         android:layout_margin="45dp"
         android:backgroundTint="@color/blue_500"
-
         android:contentDescription="Add Expense and income"
         android:src="@drawable/ic_plusminusicon"
-
         android:tint="@color/smoke_white"
-        android:tooltipText="Hold to add Income"
         app:fabSize="auto" />
 
 

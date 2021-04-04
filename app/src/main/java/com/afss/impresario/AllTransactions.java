@@ -171,6 +171,14 @@ public class AllTransactions extends AppCompatActivity {
             }
         });
 
+//        allTransactionsBinding.downloadReport.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent i = new Intent(AllTransactions.this,collapsing.class);
+//                startActivity(i);
+//            }
+//        });
+
     }
 
 
