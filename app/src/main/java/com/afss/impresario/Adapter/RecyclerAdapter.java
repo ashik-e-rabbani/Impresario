@@ -87,7 +87,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         holder.txn_description.setText(txnDescriptionList.get(position));
         holder.amountText.setText(txnAmountList.get(position));
         if (txnTypeList.get(position).contains("exp")) {
-
+//               holder.avatarView.setBackgroundResource(rounded_expense_bg);
+//
             holder.avatarView.setTextColor(Color.parseColor("#B71C1C"));
         }
 

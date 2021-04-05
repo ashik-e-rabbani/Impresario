@@ -8,8 +8,10 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -38,6 +40,7 @@ import android.widget.Toast;
 
 import com.afss.impresario.Adapter.RecyclerAdapter;
 import com.afss.impresario.Model.TransactionsModel;
+import com.afss.impresario.Services.AlarmService;
 import com.afss.impresario.Services.DataService;
 import com.afss.impresario.databinding.ActivityHomepageBinding;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -51,6 +54,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.orhanobut.dialogplus.DialogPlus;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -116,7 +120,6 @@ public class HomepageActivity extends AppCompatActivity {
             e.printStackTrace();
             Log.e(TAG, "No balance found in SharedPref");
         }
-
 
 //        Get passed Intent Data
         Intent myIntent = getIntent();
@@ -351,12 +354,10 @@ public class HomepageActivity extends AppCompatActivity {
                 .setNegativeButton("Cancel", null)
                 .create();
         dialog.show();
-
-
         return amount;
     }
 
-    private void ShowNotification() {
+    public void ShowNotification() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "Amount_info_channel";
@@ -390,7 +391,6 @@ public class HomepageActivity extends AppCompatActivity {
         widgetUpdater();
         Log.d(TAG, "App send to Background");
 
-
     }
 
     @Override
@@ -421,4 +421,19 @@ public class HomepageActivity extends AppCompatActivity {
         sendBroadcast(intent);
     }
 
+
+    private void setAlarm(long time) {
+        //getting the alarm manager
+        AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        //creating a new intent specifying the broadcast receiver
+        Intent i = new Intent(this, AlarmService.class);
+
+        //creating a pending intent using the intent
+        PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, 0);
+
+        //setting the repeating alarm that will be fired every day
+        am.setRepeating(AlarmManager.RTC, time, AlarmManager.INTERVAL_DAY, pi);
+        Toast.makeText(this, "Alarm is set", Toast.LENGTH_SHORT).show();
+    }
 }

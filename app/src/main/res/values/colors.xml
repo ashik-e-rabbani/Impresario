@@ -11,8 +11,8 @@
     <color name="black">#FF000000</color>
     <color name="black100">#BA424242</color>
     <color name="white">#FFFFFF</color>
-    <color name="red">#FF485A</color>
-    <color name="smoke_white">#f5f5f5</color>
+    <color name="red">#f44336</color>
+    <color name="smoke_white">#f0f2f5</color>
     <color name="ghost_white">#f8f8ff</color>
     <color name="color_green">#009688</color>
     <color name="light_blue_50">#FFE1F5FE</color>
