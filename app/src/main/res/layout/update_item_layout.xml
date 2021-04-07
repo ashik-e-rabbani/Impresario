@@ -41,19 +41,37 @@
                android:layout_height="wrap_content"
                android:layout_gravity="center_horizontal"
                android:padding="15dp"
-               android:stretchColumns="0">
+               android:stretchColumns="*">
 
                <TableRow
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:layout_marginTop="3dp">
 
-                   <TextView
-                       android:id="@+id/timeTextView"
-                       android:layout_width="match_parent"
+                   <LinearLayout
+                       android:orientation="horizontal"
+                       android:layout_width="wrap_content"
                        android:layout_height="match_parent"
-                       android:text="March 2014"
-                       android:textSize="14sp"></TextView>
+                       >
+                       <ImageView
+                           android:id="@+id/changeTime"
+                           android:layout_width="20dp"
+                           android:layout_height="20dp"
+                           android:layout_gravity="center_vertical|left"
+                           android:clickable="true"
+                           android:src="@drawable/ic_fi_rr_calendar"
+                           android:focusable="true"/>
+
+                       <TextView
+                           android:id="@+id/timeTextView"
+                           android:layout_width="match_parent"
+                           android:layout_height="match_parent"
+                           android:gravity="center_vertical"
+                           android:layout_marginLeft="10dp"
+                           android:layout_gravity="center_vertical|left"
+                           android:text="March 2014"
+                           android:textSize="14sp"></TextView>
+                   </LinearLayout>
 
 
                    <ImageView
@@ -87,6 +105,7 @@
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
                    android:hapticFeedbackEnabled="true"
+                   android:maxLength="8"
                    android:inputType="numberDecimal"></com.google.android.material.textfield.TextInputEditText>
 
 
@@ -107,7 +126,7 @@
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
                    android:hapticFeedbackEnabled="true"
-
+                   android:maxLength="60"
                    ></com.google.android.material.textfield.TextInputEditText>
 
 
@@ -121,6 +140,7 @@
                android:text="Select Amount type"
                android:textColor="#2196F3"
                android:textFontWeight="500"
+
                android:textSize="14sp"></TextView>
 
 

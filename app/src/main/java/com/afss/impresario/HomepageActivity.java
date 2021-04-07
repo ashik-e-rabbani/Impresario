@@ -180,15 +180,14 @@ public class HomepageActivity extends AppCompatActivity {
         sequence.setConfig(config);
 
         sequence.addSequenceItem(homepageBinding.addExpenseAndIncome,
-                "Single Tap to Add expense and Hold to Add Income", "GOT IT");
+                String.valueOf(R.string.addExpenseAndIncome), String.valueOf(R.string.dismiss_text));
         sequence.addSequenceItem(homepageBinding.recyclerView,
-                "All Your monthly Transactions", "GOT IT");
+                String.valueOf(R.string.transaction_recyclerView), String.valueOf(R.string.dismiss_text));
         sequence.addSequenceItem(homepageBinding.balance,
-                "Your Monthly Balance", "GOT IT");
+                String.valueOf(R.string.balance_showcase_text), String.valueOf(R.string.dismiss_text));
         sequence.addSequenceItem(homepageBinding.leftTopMenu,
-                "Menu to explore more", "GOT IT");
-        sequence.addSequenceItem(homepageBinding.topRightMenu,
-                "To set Everyday Alert Go there", "GOT IT");
+                String.valueOf(R.string.leftTopMenu), String.valueOf(R.string.dismiss_text));
+
 
 
         sequence.start();

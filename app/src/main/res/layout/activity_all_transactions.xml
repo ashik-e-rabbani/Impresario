@@ -41,7 +41,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
                         android:layout_marginBottom="0dp"
-                        android:text="Choose Month"
+                        android:text="@string/choose_month"
                         android:textAlignment="center"
                         android:textColor="#9FF8F8FF"
                         android:textSize="18sp"></TextView>
@@ -64,7 +64,7 @@
                     android:gravity="center"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
-                    android:text="$123"
+                    android:text="@string/sample_amount"
                     android:textAllCaps="false"
                     android:textColor="@color/blue_500"
                     android:textSize="14sp"
@@ -100,7 +100,6 @@
                                 android:id="@+id/goBackBtn"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-
                                 android:layout_marginRight="10dp"
                                 android:src="@drawable/ic_fi_rr_angle_left"></ImageView>
 
@@ -108,7 +107,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:gravity="center|left"
-                                android:text="All Transactions"
+                                android:text="@string/all_txn_page_title"
                                 android:textColor="@color/white"
                                 android:textSize="18sp"
                                 android:textStyle="bold"></TextView>

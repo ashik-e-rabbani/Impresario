@@ -1,7 +1,17 @@
 <resources>
-    <string name="app_name">AshPay-Expense Manager</string>
+    <string name="app_name">Expense Manager</string>
     <string name="long_shortcut">All Transactions</string>
     <string name="short_shortcut">All Transactions</string>
     <string name="appwidget_text">Current Balance</string>
     <string name="add_widget">Add widget</string>
+    <string name="sample_amount">123</string>
+    <string name="addExpenseAndIncome">Single Tap to Add expense and Hold to Add Income</string>
+    <string name="transaction_recyclerView">All Your monthly Transactions</string>
+
+    <string name="balance_showcase_text">Your Monthly Balance</string>
+    <string name="leftTopMenu">Menu to explore more</string>
+    <string name="dismiss_text">GOT IT</string>
+
+    <string name="choose_month">Choose Month</string>
+    <string name="all_txn_page_title">All Transactions</string>
 </resources>

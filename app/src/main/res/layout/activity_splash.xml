@@ -26,7 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center|left"
-                android:text="Ash"
+                android:text="Expense"
                 android:textColor="@color/white"
                 android:textSize="32sp"
                 android:textStyle="bold"></TextView>
@@ -35,11 +35,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center|left"
-                android:text="Pay"
+                android:text="Manager"
                 android:textColor="#BBDEFB"
                 android:textSize="32sp"
                 android:textStyle="bold"></TextView>
         </LinearLayout>
+
+<!--        <ImageView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="300dp"-->
+<!--            android:src="@drawable/ic_group_3"></ImageView>-->
 
 
         <ProgressBar
@@ -54,9 +59,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center|left"
-            android:text="Expense Manager"
-            android:textColor="@color/white"
+
+            android:gravity="center|bottom"
+            android:text="Powered By AshPay"
+            android:textColor="@color/smoke_white"
             android:textSize="12sp"
             android:textStyle="normal"></TextView>
 
