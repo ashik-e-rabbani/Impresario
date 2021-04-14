@@ -14,6 +14,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
@@ -32,6 +34,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
 import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
@@ -53,13 +57,15 @@ public class AllTransactions extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerAdapter recyclerAdapter;
     DataService dataService;
-    String balance;
+    String balance, totalIncome, totalExpense;
 
     ArrayList<String> txnAmountList;
     ArrayList<String> txnAmountPathList;
     ArrayList<String> txnTypeList;
     ArrayList<String> txnTimeList;
     ArrayList<String> txnDescriptionList;
+
+    Animation fadeInAnimation, fadeOutAnimation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +74,11 @@ public class AllTransactions extends AppCompatActivity {
         allTransactionsBinding = ActivityAllTransactionsBinding.inflate(getLayoutInflater());
         View view = allTransactionsBinding.getRoot();
         setContentView(view);
+
+
+        allTransactionsBinding.incomeBalance.setVisibility(View.INVISIBLE);
+        allTransactionsBinding.expenseBalance.setVisibility(View.INVISIBLE);
+
 
         try {
             SharedPreferences myPrefs = this.getSharedPreferences("SING_IN_CREDS", Context.MODE_PRIVATE);
@@ -179,6 +190,34 @@ public class AllTransactions extends AppCompatActivity {
 //            }
 //        });
 
+        allTransactionsBinding.balance.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+        fadeInAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadein);
+        fadeOutAnimation= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadeout);
+
+                allTransactionsBinding.incomeBalance.setVisibility(View.VISIBLE);
+                allTransactionsBinding.expenseBalance.setVisibility(View.VISIBLE);
+                allTransactionsBinding.expenseBalance.setAnimation(fadeInAnimation);
+                allTransactionsBinding.incomeBalance.setAnimation(fadeInAnimation);
+
+                Timer t = new Timer();
+                t.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        allTransactionsBinding.expenseBalance.setAnimation(fadeOutAnimation);
+                        allTransactionsBinding.incomeBalance.setAnimation(fadeOutAnimation);
+                        allTransactionsBinding.incomeBalance.setVisibility(View.INVISIBLE);
+                        allTransactionsBinding.expenseBalance.setVisibility(View.INVISIBLE);
+
+                    }
+                }, 5000);
+
+                return false;
+            }
+        });
+
     }
 
 
@@ -226,6 +265,8 @@ public class AllTransactions extends AppCompatActivity {
 
                 dataService = new DataService();
                 balance = dataService.getBalance(txnAmountList, txnTypeList);
+                totalExpense = dataService.getTotalExpense(txnAmountList, txnTypeList);
+                totalIncome = dataService.getTotalIncome(txnAmountList, txnTypeList);
 
                 if (balance.contains("-")) {
                     allTransactionsBinding.balance.setTextColor(Color.parseColor("#B71C1C"));
@@ -235,6 +276,9 @@ public class AllTransactions extends AppCompatActivity {
                     allTransactionsBinding.balance.setTextColor(Color.parseColor("#FF2196F3"));
                     allTransactionsBinding.balance.setText("৳ " + balance);
                 }
+
+                allTransactionsBinding.expenseBalance.setText("৳ " + totalExpense);
+                allTransactionsBinding.incomeBalance.setText("৳ " + totalIncome);
 
 
             }

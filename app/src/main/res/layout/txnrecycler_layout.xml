@@ -57,7 +57,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="left|center_vertical"
                         android:text="TextView"
-                        android:textColor="@color/black"
+                        android:textColor="@color/blackyBlue"
                         android:textSize="15sp"
                         android:textStyle="bold" />
 

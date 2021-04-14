@@ -26,6 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:layout_marginTop="20dp"
                 android:animateLayoutChanges="true"
                 android:orientation="vertical">
 
@@ -33,9 +34,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal|center_vertical"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:weightSum="3">
 
                     <TextView
+
                         android:id="@+id/selectedDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -53,22 +56,72 @@
                         android:src="@drawable/ic_fi_rr_edit"></ImageView>
                 </LinearLayout>
 
-                <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/balance"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/rounded_balance_bg"
-                    android:clickable="true"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="5dp"
                     android:gravity="center"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:text="@string/sample_amount"
-                    android:textAllCaps="false"
-                    android:textColor="@color/blue_500"
-                    android:textSize="14sp"
-                    android:textStyle="bold"></TextView>
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+
+                    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/expenseBalance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/rounded_balance_bg"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:text="@string/sample_amount"
+                        android:textAllCaps="false"
+                        android:textColor="@color/red"
+                        android:textSize="14sp"
+                        android:textStyle="normal"></TextView>
+
+                    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/balance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/rounded_balance_bg"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:text="@string/sample_amount"
+                        android:textAllCaps="false"
+                        android:textColor="@color/blue_500"
+                        android:textSize="14sp"
+                        android:textStyle="bold"></TextView>
+
+                    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/incomeBalance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/rounded_balance_bg"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:text="@string/sample_amount"
+                        android:textAllCaps="false"
+                        android:textColor="@color/teal_700"
+                        android:textSize="14sp"
+                        android:textStyle="normal"></TextView>
+                </LinearLayout>
             </LinearLayout>
 
             <androidx.appcompat.widget.Toolbar
@@ -152,13 +205,13 @@
 
     </androidx.core.widget.NestedScrollView>
 
-<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--        android:layout_width="60dp"-->
-<!--        android:layout_height="60dp"-->
-<!--        android:layout_marginRight="10dp"-->
-<!--        android:src="@drawable/ic_fi_rr_download"-->
-<!--        app:elevation="3dp"-->
-<!--        app:layout_anchor="@id/app_bar_layout"-->
-<!--        app:layout_anchorGravity="bottom|right|end"-->
-<!--        app:pressedTranslationZ="12dp" />-->
+    <!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+    <!--        android:layout_width="60dp"-->
+    <!--        android:layout_height="60dp"-->
+    <!--        android:layout_marginRight="10dp"-->
+    <!--        android:src="@drawable/ic_fi_rr_download"-->
+    <!--        app:elevation="3dp"-->
+    <!--        app:layout_anchor="@id/app_bar_layout"-->
+    <!--        app:layout_anchorGravity="bottom|right|end"-->
+    <!--        app:pressedTranslationZ="12dp" />-->
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

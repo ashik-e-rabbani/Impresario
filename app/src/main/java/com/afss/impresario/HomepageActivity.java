@@ -31,6 +31,8 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -62,6 +64,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
@@ -79,7 +83,7 @@ public class HomepageActivity extends AppCompatActivity {
     private static long back_pressed;
     String GG_Email, GG_ID, GG_NAME, BALANCEPREF;
     String year, month;
-    String balance;
+    String balance,totalIncome, totalExpense;
     SharedPreferences myPrefs;
     RecyclerView recyclerView;
     RecyclerAdapter recyclerAdapter;
@@ -91,6 +95,7 @@ public class HomepageActivity extends AppCompatActivity {
     ArrayList<String> txnTimeList;
     ArrayList<String> txnDescriptionList;
 
+    Animation fadeInAnimation, fadeOutAnimation;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,6 +105,9 @@ public class HomepageActivity extends AppCompatActivity {
         setContentView(view);
 
         description = "";
+
+        homepageBinding.incomeBalance.setVisibility(View.INVISIBLE);
+        homepageBinding.expenseBalance.setVisibility(View.INVISIBLE);
 
         myPrefs = this.getSharedPreferences("SING_IN_CREDS", Context.MODE_PRIVATE);
 
@@ -235,6 +243,33 @@ public class HomepageActivity extends AppCompatActivity {
             }
         });
 
+        homepageBinding.balance.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+                fadeInAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadein);
+                fadeOutAnimation= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadeout);
+
+                homepageBinding.incomeBalance.setVisibility(View.VISIBLE);
+                homepageBinding.expenseBalance.setVisibility(View.VISIBLE);
+                homepageBinding.expenseBalance.setAnimation(fadeInAnimation);
+                homepageBinding.incomeBalance.setAnimation(fadeInAnimation);
+
+                Timer t = new Timer();
+                t.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        homepageBinding.expenseBalance.setAnimation(fadeOutAnimation);
+                        homepageBinding.incomeBalance.setAnimation(fadeOutAnimation);
+                        homepageBinding.incomeBalance.setVisibility(View.INVISIBLE);
+                        homepageBinding.expenseBalance.setVisibility(View.INVISIBLE);
+
+                    }
+                }, 10000);
+
+                return false;
+            }
+        });
     }
 
     public void TransactionsLoader(DatabaseReference myRef_reader, View view) {
@@ -278,6 +313,8 @@ public class HomepageActivity extends AppCompatActivity {
 
                 dataService = new DataService();
                 balance = dataService.getBalance(txnAmountList, txnTypeList);
+                totalExpense = dataService.getTotalExpense(txnAmountList, txnTypeList);
+                totalIncome = dataService.getTotalIncome(txnAmountList, txnTypeList);
 
                 SharedPreferences.Editor editor = myPrefs.edit();
 
@@ -291,6 +328,8 @@ public class HomepageActivity extends AppCompatActivity {
                     homepageBinding.balance.setTextColor(Color.parseColor("#FF2196F3"));
                 }
                 homepageBinding.balance.setText("৳ " + balance);
+                homepageBinding.expenseBalance.setText("৳ " + totalExpense);
+                homepageBinding.incomeBalance.setText("৳ " + totalIncome);
 
 
             }

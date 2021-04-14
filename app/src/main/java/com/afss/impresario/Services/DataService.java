@@ -26,4 +26,41 @@ public class DataService {
         return strBalance;
     }
 
+    public String getTotalExpense(ArrayList<String> txnAmountList, ArrayList<String> txnTypeList)
+    {
+        Integer length = txnAmountList.size();
+        double balance = 0.0;
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+
+        for (int i=0; i<length; i++)
+        {
+            if (txnTypeList.get(i).contains("exp"))
+            {
+                balance+=Double.parseDouble(txnAmountList.get(i));
+            }
+
+        }
+        String strBalance = String.valueOf(decimalFormat.format(balance));
+
+        return strBalance;
+    }
+
+    public String getTotalIncome(ArrayList<String> txnAmountList, ArrayList<String> txnTypeList)
+    {
+        Integer length = txnAmountList.size();
+        double balance = 0.0;
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+
+        for (int i=0; i<length; i++)
+        {
+            if (txnTypeList.get(i).contains("inc"))
+            {
+                balance+=Double.parseDouble(txnAmountList.get(i));
+            }
+        }
+        String strBalance = String.valueOf(decimalFormat.format(balance));
+
+        return strBalance;
+    }
+
 }
