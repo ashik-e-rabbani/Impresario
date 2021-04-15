@@ -106,8 +106,8 @@ public class HomepageActivity extends AppCompatActivity {
 
         description = "";
 
-        homepageBinding.incomeBalance.setVisibility(View.INVISIBLE);
-        homepageBinding.expenseBalance.setVisibility(View.INVISIBLE);
+        homepageBinding.incomeBalanceHolder.setVisibility(View.INVISIBLE);
+        homepageBinding.expenseBalanceHolder.setVisibility(View.INVISIBLE);
 
         myPrefs = this.getSharedPreferences("SING_IN_CREDS", Context.MODE_PRIVATE);
 
@@ -118,7 +118,7 @@ public class HomepageActivity extends AppCompatActivity {
                 homepageBinding.balance.setTextColor(Color.parseColor("#B71C1C"));
 
             } else {
-                homepageBinding.balance.setTextColor(Color.parseColor("#FF2196F3"));
+                homepageBinding.balance.setTextColor(Color.parseColor("#FBFAFB"));
             }
             homepageBinding.balance.setText("৳ " + balance);
 
@@ -250,19 +250,19 @@ public class HomepageActivity extends AppCompatActivity {
                 fadeInAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadein);
                 fadeOutAnimation= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadeout);
 
-                homepageBinding.incomeBalance.setVisibility(View.VISIBLE);
-                homepageBinding.expenseBalance.setVisibility(View.VISIBLE);
-                homepageBinding.expenseBalance.setAnimation(fadeInAnimation);
-                homepageBinding.incomeBalance.setAnimation(fadeInAnimation);
+                homepageBinding.incomeBalanceHolder.setVisibility(View.VISIBLE);
+                homepageBinding.expenseBalanceHolder.setVisibility(View.VISIBLE);
+                homepageBinding.expenseBalanceHolder.setAnimation(fadeInAnimation);
+                homepageBinding.incomeBalanceHolder.setAnimation(fadeInAnimation);
 
                 Timer t = new Timer();
                 t.schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        homepageBinding.expenseBalance.setAnimation(fadeOutAnimation);
-                        homepageBinding.incomeBalance.setAnimation(fadeOutAnimation);
-                        homepageBinding.incomeBalance.setVisibility(View.INVISIBLE);
-                        homepageBinding.expenseBalance.setVisibility(View.INVISIBLE);
+                        homepageBinding.expenseBalanceHolder.setAnimation(fadeOutAnimation);
+                        homepageBinding.incomeBalanceHolder.setAnimation(fadeOutAnimation);
+                        homepageBinding.incomeBalanceHolder.setVisibility(View.INVISIBLE);
+                        homepageBinding.expenseBalanceHolder.setVisibility(View.INVISIBLE);
 
                     }
                 }, 10000);
@@ -325,7 +325,7 @@ public class HomepageActivity extends AppCompatActivity {
                     homepageBinding.balance.setTextColor(Color.parseColor("#B71C1C"));
 
                 } else {
-                    homepageBinding.balance.setTextColor(Color.parseColor("#FF2196F3"));
+                    homepageBinding.balance.setTextColor(Color.parseColor("#FBFAFB"));
                 }
                 homepageBinding.balance.setText("৳ " + balance);
                 homepageBinding.expenseBalance.setText("৳ " + totalExpense);
