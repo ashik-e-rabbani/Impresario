@@ -83,7 +83,7 @@ public class HomepageActivity extends AppCompatActivity {
     private static long back_pressed;
     String GG_Email, GG_ID, GG_NAME, BALANCEPREF;
     String year, month;
-    String balance,totalIncome, totalExpense;
+    String balance, totalIncome, totalExpense;
     SharedPreferences myPrefs;
     RecyclerView recyclerView;
     RecyclerAdapter recyclerAdapter;
@@ -96,6 +96,7 @@ public class HomepageActivity extends AppCompatActivity {
     ArrayList<String> txnDescriptionList;
 
     Animation fadeInAnimation, fadeOutAnimation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,10 +116,10 @@ public class HomepageActivity extends AppCompatActivity {
 
             BALANCEPREF = myPrefs.getString("BALANCE", "123");
             if (BALANCEPREF.contains("-")) {
-                homepageBinding.balance.setTextColor(Color.parseColor("#B71C1C"));
+                homepageBinding.allBalanceHolder.setBackground(getDrawable(R.drawable.gradient_bg_red));
 
             } else {
-                homepageBinding.balance.setTextColor(Color.parseColor("#FBFAFB"));
+                homepageBinding.allBalanceHolder.setBackground(getDrawable(R.drawable.gradient_bg));
             }
             homepageBinding.balance.setText("৳ " + balance);
 
@@ -134,8 +135,8 @@ public class HomepageActivity extends AppCompatActivity {
         GG_Email = myIntent.getStringExtra("GG_Email");
         GG_ID = myIntent.getStringExtra("GG_ID");
         GG_NAME = myIntent.getStringExtra("GG_NAME");
-        homepageBinding.emailPlaceholder.setText(GG_Email);
-        homepageBinding.titleName.setText(GG_NAME);
+//        homepageBinding.emailPlaceholder.setText(GG_Email);
+//        homepageBinding.titleName.setText(GG_NAME);
 
 
 //        Generating Date Year Month for hierarchy
@@ -188,14 +189,13 @@ public class HomepageActivity extends AppCompatActivity {
         sequence.setConfig(config);
 
         sequence.addSequenceItem(homepageBinding.addExpenseAndIncome,
-                String.valueOf(R.string.addExpenseAndIncome), String.valueOf(R.string.dismiss_text));
+                getString(R.string.addExpenseAndIncome), getString(R.string.dismiss_text));
         sequence.addSequenceItem(homepageBinding.recyclerView,
-                String.valueOf(R.string.transaction_recyclerView), String.valueOf(R.string.dismiss_text));
+                getString(R.string.transaction_recyclerView), getString(R.string.dismiss_text));
         sequence.addSequenceItem(homepageBinding.balance,
-                String.valueOf(R.string.balance_showcase_text), String.valueOf(R.string.dismiss_text));
+                getString(R.string.balance_showcase_text), getString(R.string.dismiss_text));
         sequence.addSequenceItem(homepageBinding.leftTopMenu,
-                String.valueOf(R.string.leftTopMenu), String.valueOf(R.string.dismiss_text));
-
+                getString(R.string.leftTopMenu), getString(R.string.dismiss_text));
 
 
         sequence.start();
@@ -248,7 +248,7 @@ public class HomepageActivity extends AppCompatActivity {
             public boolean onLongClick(View v) {
 
                 fadeInAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadein);
-                fadeOutAnimation= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadeout);
+                fadeOutAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadeout);
 
                 homepageBinding.incomeBalanceHolder.setVisibility(View.VISIBLE);
                 homepageBinding.expenseBalanceHolder.setVisibility(View.VISIBLE);
@@ -303,7 +303,7 @@ public class HomepageActivity extends AppCompatActivity {
                     Collections.reverse(txnDescriptionList);
                     recyclerView.setAdapter(recyclerAdapter);
                     widgetUpdater();
-                    Log.d(TAG,"Server got new data");
+                    Log.d(TAG, "Server got new data");
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -322,10 +322,12 @@ public class HomepageActivity extends AppCompatActivity {
                 editor.commit();
 
                 if (balance.contains("-")) {
-                    homepageBinding.balance.setTextColor(Color.parseColor("#B71C1C"));
+                    homepageBinding.allBalanceHolder.setBackground(getDrawable(R.drawable.gradient_bg_red));
+//                    homepageBinding.balance.setTextColor(Color.parseColor("#CCE53935"));
 
                 } else {
-                    homepageBinding.balance.setTextColor(Color.parseColor("#FBFAFB"));
+                    homepageBinding.allBalanceHolder.setBackground(getDrawable(R.drawable.gradient_bg));
+//                    homepageBinding.balance.setTextColor(Color.parseColor("#FBFAFB"));
                 }
                 homepageBinding.balance.setText("৳ " + balance);
                 homepageBinding.expenseBalance.setText("৳ " + totalExpense);

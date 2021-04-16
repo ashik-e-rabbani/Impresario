@@ -48,7 +48,6 @@
                     <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-
                         >
 
                         <LinearLayout
@@ -106,40 +105,15 @@
                 </TableLayout>
             </androidx.cardview.widget.CardView>
 
-
-            <TextView
-                android:id="@+id/titleName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:text="@string/app_name"
-                android:textAlignment="center"
-                android:textColor="@color/smoke_white"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:visibility="gone"></TextView>
-
-            <TextView
-                android:id="@+id/emailPlaceholder"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="-10dp"
-                android:text="@string/app_name"
-                android:textAlignment="center"
-                android:textColor="#8AF8F8FF"
-                android:textSize="10sp"
-                android:textStyle="normal"
-                android:visibility="gone"></TextView>
-
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:backgroundTintMode="multiply"
                 app:cardCornerRadius="15dp">
 
                 <LinearLayout
+                    android:id="@+id/allBalanceHolder"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/gradient_bg"
@@ -213,7 +187,7 @@
                             android:text="Balance"
                             android:textAlignment="textEnd"
                             android:textColor="@color/white"
-                            android:textSize="16sp"></TextView>
+                            android:textSize="14sp"></TextView>
 
                         <TextView
                             android:id="@+id/balance"
@@ -223,24 +197,14 @@
                             android:text="200"
                             android:textAlignment="textEnd"
                             android:textColor="@color/white"
-                            android:textSize="26sp"
+                            android:textSize="18sp"
                             android:textStyle="bold"></TextView>
                     </LinearLayout>
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_margin="10dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:visibility="gone"
-                android:weightSum="3">
 
-
-            </LinearLayout>
 
         </LinearLayout>
 
@@ -272,14 +236,14 @@
                     android:id="@+id/viewAllTxn"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="@drawable/rounded_btn_blue200"
+                    android:background="@drawable/rippler_bg"
                     android:clickable="true"
                     android:gravity="center|center_horizontal"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:text="View all"
-                    android:textAllCaps="false"
-                    android:textColor="@color/smoke_white"
+                    android:textAllCaps="true"
+                    android:textColor="@color/blue_600"
                     android:textSize="10sp"
                     android:textStyle="bold"></TextView>
 
@@ -308,7 +272,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="45dp"
-        android:backgroundTint="@color/blue_500"
+        android:backgroundTint="@color/blue_600"
         android:contentDescription="Add Expense and income"
         android:src="@drawable/ic_plusminusicon"
         android:tint="@color/smoke_white"

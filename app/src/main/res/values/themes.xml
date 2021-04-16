@@ -27,7 +27,7 @@
 
     <style name="Theme.Splash" parent="@style/Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorSecondary">@color/smoke_white</item>
-        <item name="colorAccent">@color/smoke_white</item>
+        <item name="colorAccent">@color/blue_600</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="fontFamily">@font/googlesansregular</item>

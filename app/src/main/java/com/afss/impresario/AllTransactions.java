@@ -76,8 +76,8 @@ public class AllTransactions extends AppCompatActivity {
         setContentView(view);
 
 
-        allTransactionsBinding.incomeBalance.setVisibility(View.INVISIBLE);
-        allTransactionsBinding.expenseBalance.setVisibility(View.INVISIBLE);
+        allTransactionsBinding.incomeBalanceHolder.setVisibility(View.INVISIBLE);
+        allTransactionsBinding.expenseBalanceHolder.setVisibility(View.INVISIBLE);
 
 
         try {
@@ -197,19 +197,19 @@ public class AllTransactions extends AppCompatActivity {
         fadeInAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadein);
         fadeOutAnimation= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadeout);
 
-                allTransactionsBinding.incomeBalance.setVisibility(View.VISIBLE);
-                allTransactionsBinding.expenseBalance.setVisibility(View.VISIBLE);
-                allTransactionsBinding.expenseBalance.setAnimation(fadeInAnimation);
-                allTransactionsBinding.incomeBalance.setAnimation(fadeInAnimation);
+                allTransactionsBinding.incomeBalanceHolder.setVisibility(View.VISIBLE);
+                allTransactionsBinding.expenseBalanceHolder.setVisibility(View.VISIBLE);
+                allTransactionsBinding.expenseBalanceHolder.setAnimation(fadeInAnimation);
+                allTransactionsBinding.incomeBalanceHolder.setAnimation(fadeInAnimation);
 
                 Timer t = new Timer();
                 t.schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        allTransactionsBinding.expenseBalance.setAnimation(fadeOutAnimation);
-                        allTransactionsBinding.incomeBalance.setAnimation(fadeOutAnimation);
-                        allTransactionsBinding.incomeBalance.setVisibility(View.INVISIBLE);
-                        allTransactionsBinding.expenseBalance.setVisibility(View.INVISIBLE);
+                        allTransactionsBinding.expenseBalanceHolder.setAnimation(fadeOutAnimation);
+                        allTransactionsBinding.incomeBalanceHolder.setAnimation(fadeOutAnimation);
+                        allTransactionsBinding.incomeBalanceHolder.setVisibility(View.INVISIBLE);
+                        allTransactionsBinding.expenseBalanceHolder.setVisibility(View.INVISIBLE);
 
                     }
                 }, 5000);

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/smoke_white"
+    android:background="@color/white"
     tools:context=".AllTransactions">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -16,9 +16,10 @@
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
-            android:layout_height="165dp"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
             android:fitsSystemWindows="true"
-            app:contentScrim="@color/blue_500"
+            app:contentScrim="@color/white"
             app:expandedTitleTextAppearance="@android:color/transparent"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
@@ -26,14 +27,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 android:animateLayoutChanges="true"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="20dp">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal|center_vertical"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:background="@drawable/rounded_balance_bg"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:weightSum="3">
 
@@ -46,8 +54,8 @@
                         android:layout_marginBottom="0dp"
                         android:text="@string/choose_month"
                         android:textAlignment="center"
-                        android:textColor="#9FF8F8FF"
-                        android:textSize="18sp"></TextView>
+                        android:textColor="@color/black100"
+                        android:textSize="12sp"></TextView>
 
                     <ImageView
                         android:id="@+id/monthPickerBtn"
@@ -56,72 +64,105 @@
                         android:src="@drawable/ic_fi_rr_edit"></ImageView>
                 </LinearLayout>
 
+
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginLeft="5dp"
-                    android:gravity="center"
+                    android:layout_marginRight="20dp"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal"
+                    android:padding="10dp"
                     android:weightSum="3">
 
-                    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-                        android:id="@+id/expenseBalance"
+                    <LinearLayout
+                        android:id="@+id/expenseBalanceHolder"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="5dp"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="@drawable/rounded_balance_bg"
-                        android:clickable="true"
-                        android:gravity="center"
-                        android:paddingLeft="20dp"
-                        android:paddingRight="20dp"
-                        android:text="@string/sample_amount"
-                        android:textAllCaps="false"
-                        android:textColor="@color/red"
-                        android:textSize="14sp"
-                        android:textStyle="normal"></TextView>
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
 
-                    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-                        android:id="@+id/balance"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="5dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/rounded_balance_bg"
-                        android:clickable="true"
-                        android:gravity="center"
-                        android:paddingLeft="20dp"
-                        android:paddingRight="20dp"
-                        android:text="@string/sample_amount"
-                        android:textAllCaps="false"
-                        android:textColor="@color/blue_500"
-                        android:textSize="14sp"
-                        android:textStyle="bold"></TextView>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Expense"
+                            android:textAllCaps="true"
+                            android:textColor="@color/expenseTransparent"
+                            android:textSize="12sp"></TextView>
 
-                    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-                        android:id="@+id/incomeBalance"
+                        <TextView
+                            android:id="@+id/expenseBalance"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10sp"
+                            android:text="200"
+                            android:textColor="@color/black100"
+                            android:textSize="16sp"
+                            android:textStyle="bold"></TextView>
+                    </LinearLayout>
+
+
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginTop="10dp"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="@drawable/rounded_balance_bg"
-                        android:clickable="true"
-                        android:gravity="center"
-                        android:paddingLeft="20dp"
-                        android:paddingRight="20dp"
-                        android:text="@string/sample_amount"
-                        android:textAllCaps="false"
-                        android:textColor="@color/teal_700"
-                        android:textSize="14sp"
-                        android:textStyle="normal"></TextView>
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Balance"
+                            android:textAlignment="center"
+                            android:textAllCaps="true"
+                            android:textColor="@color/blackyBlue"
+                            android:textSize="12sp"></TextView>
+
+                        <TextView
+                            android:id="@+id/balance"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10sp"
+                            android:text="200"
+                            android:textAlignment="center"
+                            android:textColor="@color/blackyBlue"
+                            android:textSize="16sp"
+                            android:textStyle="bold"></TextView>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/incomeBalanceHolder"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Income"
+                            android:textAlignment="textEnd"
+                            android:textAllCaps="true"
+                            android:textColor="@color/IncomeTransparent"
+                            android:textSize="12sp"></TextView>
+
+                        <TextView
+                            android:id="@+id/incomeBalance"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10sp"
+                            android:text="200"
+                            android:textAlignment="textEnd"
+                            android:textColor="@color/black100"
+                            android:textSize="16sp"
+                            android:textStyle="bold"></TextView>
+                    </LinearLayout>
+
+
                 </LinearLayout>
+
             </LinearLayout>
 
             <androidx.appcompat.widget.Toolbar
@@ -161,7 +202,7 @@
                                 android:layout_height="match_parent"
                                 android:gravity="center|left"
                                 android:text="@string/all_txn_page_title"
-                                android:textColor="@color/white"
+                                android:textColor="@color/blue_600"
                                 android:textSize="18sp"
                                 android:textStyle="bold"></TextView>
 
