@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal|center_vertical"
+    android:padding="30dp"
+    tools:context=".ProfileActivity">
+
+
+    <TextView
+        android:id="@+id/profile_avatar"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/avatar_shape"
+        android:clickable="true"
+        android:gravity="center|right"
+        android:text="-"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="26sp"
+        android:transitionName="profile_avatar">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/profile_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="10dp"
+        android:text="NAME"
+        android:textColor="@color/blackyBlue"
+        android:textSize="22sp"></TextView>
+
+    <TextView
+        android:id="@+id/profile_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="mail@mail.com"
+        android:textColor="@color/black100"
+        android:textSize="14sp"></TextView>
+
+    <Button
+        android:id="@+id/update_amountBtn"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="10dp"
+        android:inputType="numberDecimal"
+        android:text="Logout"
+        android:textColor="@color/blue_500"
+        app:icon="@drawable/ic_fi_rr_sign_out"></Button>
+
+</LinearLayout>

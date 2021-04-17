@@ -41,13 +41,14 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
                     android:gravity="center_vertical"
-                    android:padding="10dp"
+                    android:padding="5dp"
 
                     android:stretchColumns="*">
 
                     <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:gravity="center_vertical"
                         >
 
                         <LinearLayout
@@ -71,8 +72,8 @@
                                 android:gravity="center_vertical|left"
                                 android:text="Expense"
                                 android:textColor="@color/blue_500"
-                                android:textSize="16sp"
-                                android:textStyle="bold"></TextView>
+                                android:textSize="14sp"
+                                android:textStyle="normal"></TextView>
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -80,19 +81,20 @@
                                 android:gravity="center_vertical|left"
                                 android:text="Manager"
                                 android:textColor="@color/blackyBlue"
-                                android:textSize="16sp"
-                                android:textStyle="bold"></TextView>
+                                android:textSize="14sp"
+                                android:textStyle="normal"></TextView>
                         </LinearLayout>
 
                         <TextView
-                            android:id="@+id/top_right_menu"
+                            android:id="@+id/top_right_profile_menu"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="right"
+                            android:layout_gravity="center_vertical|right"
                             android:background="@drawable/avatar_shape"
                             android:clickable="true"
                             android:gravity="center|right"
-                            android:text="A"
+                            android:text="-"
+                            android:transitionName="profile_avatar"
                             android:textAlignment="center"
                             android:textColor="@color/white"
                             android:textSize="16sp">
@@ -241,10 +243,11 @@
                     android:gravity="center|center_horizontal"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
+                    android:transitionName="view_all_txns"
                     android:text="View all"
                     android:textAllCaps="true"
                     android:textColor="@color/blue_600"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
                     android:textStyle="bold"></TextView>
 
 

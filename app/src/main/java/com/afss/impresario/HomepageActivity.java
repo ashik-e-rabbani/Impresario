@@ -8,6 +8,7 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ActivityOptions;
 import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -29,6 +30,7 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
@@ -71,6 +73,7 @@ import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
 import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
+import static com.afss.impresario.R.layout.activity_profile;
 import static com.afss.impresario.R.layout.txnlist_layout;
 
 public class HomepageActivity extends AppCompatActivity {
@@ -135,6 +138,8 @@ public class HomepageActivity extends AppCompatActivity {
         GG_Email = myIntent.getStringExtra("GG_Email");
         GG_ID = myIntent.getStringExtra("GG_ID");
         GG_NAME = myIntent.getStringExtra("GG_NAME");
+        char avatarChar  = GG_NAME.charAt(0);
+        homepageBinding.topRightProfileMenu.setText(String.valueOf(avatarChar));
 //        homepageBinding.emailPlaceholder.setText(GG_Email);
 //        homepageBinding.titleName.setText(GG_NAME);
 
@@ -268,6 +273,23 @@ public class HomepageActivity extends AppCompatActivity {
                 }, 10000);
 
                 return false;
+            }
+        });
+
+        homepageBinding.topRightProfileMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent ProfileIntent = new Intent(HomepageActivity.this,ProfileActivity.class);
+
+                Pair[] pairs = new Pair[1];
+                pairs[0] = new Pair<View,String>(homepageBinding.topRightProfileMenu,"profile_avatar");
+                ProfileIntent.putExtra("GG_Email", GG_Email);
+                ProfileIntent.putExtra("GG_ID", GG_ID);
+                ProfileIntent.putExtra("GG_NAME", GG_NAME);
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(HomepageActivity.this,pairs);
+
+                startActivity(ProfileIntent, options.toBundle());
             }
         });
     }

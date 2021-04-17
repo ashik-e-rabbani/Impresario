@@ -12,6 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Impresario">
+        <activity android:name=".ProfileActivity"></activity>
 
         <receiver android:name=".BalanceWidget">
             <intent-filter>
@@ -46,11 +47,7 @@
             <meta-data
                 android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
-
-
-
-        </activity>
-        <!-- registering the receiver -->
+        </activity> <!-- registering the receiver -->
         <receiver
             android:name=".Services.AlarmService"
             android:enabled="true"
