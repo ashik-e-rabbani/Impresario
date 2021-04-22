@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.afss.impresario.HomepageActivity;
-
 public class AlarmService extends BroadcastReceiver {
 
     //the method will be fired when the alarm is triggerred

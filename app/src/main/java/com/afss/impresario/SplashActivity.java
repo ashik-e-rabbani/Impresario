@@ -1,7 +1,5 @@
 package com.afss.impresario;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +8,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.ProgressBar;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.afss.impresario.databinding.ActivitySplashBinding;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;

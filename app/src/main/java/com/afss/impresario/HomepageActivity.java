@@ -1,13 +1,5 @@
 package com.afss.impresario;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.ActivityOptions;
 import android.app.AlarmManager;
 import android.app.NotificationChannel;
@@ -19,34 +11,34 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.text.Editable;
-import android.text.InputType;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.afss.impresario.Adapter.RecyclerAdapter;
 import com.afss.impresario.Model.TransactionsModel;
 import com.afss.impresario.Services.AlarmService;
 import com.afss.impresario.Services.DataService;
 import com.afss.impresario.databinding.ActivityHomepageBinding;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -56,9 +48,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.orhanobut.dialogplus.DialogPlus;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -70,11 +60,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
-import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
 import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
-
-import static com.afss.impresario.R.layout.activity_profile;
-import static com.afss.impresario.R.layout.txnlist_layout;
 
 public class HomepageActivity extends AppCompatActivity {
 
@@ -374,11 +360,30 @@ public class HomepageActivity extends AppCompatActivity {
         View dialogView = inflater.inflate(R.layout.alert_dialog_inputbox, null);
         final EditText expenseIncomeAmount = (EditText) dialogView.findViewById(R.id.inputedAmount);
         final EditText expenseIncomeDescription = (EditText) dialogView.findViewById(R.id.inputedDescription);
+        // find the radiobutton by returned id
+        final RadioButton incomeRadioBtn = (RadioButton) dialogView.findViewById(R.id.amount_type_income);
+        final RadioButton expenseRadioBtn = (RadioButton) dialogView.findViewById(R.id.amount_type_expense);
+
+        expenseRadioBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                expenseRadioBtn.setChecked(true);
+                incomeRadioBtn.setChecked(false);
+            }
+        });
+
+        incomeRadioBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                expenseRadioBtn.setChecked(false);
+                incomeRadioBtn.setChecked(true);
+            }
+        });
 
         MaterialAlertDialogBuilder dialog = new MaterialAlertDialogBuilder(c);
-        dialog.setTitle("Enter " + _amountType)
+//        dialog.setTitle("Enter " + _amountType)
 //                .setMessage("Enter your amount")
-                .setView(dialogView)
+               dialog .setView(dialogView)
 
                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     @Override
@@ -386,6 +391,9 @@ public class HomepageActivity extends AppCompatActivity {
 
                         amount = String.valueOf(expenseIncomeAmount.getText());
                         description = String.valueOf(expenseIncomeDescription.getText());
+
+
+
 
                         if (amount.isEmpty()) {
                             Toast.makeText(HomepageActivity.this, "Add Amount", Toast.LENGTH_SHORT).show();

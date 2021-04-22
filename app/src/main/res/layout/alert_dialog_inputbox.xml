@@ -1,12 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+
     android:orientation="vertical"
     android:padding="20dp">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="New Transaction"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="@color/black100"
+        android:textSize="14sp"
+        android:textStyle="bold"></TextView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+
+        android:weightSum="2"
+
+        >
+
+        <RadioButton
+            android:id="@+id/amount_type_expense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:checked="false"
+            android:text="Expense"
+            android:textColor="@color/red"
+            android:textSize="14dp" />
+
+        <RadioButton
+            android:id="@+id/amount_type_income"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:checked="false"
+            android:text="Income"
+            android:textColor="#009688"
+            android:textSize="14dp" />
+    </LinearLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/amountHolderLayout"
@@ -22,9 +65,8 @@
             android:id="@+id/inputedAmount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hapticFeedbackEnabled="true"
-            android:maxLength="8"
-            android:inputType="numberDecimal" />
+            android:inputType="numberDecimal"
+            android:maxLength="8" />
 
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -36,15 +78,15 @@
         android:layout_height="wrap_content"
         android:hint="Description"
         app:counterEnabled="true"
-        app:counterMaxLength="60">
+        app:counterMaxLength="20">
 
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/inputedDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLength="60"
             android:hapticFeedbackEnabled="true"
+            android:maxLength="20"
 
             />
 

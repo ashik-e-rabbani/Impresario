@@ -1,16 +1,13 @@
 package com.afss.impresario;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
-import com.afss.impresario.databinding.ActivityHomepageBinding;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.afss.impresario.databinding.ActivityProfileBinding;
-import com.afss.impresario.databinding.ActivitySplashBinding;
 
 public class ProfileActivity extends AppCompatActivity {
 

@@ -47,6 +47,22 @@
         <item name="appWidgetTextColorLite">@color/black100</item>
     </style>
 
+    <style name="incomeToggleBtn">
+        <item name="android:backgroundTint">#B2DFDB</item>
+        <item name="android:textColor">@color/color_green</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="expenseToggleBtn">
+        <item name="android:background">#FFCDD2</item>
+        <item name="android:textColor">@color/red</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="inactiveToggleBtn">
+        <item name="android:backgroundTint">#FAFAFA</item>
+        <item name="android:textColor">@color/black100</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 
 
 </resources>
