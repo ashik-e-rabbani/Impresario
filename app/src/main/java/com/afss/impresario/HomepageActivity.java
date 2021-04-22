@@ -22,7 +22,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -38,7 +37,6 @@ import com.afss.impresario.Services.AlarmService;
 import com.afss.impresario.Services.DataService;
 import com.afss.impresario.databinding.ActivityHomepageBinding;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -360,30 +358,12 @@ public class HomepageActivity extends AppCompatActivity {
         View dialogView = inflater.inflate(R.layout.alert_dialog_inputbox, null);
         final EditText expenseIncomeAmount = (EditText) dialogView.findViewById(R.id.inputedAmount);
         final EditText expenseIncomeDescription = (EditText) dialogView.findViewById(R.id.inputedDescription);
-        // find the radiobutton by returned id
-        final RadioButton incomeRadioBtn = (RadioButton) dialogView.findViewById(R.id.amount_type_income);
-        final RadioButton expenseRadioBtn = (RadioButton) dialogView.findViewById(R.id.amount_type_expense);
 
-        expenseRadioBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                expenseRadioBtn.setChecked(true);
-                incomeRadioBtn.setChecked(false);
-            }
-        });
-
-        incomeRadioBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                expenseRadioBtn.setChecked(false);
-                incomeRadioBtn.setChecked(true);
-            }
-        });
 
         MaterialAlertDialogBuilder dialog = new MaterialAlertDialogBuilder(c);
-//        dialog.setTitle("Enter " + _amountType)
-//                .setMessage("Enter your amount")
-               dialog .setView(dialogView)
+        dialog.setTitle("Enter " + _amountType)
+                .setMessage("Enter your amount")
+         .setView(dialogView)
 
                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     @Override
@@ -391,8 +371,6 @@ public class HomepageActivity extends AppCompatActivity {
 
                         amount = String.valueOf(expenseIncomeAmount.getText());
                         description = String.valueOf(expenseIncomeDescription.getText());
-
-
 
 
                         if (amount.isEmpty()) {
