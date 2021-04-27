@@ -41,5 +41,8 @@ char avatarChar  = GG_NAME.charAt(0);
         ProfileBinding.profileName.setText(GG_NAME);
 
 
+        ProfileBinding.goBackBtn.setOnClickListener(v -> onBackPressed());
+
     }
+
 }

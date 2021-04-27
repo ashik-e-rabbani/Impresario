@@ -21,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -37,6 +38,7 @@ import com.afss.impresario.Services.AlarmService;
 import com.afss.impresario.Services.DataService;
 import com.afss.impresario.databinding.ActivityHomepageBinding;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -68,13 +70,14 @@ public class HomepageActivity extends AppCompatActivity {
     String path;
     private static FirebaseDatabase database;
     private static long back_pressed;
-    String GG_Email, GG_ID, GG_NAME, BALANCEPREF;
+    String GG_Email, GG_ID, GG_NAME, BALANCEPREF, TXN_TYPE;
     String year, month;
     String balance, totalIncome, totalExpense;
     SharedPreferences myPrefs;
     RecyclerView recyclerView;
     RecyclerAdapter recyclerAdapter;
     DataService dataService;
+
 
     ArrayList<String> txnAmountList;
     ArrayList<String> txnAmountPathList;
@@ -93,6 +96,7 @@ public class HomepageActivity extends AppCompatActivity {
         setContentView(view);
 
         description = "";
+        TXN_TYPE = "Expense";
 
         homepageBinding.incomeBalanceHolder.setVisibility(View.INVISIBLE);
         homepageBinding.expenseBalanceHolder.setVisibility(View.INVISIBLE);
@@ -100,7 +104,7 @@ public class HomepageActivity extends AppCompatActivity {
         myPrefs = this.getSharedPreferences("SING_IN_CREDS", Context.MODE_PRIVATE);
 
         try {
-
+            Log.d(TAG, "SharedPref read");
             BALANCEPREF = myPrefs.getString("BALANCE", "123");
             if (BALANCEPREF.contains("-")) {
                 homepageBinding.allBalanceHolder.setBackground(getDrawable(R.drawable.gradient_bg_red));
@@ -122,7 +126,7 @@ public class HomepageActivity extends AppCompatActivity {
         GG_Email = myIntent.getStringExtra("GG_Email");
         GG_ID = myIntent.getStringExtra("GG_ID");
         GG_NAME = myIntent.getStringExtra("GG_NAME");
-        char avatarChar  = GG_NAME.charAt(0);
+        char avatarChar = GG_NAME.charAt(0);
         homepageBinding.topRightProfileMenu.setText(String.valueOf(avatarChar));
 //        homepageBinding.emailPlaceholder.setText(GG_Email);
 //        homepageBinding.titleName.setText(GG_NAME);
@@ -155,7 +159,7 @@ public class HomepageActivity extends AppCompatActivity {
         txnDescriptionList = new ArrayList<>();
 
         recyclerView = findViewById(R.id.recyclerView);
-        recyclerAdapter = new RecyclerAdapter(txnAmountList, txnAmountPathList, txnTypeList, txnTimeList, txnDescriptionList);
+        recyclerAdapter = new RecyclerAdapter(getApplicationContext(), txnAmountList, txnAmountPathList, txnTypeList, txnTimeList, txnDescriptionList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(recyclerAdapter);
 
@@ -179,7 +183,7 @@ public class HomepageActivity extends AppCompatActivity {
 
         sequence.addSequenceItem(homepageBinding.addExpenseAndIncome,
                 getString(R.string.addExpenseAndIncome), getString(R.string.dismiss_text));
-        sequence.addSequenceItem(homepageBinding.recyclerView,
+        sequence.addSequenceItem(homepageBinding.transactionTxt,
                 getString(R.string.transaction_recyclerView), getString(R.string.dismiss_text));
         sequence.addSequenceItem(homepageBinding.balance,
                 getString(R.string.balance_showcase_text), getString(R.string.dismiss_text));
@@ -199,7 +203,9 @@ public class HomepageActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 showAddExpenseAndIncomeDialog(HomepageActivity.this, "Expense", databaseReference);
+
             }
+
 
         });
 
@@ -236,25 +242,39 @@ public class HomepageActivity extends AppCompatActivity {
             @Override
             public boolean onLongClick(View v) {
 
-                fadeInAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadein);
-                fadeOutAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadeout);
+                if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                    Log.d(TAG, "Loaded  above lollipop");
+                    // Do something for above lollipop and above versions
+                    fadeInAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadein);
+                    fadeOutAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadeout);
 
-                homepageBinding.incomeBalanceHolder.setVisibility(View.VISIBLE);
-                homepageBinding.expenseBalanceHolder.setVisibility(View.VISIBLE);
-                homepageBinding.expenseBalanceHolder.setAnimation(fadeInAnimation);
-                homepageBinding.incomeBalanceHolder.setAnimation(fadeInAnimation);
+                    homepageBinding.incomeBalanceHolder.setVisibility(View.VISIBLE);
+                    homepageBinding.expenseBalanceHolder.setVisibility(View.VISIBLE);
+                    homepageBinding.expenseBalanceHolder.setAnimation(fadeInAnimation);
+                    homepageBinding.incomeBalanceHolder.setAnimation(fadeInAnimation);
 
-                Timer t = new Timer();
-                t.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        homepageBinding.expenseBalanceHolder.setAnimation(fadeOutAnimation);
-                        homepageBinding.incomeBalanceHolder.setAnimation(fadeOutAnimation);
-                        homepageBinding.incomeBalanceHolder.setVisibility(View.INVISIBLE);
-                        homepageBinding.expenseBalanceHolder.setVisibility(View.INVISIBLE);
+                    Timer t = new Timer();
+                    t.schedule(new TimerTask() {
 
-                    }
-                }, 10000);
+
+                        @Override
+                        public void run() {
+                            homepageBinding.expenseBalanceHolder.setAnimation(fadeOutAnimation);
+                            homepageBinding.incomeBalanceHolder.setAnimation(fadeOutAnimation);
+                            homepageBinding.incomeBalanceHolder.setVisibility(View.INVISIBLE);
+                            homepageBinding.expenseBalanceHolder.setVisibility(View.INVISIBLE);
+
+                        }
+                    }, 10000);
+                } else {
+                    Log.d(TAG, "Loaded  lollipop or below");
+                    // do something for phones running an SDK below or  lollipop
+                    homepageBinding.incomeBalanceHolder.setVisibility(View.VISIBLE);
+                    homepageBinding.expenseBalanceHolder.setVisibility(View.VISIBLE);
+
+
+                }
+
 
                 return false;
             }
@@ -264,14 +284,14 @@ public class HomepageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent ProfileIntent = new Intent(HomepageActivity.this,ProfileActivity.class);
+                Intent ProfileIntent = new Intent(HomepageActivity.this, ProfileActivity.class);
 
                 Pair[] pairs = new Pair[1];
-                pairs[0] = new Pair<View,String>(homepageBinding.topRightProfileMenu,"profile_avatar");
+                pairs[0] = new Pair<View, String>(homepageBinding.topRightProfileMenu, "profile_avatar");
                 ProfileIntent.putExtra("GG_Email", GG_Email);
                 ProfileIntent.putExtra("GG_ID", GG_ID);
                 ProfileIntent.putExtra("GG_NAME", GG_NAME);
-                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(HomepageActivity.this,pairs);
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(HomepageActivity.this, pairs);
 
                 startActivity(ProfileIntent, options.toBundle());
             }
@@ -298,8 +318,11 @@ public class HomepageActivity extends AppCompatActivity {
                         txnAmountPathList.add(path + "/" + snapshotTxn.getKey().toString());
                         txnTimeList.add(snapshotTxn.child("time_stamp").getValue().toString());
                         txnTypeList.add(snapshotTxn.child("txn_type").getValue().toString());
-                        txnDescriptionList.add(snapshotTxn.child("txn_description").getValue().toString());
-
+                        if (snapshotTxn.child("txn_description").getValue().toString().isEmpty()) {
+                            txnDescriptionList.add("Edit to add description");
+                        } else {
+                            txnDescriptionList.add(snapshotTxn.child("txn_description").getValue().toString());
+                        }
                     }
 
                     Collections.reverse(txnAmountList);
@@ -307,7 +330,21 @@ public class HomepageActivity extends AppCompatActivity {
                     Collections.reverse(txnTypeList);
                     Collections.reverse(txnTimeList);
                     Collections.reverse(txnDescriptionList);
-                    recyclerView.setAdapter(recyclerAdapter);
+
+
+
+                    if (txnAmountList.size()==0)
+                    {
+                        homepageBinding.recyclerView.setVisibility(View.INVISIBLE);
+                        homepageBinding.noDataAlert.setVisibility(View.VISIBLE);
+                        homepageBinding.noDataAlert.setAnimation(AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fade_in_center));
+                    }else {
+                        homepageBinding.noDataAlert.setVisibility(View.INVISIBLE);
+                        homepageBinding.recyclerView.setVisibility(View.VISIBLE);
+                        recyclerView.setAdapter(recyclerAdapter);
+                    }
+
+//                    recyclerView.setAdapter(recyclerAdapter);
                     widgetUpdater();
                     Log.d(TAG, "Server got new data");
 
@@ -323,7 +360,7 @@ public class HomepageActivity extends AppCompatActivity {
                 totalIncome = dataService.getTotalIncome(txnAmountList, txnTypeList);
 
                 SharedPreferences.Editor editor = myPrefs.edit();
-
+                Log.d(TAG, "SharedPref Edit hit");
                 editor.putString("BALANCE", balance.toString());
                 editor.commit();
 
@@ -358,12 +395,30 @@ public class HomepageActivity extends AppCompatActivity {
         View dialogView = inflater.inflate(R.layout.alert_dialog_inputbox, null);
         final EditText expenseIncomeAmount = (EditText) dialogView.findViewById(R.id.inputedAmount);
         final EditText expenseIncomeDescription = (EditText) dialogView.findViewById(R.id.inputedDescription);
+        final MaterialButtonToggleGroup mtGrp = (MaterialButtonToggleGroup) dialogView.findViewById(R.id.txnTypeToggleGroup);
+        final Button btnTypeExp = (Button) dialogView.findViewById(R.id.btnTypeExp);
+        final Button btnTypeInc = (Button) dialogView.findViewById(R.id.btnTypeInc);
 
+        mtGrp.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
+            @Override
+            public void onButtonChecked(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
+
+                if (checkedId == R.id.btnTypeExp) {
+                    TXN_TYPE = "Expense";
+                    mtGrp.check(R.id.btnTypeExp);
+                } else {
+                    TXN_TYPE = "Income";
+                    mtGrp.check(R.id.btnTypeInc);
+
+                }
+            }
+        });
 
         MaterialAlertDialogBuilder dialog = new MaterialAlertDialogBuilder(c);
-        dialog.setTitle("Enter " + _amountType)
-                .setMessage("Enter your amount")
-         .setView(dialogView)
+//        dialog.setTitle("New Transaction")
+//                .setMessage("Enter your amount")
+        dialog.setView(dialogView)
+                .setCancelable(false)
 
                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     @Override
@@ -383,7 +438,7 @@ public class HomepageActivity extends AppCompatActivity {
 
                             transactions.setTxn_amount(amount);
 
-                            if (_amountType == "Income") {
+                            if (TXN_TYPE == "Income") {
                                 transactions.setTxn_type("inc");
                             } else {
                                 transactions.setTxn_type("exp");

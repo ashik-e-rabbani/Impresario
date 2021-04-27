@@ -4,21 +4,64 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
-    android:orientation="vertical"
-    android:padding="20dp">
 
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
+        android:text="New Transaction"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="@color/black100"
+        android:textSize="14sp"
+        android:textStyle="bold"></TextView>
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/txnTypeToggleGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center_horizontal"
+        app:checkedButton="@id/btnTypeExp"
+
+        app:singleSelection="true">
+
+        <Button
+            android:id="@+id/btnTypeExp"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Expense" />
+
+        <Button
+            android:id="@+id/btnTypeInc"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Income" />
+
+    </com.google.android.material.button.MaterialButtonToggleGroup>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/amountHolderLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:hint="Amount"
         app:counterEnabled="true"
         app:counterMaxLength="8">
 
 
         <com.google.android.material.textfield.TextInputEditText
+
             android:id="@+id/inputedAmount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,17 +77,21 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:hint="Description"
         app:counterEnabled="true"
-        app:counterMaxLength="20">
+        app:counterMaxLength="40"
+        app:errorEnabled="true">
 
 
         <com.google.android.material.textfield.TextInputEditText
+
             android:id="@+id/inputedDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hapticFeedbackEnabled="true"
-            android:maxLength="20"
+            android:maxLength="40"
 
             />
 

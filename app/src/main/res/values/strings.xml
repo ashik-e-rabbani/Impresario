@@ -14,4 +14,7 @@
 
     <string name="choose_month">Choose Month</string>
     <string name="all_txn_page_title">All Transactions</string>
+    <string name="add_txn_page_title">Add Transaction</string>
+    <string name="currency_sign">৳</string>
+
 </resources>

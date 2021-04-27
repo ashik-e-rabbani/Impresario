@@ -24,26 +24,37 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:autoSizeMaxTextSize="32sp"
+                android:autoSizeMinTextSize="22sp"
+                android:autoSizeStepGranularity="2sp"
+                android:autoSizeTextType="uniform"
+                android:ellipsize="none"
                 android:gravity="center|left"
                 android:text="Expense"
                 android:textColor="@color/blue_600"
-                android:textSize="32sp"
+                android:textSize="24sp"
                 android:textStyle="bold"></TextView>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:autoSizeMaxTextSize="32sp"
+                android:autoSizeMinTextSize="22sp"
+                android:autoSizeStepGranularity="2sp"
+                android:autoSizeTextType="uniform"
+                android:ellipsize="none"
                 android:gravity="center|left"
                 android:text="Manager"
                 android:textColor="@color/blackyBlue"
-                android:textSize="32sp"
+                android:textSize="24sp"
+
                 android:textStyle="bold"></TextView>
         </LinearLayout>
 
-<!--        <ImageView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="300dp"-->
-<!--            android:src="@drawable/ic_group_3"></ImageView>-->
+        <!--        <ImageView-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="300dp"-->
+        <!--            android:src="@drawable/ic_group_3"></ImageView>-->
 
 
         <ProgressBar

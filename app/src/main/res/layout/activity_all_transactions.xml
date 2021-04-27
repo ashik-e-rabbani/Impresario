@@ -226,8 +226,17 @@
 
 
     </com.google.android.material.appbar.AppBarLayout>
+    <ImageView
+        android:id="@+id/noDataAlert"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:visibility="invisible"
+        android:alpha="0.4"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:src="@drawable/ic_nodataicon"></ImageView>
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/dataListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
@@ -238,6 +247,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"

@@ -1,11 +1,18 @@
 package com.afss.impresario.Adapter;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.ActivityOptions;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -16,7 +23,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.afss.impresario.HomepageActivity;
+import com.afss.impresario.ProfileActivity;
 import com.afss.impresario.R;
+import com.afss.impresario.TransactionDetailsActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
@@ -32,13 +42,14 @@ import java.util.HashMap;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
-
-    public RecyclerAdapter(ArrayList<String> txnAmountList, ArrayList<String> txnPathList, ArrayList<String> txnTypeList, ArrayList<String> txnTimeList, ArrayList<String> txnDescriptionList) {
+    Context mContext;
+    public RecyclerAdapter(Context mContext,ArrayList<String> txnAmountList, ArrayList<String> txnPathList, ArrayList<String> txnTypeList, ArrayList<String> txnTimeList, ArrayList<String> txnDescriptionList) {
         this.txnAmountList = txnAmountList;
         this.txnPathList = txnPathList;
         this.txnTypeList = txnTypeList;
         this.txnTimeList = txnTimeList;
         this.txnDescriptionList = txnDescriptionList;
+        this.mContext = mContext;
     }
 
     FirebaseDatabase database;
@@ -71,19 +82,51 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
 
+
+        holder.itemContainer.setAnimation(AnimationUtils.loadAnimation(mContext,R.anim.left_to_right));
 //        holder.editButton.setText(String.valueOf(position));
         holder.timeView.setText(txnTimeList.get(position));
-        holder.txn_description.setText(txnDescriptionList.get(position));
+
         holder.amountText.setText(txnAmountList.get(position));
+
         if (txnTypeList.get(position).contains("exp")) {
-//               holder.avatarView.setBackgroundResource(rounded_expense_bg);
-//
+
             holder.avatarView.setTextColor(Color.parseColor("#B71C1C"));
+        }else {
+            holder.avatarView.setTextColor(Color.parseColor("#009688"));
         }
+
+        if (txnDescriptionList.get(position).length()>35) {
+            holder.txn_description.setText(txnDescriptionList.get(position).substring(0,35) + "...");
+        }else {
+            holder.txn_description.setText(txnDescriptionList.get(position));
+        }
+
+
 
         holder.itemContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Intent ProfileIntent = new Intent(v.getContext(), TransactionDetailsActivity.class);
+
+                Pair[] pairs = new Pair[1];
+                pairs[0] = new Pair<View,String>(holder.avatarView,"avatarHolder");
+
+                ProfileIntent.putExtra("amount", txnAmountList.get(position));
+                ProfileIntent.putExtra("time", txnTimeList.get(position));
+                ProfileIntent.putExtra("description", txnDescriptionList.get(position));
+                ProfileIntent.putExtra("type", txnTypeList.get(position));
+
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity) v.getContext(),pairs);
+
+                v.getContext().startActivity(ProfileIntent, options.toBundle());
+            }
+        });
+
+        holder.itemContainer.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
 
 
                 DialogPlus dialog = DialogPlus.newDialog(holder.itemContainer.getContext())
@@ -117,23 +160,18 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
 
                 updateAmount.setText(txnAmountList.get(position));
-                update_description.setText(txnDescriptionList.get(position));
+                if (txnDescriptionList.get(position)!=("Edit to add description")) update_description.setText(txnDescriptionList.get(position));
+
                 dialog.show();
 
-                expenseRadioBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        expenseRadioBtn.setChecked(true);
-                        incomeRadioBtn.setChecked(false);
-                    }
+                expenseRadioBtn.setOnClickListener(v12 -> {
+                    expenseRadioBtn.setChecked(true);
+                    incomeRadioBtn.setChecked(false);
                 });
 
-                incomeRadioBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        expenseRadioBtn.setChecked(false);
-                        incomeRadioBtn.setChecked(true);
-                    }
+                incomeRadioBtn.setOnClickListener(v13 -> {
+                    expenseRadioBtn.setChecked(false);
+                    incomeRadioBtn.setChecked(true);
                 });
 
 
@@ -199,13 +237,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                     }
                 });
 
-                dismissDialogByBack.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        updateView.clearFocus();
-                        dialog.dismiss();
-                    }
+                dismissDialogByBack.setOnClickListener(v1 -> {
+                    updateView.clearFocus();
+                    dialog.dismiss();
                 });
+                return true;
             }
         });
 

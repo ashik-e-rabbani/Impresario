@@ -76,6 +76,7 @@ public class AllTransactions extends AppCompatActivity {
 
         try {
             SharedPreferences myPrefs = this.getSharedPreferences("SING_IN_CREDS", Context.MODE_PRIVATE);
+            Log.d(TAG,"SharedPref read");
             GG_Email = myPrefs.getString("GG_Email", null);
             GG_NAME = myPrefs.getString("GG_NAME", null);
             GG_ID = myPrefs.getString("GG_ID", null);
@@ -105,7 +106,7 @@ public class AllTransactions extends AppCompatActivity {
         txnDescriptionList = new ArrayList<>();
 
         recyclerView = findViewById(R.id.recyclerView);
-        recyclerAdapter = new RecyclerAdapter(txnAmountList, txnAmountPathList, txnTypeList, txnTimeList, txnDescriptionList);
+        recyclerAdapter = new RecyclerAdapter(getApplicationContext(),txnAmountList, txnAmountPathList, txnTypeList, txnTimeList, txnDescriptionList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(recyclerAdapter);
 
@@ -188,25 +189,40 @@ public class AllTransactions extends AppCompatActivity {
             @Override
             public boolean onLongClick(View v) {
 
-        fadeInAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadein);
-        fadeOutAnimation= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadeout);
 
-                allTransactionsBinding.incomeBalanceHolder.setVisibility(View.VISIBLE);
-                allTransactionsBinding.expenseBalanceHolder.setVisibility(View.VISIBLE);
-                allTransactionsBinding.expenseBalanceHolder.setAnimation(fadeInAnimation);
-                allTransactionsBinding.incomeBalanceHolder.setAnimation(fadeInAnimation);
+                if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                    Log.d(TAG, "Loaded  above lollipop");
+                    // Do something for above lollipop and above versions
+                    fadeInAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadein);
+                    fadeOutAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadeout);
 
-                Timer t = new Timer();
-                t.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        allTransactionsBinding.expenseBalanceHolder.setAnimation(fadeOutAnimation);
-                        allTransactionsBinding.incomeBalanceHolder.setAnimation(fadeOutAnimation);
-                        allTransactionsBinding.incomeBalanceHolder.setVisibility(View.INVISIBLE);
-                        allTransactionsBinding.expenseBalanceHolder.setVisibility(View.INVISIBLE);
+                    allTransactionsBinding.incomeBalanceHolder.setVisibility(View.VISIBLE);
+                    allTransactionsBinding.expenseBalanceHolder.setVisibility(View.VISIBLE);
+                    allTransactionsBinding.expenseBalanceHolder.setAnimation(fadeInAnimation);
+                    allTransactionsBinding.incomeBalanceHolder.setAnimation(fadeInAnimation);
 
-                    }
-                }, 5000);
+                    Timer t = new Timer();
+                    t.schedule(new TimerTask() {
+
+
+                        @Override
+                        public void run() {
+                            allTransactionsBinding.expenseBalanceHolder.setAnimation(fadeOutAnimation);
+                            allTransactionsBinding.incomeBalanceHolder.setAnimation(fadeOutAnimation);
+                            allTransactionsBinding.incomeBalanceHolder.setVisibility(View.INVISIBLE);
+                            allTransactionsBinding.expenseBalanceHolder.setVisibility(View.INVISIBLE);
+
+                        }
+                    }, 10000);
+                } else {
+                    Log.d(TAG, "Loaded  lollipop or below");
+                    // do something for phones running an SDK below or  lollipop
+                    allTransactionsBinding.incomeBalanceHolder.setVisibility(View.VISIBLE);
+                    allTransactionsBinding.expenseBalanceHolder.setVisibility(View.VISIBLE);
+
+
+                }
+
 
                 return false;
             }
@@ -243,7 +259,18 @@ public class AllTransactions extends AppCompatActivity {
                     Collections.reverse(txnTypeList);
                     Collections.reverse(txnTimeList);
                     Collections.reverse(txnDescriptionList);
-                    recyclerView.setAdapter(recyclerAdapter);
+
+                    if (txnAmountList.size()==0)
+                    {
+                        allTransactionsBinding.dataListView.setVisibility(View.INVISIBLE);
+                        allTransactionsBinding.noDataAlert.setVisibility(View.VISIBLE);
+                        allTransactionsBinding.noDataAlert.setAnimation(AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fade_in_center));
+                    }else {
+                        allTransactionsBinding.noDataAlert.setVisibility(View.INVISIBLE);
+                        allTransactionsBinding.dataListView.setVisibility(View.VISIBLE);
+                        recyclerView.setAdapter(recyclerAdapter);
+                    }
+
 
                 } catch (Exception e) {
                     FirebaseCrashlytics.getInstance().recordException(e);
@@ -297,6 +324,7 @@ public class AllTransactions extends AppCompatActivity {
             editor.putString("FILTERED_YEAR", year);
 
             editor.commit();
+            Log.d(TAG,"SharedPref Written");
         } catch (Exception e) {
             FirebaseCrashlytics.getInstance().recordException(e);
             e.printStackTrace();

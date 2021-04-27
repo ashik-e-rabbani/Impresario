@@ -17,189 +17,209 @@
         android:src="@drawable/ic_fi_rr_angle_double_down"></ImageView>
 
 
-   <ScrollView
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content">
-       <LinearLayout
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:orientation="vertical"
-           android:paddingLeft="30dp"
-           android:paddingRight="30dp">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-           <TextView
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:layout_marginTop="0dp"
-               android:text="Transaction Details"
-               android:textAllCaps="true"
-               android:textAlignment="center"
-               android:textColor="#2196F3"
-               android:textSize="14sp"></TextView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp">
 
-           <TableLayout
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:layout_gravity="center_horizontal"
-               android:padding="15dp"
-               android:stretchColumns="*">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:text="Update Transaction "
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textColor="@color/black100"
+                android:textSize="12sp"
+                android:textStyle=""></TextView>
 
-               <TableRow
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_marginTop="3dp">
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:stretchColumns="*">
 
-                   <LinearLayout
-                       android:orientation="horizontal"
-                       android:layout_width="wrap_content"
-                       android:layout_height="match_parent"
-                       >
-                       <ImageView
-                           android:id="@+id/changeTime"
-                           android:layout_width="20dp"
-                           android:layout_height="20dp"
-                           android:layout_gravity="center_vertical|left"
-                           android:clickable="true"
-                           android:src="@drawable/ic_fi_rr_calendar"
-                           android:focusable="true"/>
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp">
 
-                       <TextView
-                           android:id="@+id/timeTextView"
-                           android:layout_width="match_parent"
-                           android:layout_height="match_parent"
-                           android:gravity="center_vertical"
-                           android:layout_marginLeft="10dp"
-                           android:layout_gravity="center_vertical|left"
-                           android:text="March 2014"
-                           android:textSize="12sp"></TextView>
-                   </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
 
+                        <ImageView
+                            android:id="@+id/changeTime"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center_vertical|left"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:src="@drawable/ic_fi_rr_calendar" />
 
-                   <ImageView
-                       android:id="@+id/deleteTransactionBtn"
-                       android:layout_width="20dp"
-                       android:layout_height="20dp"
-                       android:layout_gravity="center_vertical|right"
-                       android:clickable="true"
-                       android:src="@drawable/ic_trash">
-
-                   </ImageView>
+                        <TextView
+                            android:id="@+id/timeTextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical|left"
+                            android:layout_marginLeft="10dp"
+                            android:gravity="center_vertical"
+                            android:text="March 2014"
+                            android:textSize="12sp"></TextView>
+                    </LinearLayout>
 
 
-               </TableRow>
+                    <ImageView
+                        android:id="@+id/deleteTransactionBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|right"
+                        android:clickable="true"
+                        android:src="@drawable/ic_trash">
+
+                    </ImageView>
 
 
-           </TableLayout>
-
-           <com.google.android.material.textfield.TextInputLayout
-               android:id="@+id/amountHolderLayout"
-               style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-               android:layout_width="match_parent"
-               android:layout_height="match_parent"
-               android:hint="Amount"
-               app:counterEnabled="true"
-               app:counterMaxLength="8">
+                </TableRow>
 
 
-               <com.google.android.material.textfield.TextInputEditText
-                   android:id="@+id/update_amount"
-                   android:layout_width="match_parent"
-                   android:layout_height="match_parent"
-                   android:hapticFeedbackEnabled="true"
-                   android:maxLength="8"
-                   android:inputType="numberDecimal"></com.google.android.material.textfield.TextInputEditText>
+            </TableLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/amountHolderLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="Amount"
+                app:counterEnabled="true"
+                app:counterMaxLength="8">
 
 
-           </com.google.android.material.textfield.TextInputLayout>
-
-           <com.google.android.material.textfield.TextInputLayout
-               android:id="@+id/descriptionHolderLayout"
-               style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-               android:layout_width="match_parent"
-               android:layout_height="match_parent"
-               android:hint="Description"
-               app:counterEnabled="true"
-               app:counterMaxLength="60">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/update_amount"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hapticFeedbackEnabled="true"
+                    android:inputType="numberDecimal"
+                    android:maxLength="8"></com.google.android.material.textfield.TextInputEditText>
 
 
-               <com.google.android.material.textfield.TextInputEditText
-                   android:id="@+id/update_description"
-                   android:layout_width="match_parent"
-                   android:layout_height="match_parent"
-                   android:hapticFeedbackEnabled="true"
-                   android:maxLength="60"
-                   ></com.google.android.material.textfield.TextInputEditText>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/descriptionHolderLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="Description"
+                app:counterEnabled="true"
+                app:counterMaxLength="40">
 
 
-           </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/update_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hapticFeedbackEnabled="true"
+                    android:maxLength="40"></com.google.android.material.textfield.TextInputEditText>
 
 
-           <TextView
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:layout_marginTop="10dp"
-               android:text="Select Amount type"
-               android:textColor="#2196F3"
-               android:textFontWeight="500"
-
-               android:textSize="14sp"></TextView>
+            </com.google.android.material.textfield.TextInputLayout>
 
 
-           <RadioGroup
-               android:id="@+id/amount_type_group"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:tooltipText="Choose Amount Type">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-               <LinearLayout
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:orientation="horizontal"
-                   android:weightSum="2"
+                <ImageView
+                    android:id="@+id/amountTypeIcon"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical|left"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:src="@drawable/ic_transfer" />
 
-                   >
-
-                   <RadioButton
-                       android:id="@+id/amount_type_expense"
-                       android:layout_width="match_parent"
-                       android:layout_height="wrap_content"
-                       android:layout_gravity="center"
-                       android:layout_weight="1"
-                       android:checked="false"
-                       android:text="Expense"
-                       android:textColor="@color/red"
-                       android:textSize="14dp" />
-
-                   <RadioButton
-                       android:id="@+id/amount_type_income"
-                       android:layout_width="match_parent"
-                       android:layout_height="wrap_content"
-                       android:layout_gravity="center_horizontal"
-                       android:layout_weight="1"
-                       android:checked="false"
-                       android:text="Income"
-                       android:textColor="#009688"
-                       android:textSize="14dp" />
-               </LinearLayout>
-
-           </RadioGroup>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:text="Select amount type"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black100"
+                    android:textFontWeight="500"
+                    android:textSize="12sp"
+                    android:textStyle="bold"></TextView>
+            </LinearLayout>
 
 
-           <Button
-               android:id="@+id/update_amountBtn"
-               style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_gravity="center_horizontal"
-               android:layout_marginTop="10dp"
-               android:layout_marginBottom="10dp"
-               android:inputType="numberDecimal"
-               android:text="UPDATE"
-               android:textColor="@color/blue_500"
-               app:icon="@drawable/ic_fi_rr_check"></Button>
+            <RadioGroup
+                android:id="@+id/amount_type_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:tooltipText="Choose Amount Type">
 
-       </LinearLayout>
-   </ScrollView>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+
+                    >
+
+                    <RadioButton
+                        android:id="@+id/amount_type_expense"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:checked="false"
+                        android:text="Expense"
+                        android:textColor="@color/red"
+                        android:textSize="14dp" />
+
+                    <RadioButton
+                        android:id="@+id/amount_type_income"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_weight="1"
+                        android:checked="false"
+                        android:text="Income"
+                        android:textColor="#009688"
+                        android:textSize="14dp" />
+                </LinearLayout>
+
+            </RadioGroup>
+
+
+            <Button
+                android:id="@+id/update_amountBtn"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:inputType="numberDecimal"
+                android:text="UPDATE"
+                android:textColor="@color/blue_500"
+                app:icon="@drawable/ic_fi_rr_check"></Button>
+
+        </LinearLayout>
+    </ScrollView>
 
 
 </LinearLayout>

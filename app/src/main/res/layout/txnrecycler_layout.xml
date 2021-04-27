@@ -34,13 +34,13 @@
                     android:layout_height="48dp"
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/rounded_income_bg"
-
                     android:gravity="center"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
-                    android:text="৳"
+                    android:text="@string/currency_sign"
                     android:textColor="@color/color_green"
                     android:textStyle="bold"
+                    android:transitionName="avatarHolder"
                     app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.rounded"></TextView>
 
                 <LinearLayout
@@ -55,29 +55,37 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left|center_vertical"
+                        android:layout_marginBottom="2dp"
+                        android:alpha="0.9"
                         android:text="TextView"
                         android:textColor="@color/blackyBlue"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:transitionName="amountText" />
 
                     <TextView
                         android:id="@+id/txn_description"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left|center_vertical"
+                        android:layout_marginBottom="2dp"
+                        android:alpha="0.7"
+                        android:ellipsize="end"
+                        android:singleLine="true"
                         android:text="Description"
-                        android:textColor="#E12A2A2B"
+                        android:textColor="@color/black"
                         android:textSize="11sp"
-                        android:textStyle="normal" />
+                        android:textStyle="normal"
+                        android:transitionName="txn_description" />
 
                     <TextView
                         android:id="@+id/timeText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-
                         android:gravity="left"
                         android:text="17 March"
-                        android:textSize="10sp"></TextView>
+                        android:textSize="10sp"
+                        android:transitionName="timeText"></TextView>
                 </LinearLayout>
 
 
@@ -91,9 +99,9 @@
                         android:id="@+id/btn_edit"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-
-                        android:background="@drawable/ic_fi_rr_edit"
-                        android:backgroundTint="#4B424242">
+                        android:alpha="0.5"
+                        android:background="@drawable/ic_fi_rr_angle_small_right"
+                        android:backgroundTint="@color/black100">
 
                     </ImageView>
 
