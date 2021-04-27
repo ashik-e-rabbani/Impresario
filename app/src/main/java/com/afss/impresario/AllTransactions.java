@@ -190,7 +190,7 @@ public class AllTransactions extends AppCompatActivity {
             public boolean onLongClick(View v) {
 
 
-                if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.M) {
                     Log.d(TAG, "Loaded  above lollipop");
                     // Do something for above lollipop and above versions
                     fadeInAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadein);

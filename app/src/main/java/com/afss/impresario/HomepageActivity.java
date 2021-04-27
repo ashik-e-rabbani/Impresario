@@ -242,7 +242,7 @@ public class HomepageActivity extends AppCompatActivity {
             @Override
             public boolean onLongClick(View v) {
 
-                if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
                     Log.d(TAG, "Loaded  above lollipop");
                     // Do something for above lollipop and above versions
                     fadeInAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadein);
@@ -335,11 +335,11 @@ public class HomepageActivity extends AppCompatActivity {
 
                     if (txnAmountList.size()==0)
                     {
-                        homepageBinding.recyclerView.setVisibility(View.INVISIBLE);
+                        homepageBinding.recyclerView.setVisibility(View.GONE);
                         homepageBinding.noDataAlert.setVisibility(View.VISIBLE);
                         homepageBinding.noDataAlert.setAnimation(AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fade_in_center));
                     }else {
-                        homepageBinding.noDataAlert.setVisibility(View.INVISIBLE);
+                        homepageBinding.noDataAlert.setVisibility(View.GONE);
                         homepageBinding.recyclerView.setVisibility(View.VISIBLE);
                         recyclerView.setAdapter(recyclerAdapter);
                     }
