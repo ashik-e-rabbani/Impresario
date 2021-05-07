@@ -44,7 +44,7 @@ public class AllTransactions extends AppCompatActivity {
     int year;
     int month;
     int dayOfMonth;
-    String GG_Email, GG_ID, GG_NAME, FILTERED_MONTH,FILTERED_MONTH_INC, FILTERED_DAY, FILTERED_YEAR;
+    String GG_Email, GG_ID, GG_NAME, FILTERED_MONTH, FILTERED_MONTH_INC, FILTERED_DAY, FILTERED_YEAR;
     SharedPreferences myPrefs;
     Calendar calendar;
     String[] months = new String[]{"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"};
@@ -76,20 +76,20 @@ public class AllTransactions extends AppCompatActivity {
 
         try {
             SharedPreferences myPrefs = this.getSharedPreferences("SING_IN_CREDS", Context.MODE_PRIVATE);
-            Log.d(TAG,"SharedPref read");
+            Log.d(TAG, "SharedPref read");
             GG_Email = myPrefs.getString("GG_Email", null);
             GG_NAME = myPrefs.getString("GG_NAME", null);
             GG_ID = myPrefs.getString("GG_ID", null);
             FILTERED_MONTH = myPrefs.getString("FILTERED_MONTH", null);
             FILTERED_MONTH_INC = myPrefs.getString("FILTERED_MONTH_INC", null);
-            FILTERED_DAY= myPrefs.getString("FILTERED_DAY", null);
+            FILTERED_DAY = myPrefs.getString("FILTERED_DAY", null);
             FILTERED_YEAR = myPrefs.getString("FILTERED_YEAR", null);
-            Log.d(TAG,"Credentials found in SharedPref");
+            Log.d(TAG, "Credentials found in SharedPref");
             allTransactionsBinding.selectedDate.setText(months[Integer.parseInt(FILTERED_MONTH)] + " " + FILTERED_YEAR);
         } catch (Exception e) {
             FirebaseCrashlytics.getInstance().recordException(e);
             e.printStackTrace();
-            Log.e(TAG,"No Credentials found in SharedPref");
+            Log.e(TAG, "No Credentials found in SharedPref");
         }
 
 
@@ -106,7 +106,7 @@ public class AllTransactions extends AppCompatActivity {
         txnDescriptionList = new ArrayList<>();
 
         recyclerView = findViewById(R.id.recyclerView);
-        recyclerAdapter = new RecyclerAdapter(getApplicationContext(),txnAmountList, txnAmountPathList, txnTypeList, txnTimeList, txnDescriptionList);
+        recyclerAdapter = new RecyclerAdapter(getApplicationContext(), txnAmountList, txnAmountPathList, txnTypeList, txnTimeList, txnDescriptionList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(recyclerAdapter);
 
@@ -124,8 +124,8 @@ public class AllTransactions extends AppCompatActivity {
         //        Connecting to FireBase DB
         try {
             path = "Users/" + GG_ID + "/" + FILTERED_YEAR + "/" + FILTERED_MONTH_INC;
-            Log.d(TAG,"Saved Path "+path);
-            TransactionsLoader(path,view);
+            Log.d(TAG, "Saved Path " + path);
+            TransactionsLoader(path, view);
         } catch (Exception e) {
             FirebaseCrashlytics.getInstance().recordException(e);
             e.printStackTrace();
@@ -151,13 +151,13 @@ public class AllTransactions extends AppCompatActivity {
                             new DatePickerDialog.OnDateSetListener() {
                                 @Override
                                 public void onDateSet(DatePicker datePicker, int pickedYear, int pickedMonth, int day) {
-    //                                allTransactionsBinding.selectedDate.setText(day + "/" + (month +1) + "/" + year);
+                                    //                                allTransactionsBinding.selectedDate.setText(day + "/" + (month +1) + "/" + year);
                                     allTransactionsBinding.selectedDate.setText(months[pickedMonth] + " " + pickedYear);
-                                    int incrementedPickedMonth = pickedMonth+1;
+                                    int incrementedPickedMonth = pickedMonth + 1;
                                     path = "Users/" + GG_ID + "/" + pickedYear + "/" + incrementedPickedMonth;
-                                    Log.d(TAG,"Changed Path "+path);
+                                    Log.d(TAG, "Changed Path " + path);
                                     TransactionsLoader(path, v);
-                                    saveFilter(String.valueOf(pickedMonth),String.valueOf(incrementedPickedMonth),String.valueOf(day), String.valueOf(pickedYear));
+                                    saveFilter(String.valueOf(pickedMonth), String.valueOf(incrementedPickedMonth), String.valueOf(day), String.valueOf(pickedYear));
 
                                 }
 
@@ -231,8 +231,7 @@ public class AllTransactions extends AppCompatActivity {
     }
 
 
-    public void TransactionsLoader(String path, View view)
-    {
+    public void TransactionsLoader(String path, View view) {
         DatabaseReference myRef_reader = database.getReference(path);
 
         myRef_reader.addValueEventListener(new ValueEventListener() {
@@ -260,12 +259,11 @@ public class AllTransactions extends AppCompatActivity {
                     Collections.reverse(txnTimeList);
                     Collections.reverse(txnDescriptionList);
 
-                    if (txnAmountList.size()==0)
-                    {
+                    if (txnAmountList.size() == 0) {
                         allTransactionsBinding.dataListView.setVisibility(View.INVISIBLE);
                         allTransactionsBinding.noDataAlert.setVisibility(View.VISIBLE);
-                        allTransactionsBinding.noDataAlert.setAnimation(AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fade_in_center));
-                    }else {
+//                        allTransactionsBinding.noDataAlert.setAnimation(AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fade_in_center));
+                    } else {
                         allTransactionsBinding.noDataAlert.setVisibility(View.INVISIBLE);
                         allTransactionsBinding.dataListView.setVisibility(View.VISIBLE);
                         recyclerView.setAdapter(recyclerAdapter);
@@ -280,7 +278,7 @@ public class AllTransactions extends AppCompatActivity {
                     txnTimeList.clear();
                     txnTypeList.clear();
                     txnDescriptionList.clear();
-                    Snackbar.make(view, "No Data Found "+path, BaseTransientBottomBar.LENGTH_LONG).show();
+                    Snackbar.make(view, "No Data Found " + path, BaseTransientBottomBar.LENGTH_LONG).show();
                 }
 
 
@@ -291,16 +289,12 @@ public class AllTransactions extends AppCompatActivity {
 
                 if (balance.contains("-")) {
                     allTransactionsBinding.balance.setTextColor(Color.parseColor("#B71C1C"));
-                    allTransactionsBinding.balance.setText("৳ " + balance);
-
                 } else {
                     allTransactionsBinding.balance.setTextColor(Color.parseColor("#FF2196F3"));
-                    allTransactionsBinding.balance.setText("৳ " + balance);
                 }
-
+                allTransactionsBinding.balance.setText("৳ " + balance);
                 allTransactionsBinding.expenseBalance.setText("৳ " + totalExpense);
                 allTransactionsBinding.incomeBalance.setText("৳ " + totalIncome);
-
 
             }
 
@@ -311,7 +305,7 @@ public class AllTransactions extends AppCompatActivity {
         });
     }
 
-    private void saveFilter(String month,String incrementedMonth, String day, String year) {
+    private void saveFilter(String month, String incrementedMonth, String day, String year) {
         try {
 //        save to shared preferences
             SharedPreferences sharedpreferences = getSharedPreferences("SING_IN_CREDS", Context.MODE_PRIVATE);
@@ -324,7 +318,7 @@ public class AllTransactions extends AppCompatActivity {
             editor.putString("FILTERED_YEAR", year);
 
             editor.commit();
-            Log.d(TAG,"SharedPref Written");
+            Log.d(TAG, "SharedPref Written");
         } catch (Exception e) {
             FirebaseCrashlytics.getInstance().recordException(e);
             e.printStackTrace();

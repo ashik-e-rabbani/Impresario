@@ -63,6 +63,11 @@
         <item name="android:textColor">@color/black100</item>
         <item name="android:textStyle">bold</item>
     </style>
+    <style name="Theme.UpdateTxn" parent="">
 
+    </style>
+    <style name="Theme.AddTxn" parent="">
+
+    </style>
 
 </resources>

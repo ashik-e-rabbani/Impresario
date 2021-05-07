@@ -11,12 +11,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
@@ -59,6 +61,7 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import io.github.douglasjunior.androidSimpleTooltip.SimpleTooltip;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
 import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
@@ -77,7 +80,7 @@ public class HomepageActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerAdapter recyclerAdapter;
     DataService dataService;
-
+    String[] months = new String[]{"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"};
 
     ArrayList<String> txnAmountList;
     ArrayList<String> txnAmountPathList;
@@ -172,6 +175,8 @@ public class HomepageActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+
+        homepageBinding.transactionTxt.setText(months[Integer.parseInt(month)-1]+" "+year);
 
 
         ShowcaseConfig config = new ShowcaseConfig();
@@ -332,14 +337,10 @@ public class HomepageActivity extends AppCompatActivity {
                     Collections.reverse(txnDescriptionList);
 
 
-
-                    if (txnAmountList.size()==0)
-                    {
+                    if (txnAmountList.size() == 0) {
                         homepageBinding.recyclerView.setVisibility(View.GONE);
-                        homepageBinding.noDataAlert.setVisibility(View.VISIBLE);
-                        homepageBinding.noDataAlert.setAnimation(AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fade_in_center));
-                    }else {
-                        homepageBinding.noDataAlert.setVisibility(View.GONE);
+                        showTooltip();
+                    } else {
                         homepageBinding.recyclerView.setVisibility(View.VISIBLE);
                         recyclerView.setAdapter(recyclerAdapter);
                     }
@@ -384,6 +385,19 @@ public class HomepageActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void showTooltip() {
+        new SimpleTooltip.Builder(this)
+                .anchorView(homepageBinding.addExpenseAndIncome)
+                .text("Tap to begin")
+                .gravity(Gravity.TOP)
+                .animated(true)
+                .dismissOnOutsideTouch(true)
+                .dismissOnInsideTouch(true)
+                .transparentOverlay(true)
+                .build()
+                .show();
     }
 
 

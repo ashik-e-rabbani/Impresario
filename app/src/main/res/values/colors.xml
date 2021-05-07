@@ -25,4 +25,9 @@
     <color name="light_blue_900">#FF01579B</color>
     <color name="expenseTransparent">#CCE53935</color>
     <color name="IncomeTransparent">#CC00897B</color>
+
+
+    <color name="simpletooltip_background">@color/blue_600</color>
+    <color name="simpletooltip_text">@android:color/white</color>
+    <color name="simpletooltip_arrow">@color/blue_600</color>
 </resources>

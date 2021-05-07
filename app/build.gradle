@@ -54,5 +54,6 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview-selection:1.1.0"
     implementation 'com.orhanobut:dialogplus:1.11@aar'
     implementation 'com.github.imtuann:FloatingActionButtonExpandable:1.1.2'
+    implementation 'com.github.douglasjunior:android-simple-tooltip:1.0.0-rc.0'
 
 }
