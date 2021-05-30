@@ -413,6 +413,10 @@ public class HomepageActivity extends AppCompatActivity {
         final Button btnTypeExp = (Button) dialogView.findViewById(R.id.btnTypeExp);
         final Button btnTypeInc = (Button) dialogView.findViewById(R.id.btnTypeInc);
 
+//      set default expense type
+        Log.d(TAG,"Default select"+ mtGrp.getCheckedButtonId() );
+        TXN_TYPE = "Expense";
+
         mtGrp.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
             @Override
             public void onButtonChecked(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
@@ -420,9 +424,11 @@ public class HomepageActivity extends AppCompatActivity {
                 if (checkedId == R.id.btnTypeExp) {
                     TXN_TYPE = "Expense";
                     mtGrp.check(R.id.btnTypeExp);
+                    Log.d(TAG,"btn Type choosed EXP "+ mtGrp.getCheckedButtonId());
                 } else {
                     TXN_TYPE = "Income";
                     mtGrp.check(R.id.btnTypeInc);
+                    Log.d(TAG,"btn Type choosed INc "+ mtGrp.getCheckedButtonId());
 
                 }
             }

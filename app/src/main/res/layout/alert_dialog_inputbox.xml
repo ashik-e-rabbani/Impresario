@@ -29,7 +29,6 @@ android:theme="@style/Theme.AddTxn"
         android:layout_marginBottom="10dp"
         android:gravity="center_horizontal"
         app:checkedButton="@id/btnTypeExp"
-
         app:singleSelection="true">
 
         <Button
