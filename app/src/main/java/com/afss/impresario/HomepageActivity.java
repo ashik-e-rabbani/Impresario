@@ -1,5 +1,6 @@
 package com.afss.impresario;
 
+import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.app.AlarmManager;
 import android.app.NotificationChannel;
@@ -71,8 +72,8 @@ public class HomepageActivity extends AppCompatActivity {
     ActivityHomepageBinding homepageBinding;
     String amount, description;
     String path;
-    private static FirebaseDatabase database;
-    private static long back_pressed;
+    static FirebaseDatabase database;
+    static long back_pressed;
     String GG_Email, GG_ID, GG_NAME, BALANCEPREF, TXN_TYPE;
     String year, month;
     String balance, totalIncome, totalExpense;
@@ -176,7 +177,7 @@ public class HomepageActivity extends AppCompatActivity {
             }
         }
 
-        homepageBinding.transactionTxt.setText(months[Integer.parseInt(month)-1]+" "+year);
+        homepageBinding.transactionTxt.setText(months[Integer.parseInt(month) - 1] + " " + year);
 
 
         ShowcaseConfig config = new ShowcaseConfig();
@@ -307,6 +308,7 @@ public class HomepageActivity extends AppCompatActivity {
 //        DatabaseReference myRef_reader = database.getReference(path);
 
         myRef_reader.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("UseCompatLoadingForDrawables")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 try {
@@ -405,7 +407,6 @@ public class HomepageActivity extends AppCompatActivity {
 
         LayoutInflater inflater = this.getLayoutInflater();
 
-
         View dialogView = inflater.inflate(R.layout.alert_dialog_inputbox, null);
         final EditText expenseIncomeAmount = (EditText) dialogView.findViewById(R.id.inputedAmount);
         final EditText expenseIncomeDescription = (EditText) dialogView.findViewById(R.id.inputedDescription);
@@ -414,7 +415,7 @@ public class HomepageActivity extends AppCompatActivity {
         final Button btnTypeInc = (Button) dialogView.findViewById(R.id.btnTypeInc);
 
 //      set default expense type
-        Log.d(TAG,"Default select"+ mtGrp.getCheckedButtonId() );
+        Log.d(TAG, "Default select" + mtGrp.getCheckedButtonId());
         TXN_TYPE = "Expense";
 
         mtGrp.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
@@ -424,11 +425,11 @@ public class HomepageActivity extends AppCompatActivity {
                 if (checkedId == R.id.btnTypeExp) {
                     TXN_TYPE = "Expense";
                     mtGrp.check(R.id.btnTypeExp);
-                    Log.d(TAG,"btn Type choosed EXP "+ mtGrp.getCheckedButtonId());
+                    Log.d(TAG, "btn Type choosed EXP " + mtGrp.getCheckedButtonId());
                 } else {
                     TXN_TYPE = "Income";
                     mtGrp.check(R.id.btnTypeInc);
-                    Log.d(TAG,"btn Type choosed INc "+ mtGrp.getCheckedButtonId());
+                    Log.d(TAG, "btn Type choosed INc " + mtGrp.getCheckedButtonId());
 
                 }
             }
@@ -447,11 +448,14 @@ public class HomepageActivity extends AppCompatActivity {
                         amount = String.valueOf(expenseIncomeAmount.getText());
                         description = String.valueOf(expenseIncomeDescription.getText());
 
+                        Log.d(TAG, "Amounts are :" + amount + description);
+
 
                         if (amount.isEmpty()) {
                             Toast.makeText(HomepageActivity.this, "Add Amount", Toast.LENGTH_SHORT).show();
 
                         } else {
+                            Log.d(TAG, "pDebug Got Else");
                             SimpleDateFormat sdf = new SimpleDateFormat("E, dd MMM hh.mm aa");
                             String currentTime = sdf.format(new Date());
                             TransactionsModel transactions = new TransactionsModel();
@@ -460,18 +464,25 @@ public class HomepageActivity extends AppCompatActivity {
 
                             if (TXN_TYPE == "Income") {
                                 transactions.setTxn_type("inc");
+                                Log.d(TAG, "pDebug INC type");
                             } else {
                                 transactions.setTxn_type("exp");
+                                Log.d(TAG, "pDebug Exp");
                             }
                             transactions.setTxn_description(description);
 
                             transactions.setTime_stamp(currentTime);
-                            Log.d(TAG, "Data stored to " + databaseReference);
+                            Log.d(TAG, "pDebug Txn info " + transactions);
+                            Log.d(TAG, "pDebug Data stored to " + databaseReference);
+
                             databaseReference.push()
                                     .setValue(transactions);
-                            expenseIncomeAmount.setText("");
-                        }
+                            Log.d(TAG, "pDebug Data Pushed");
 
+                            expenseIncomeAmount.setText("");
+
+
+                        }
                     }
                 })
                 .setNegativeButton("Cancel", null)

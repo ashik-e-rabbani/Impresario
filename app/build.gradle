@@ -26,6 +26,11 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            versionNameSuffix 'Mango'
+            debuggable false
+            jniDebuggable false
+            renderscriptDebuggable false
+            signingConfig signingConfigs.debug
         }
     }
     compileOptions {

@@ -1,5 +1,8 @@
 package com.afss.impresario.Model;
 
+import androidx.annotation.Keep;
+
+@Keep
 public class TransactionsModel {
 
     private String txn_amount;
