@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "334166431960",
+    "firebase_url": "https://impresario-app-1615311250274-default-rtdb.firebaseio.com",
     "project_id": "impresario-app-1615311250274",
     "storage_bucket": "impresario-app-1615311250274.appspot.com"
   },
@@ -13,6 +14,22 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "334166431960-st6b6rrvvlqi5qcj45tk93chkev27i2i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.afss.impresario",
+            "certificate_hash": "9a413fd26f25c685107dcc0ab5c280c079e84665"
+          }
+        },
+        {
+          "client_id": "334166431960-uge56ipvd6rda04e6adqgtc07es5pob9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.afss.impresario",
+            "certificate_hash": "8a606ec5999e196f7fefa0ef368f18ec11c90944"
+          }
+        },
         {
           "client_id": "334166431960-haegcqj65rf8cub2rtqop4t71mc2etqu.apps.googleusercontent.com",
           "client_type": 3
