@@ -58,6 +58,7 @@ public class AllTransactions extends AppCompatActivity {
     ArrayList<String> txnTypeList;
     ArrayList<String> txnTimeList;
     ArrayList<String> txnDescriptionList;
+    ArrayList<String> txnImagePathList;
 
     Animation fadeInAnimation, fadeOutAnimation;
 
@@ -104,6 +105,7 @@ public class AllTransactions extends AppCompatActivity {
         txnTypeList = new ArrayList<>();
         txnTimeList = new ArrayList<>();
         txnDescriptionList = new ArrayList<>();
+        txnImagePathList = new ArrayList<>();
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerAdapter = new RecyclerAdapter(getApplicationContext(), txnAmountList, txnAmountPathList, txnTypeList, txnTimeList, txnDescriptionList);
@@ -245,12 +247,14 @@ public class AllTransactions extends AppCompatActivity {
                     txnTimeList.clear();
                     txnTypeList.clear();
                     txnDescriptionList.clear();
+                    txnImagePathList.clear();
                     for (DataSnapshot snapshotTxn : snapshot.getChildren()) {
                         txnAmountList.add(snapshotTxn.child("txn_amount").getValue().toString());
                         txnAmountPathList.add(path + "/" + snapshotTxn.getKey().toString());
                         txnTimeList.add(snapshotTxn.child("time_stamp").getValue().toString());
                         txnTypeList.add(snapshotTxn.child("txn_type").getValue().toString());
                         txnDescriptionList.add(snapshotTxn.child("txn_description").getValue().toString());
+                        txnImagePathList.add(snapshotTxn.child("txn_image_uri").getValue().toString());
                     }
 
                     Collections.reverse(txnAmountList);
@@ -258,6 +262,7 @@ public class AllTransactions extends AppCompatActivity {
                     Collections.reverse(txnTypeList);
                     Collections.reverse(txnTimeList);
                     Collections.reverse(txnDescriptionList);
+                    Collections.reverse(txnImagePathList);
 
                     if (txnAmountList.size() == 0) {
                         allTransactionsBinding.dataListView.setVisibility(View.INVISIBLE);
@@ -278,6 +283,7 @@ public class AllTransactions extends AppCompatActivity {
                     txnTimeList.clear();
                     txnTypeList.clear();
                     txnDescriptionList.clear();
+                    txnImagePathList.clear();
                     Snackbar.make(view, "No Data Found " + path, BaseTransientBottomBar.LENGTH_LONG).show();
                 }
 

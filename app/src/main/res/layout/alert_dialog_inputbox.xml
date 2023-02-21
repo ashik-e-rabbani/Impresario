@@ -98,5 +98,17 @@ android:theme="@style/Theme.AddTxn"
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <Button
+        android:id="@+id/add_desc_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add image" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/avatar_shape" />
+
 
 </LinearLayout>
