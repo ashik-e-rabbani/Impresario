@@ -1,5 +1,7 @@
 package com.afss.impresario.Adapter;
 
+import static com.afss.impresario.utils.Converters.getTextFromJson;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityOptions;
@@ -96,11 +98,23 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             holder.avatarView.setTextColor(Color.parseColor("#009688"));
         }
 
-        if (txnDescriptionList.get(position).length()>35) {
-            holder.txn_description.setText(txnDescriptionList.get(position).substring(0,35) + "...");
-        }else {
-            holder.txn_description.setText(txnDescriptionList.get(position));
+        String description = txnDescriptionList.get(position);
+        if (description != null && description.length() > 0) {
+            String descText = getTextFromJson(description, "descText");
+            if (descText != null && descText.length() > 0) {
+                if (descText.length() > 35) {
+                    holder.txn_description.setText(descText.substring(0, 35) + "...");
+                } else {
+                    holder.txn_description.setText(descText);
+                }
+            } else {
+                holder.txn_description.setText("Press long to edit");
+            }
+        } else {
+            holder.txn_description.setText("Press long to edit");
         }
+
+
 
 
 

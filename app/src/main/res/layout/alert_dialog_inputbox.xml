@@ -104,11 +104,7 @@ android:theme="@style/Theme.AddTxn"
         android:layout_height="wrap_content"
         android:text="Add image" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/avatar_shape" />
+
 
 
 </LinearLayout>

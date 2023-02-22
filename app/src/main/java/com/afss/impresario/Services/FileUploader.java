@@ -30,6 +30,12 @@ public class FileUploader {
                 Date now = new Date();
                 String fileName = formatter.format(now);
                 storageRef = FirebaseStorage.getInstance().getReference("TxnImages/"+fileName);
+
+                //Store it offline first
+
+
+
+
                 result = fileName;
             } catch (Exception e) {
                 FirebaseCrashlytics.getInstance().recordException(e);

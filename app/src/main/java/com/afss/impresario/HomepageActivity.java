@@ -1,5 +1,8 @@
 package com.afss.impresario;
 
+
+import static com.afss.impresario.utils.Converters.stringToJson;
+
 import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.app.AlarmManager;
@@ -12,11 +15,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
+import android.graphics.Bitmap;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.util.Pair;
 import android.view.Gravity;
@@ -24,10 +29,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
@@ -39,8 +48,11 @@ import com.afss.impresario.Adapter.RecyclerAdapter;
 import com.afss.impresario.Model.TransactionsModel;
 import com.afss.impresario.Services.AlarmService;
 import com.afss.impresario.Services.DataService;
+import com.afss.impresario.Services.FileUploader;
 import com.afss.impresario.databinding.ActivityHomepageBinding;
-import com.google.android.material.button.MaterialButton;
+import com.afss.impresario.utils.Converters;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
@@ -51,7 +63,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -59,6 +78,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -88,8 +108,13 @@ public class HomepageActivity extends AppCompatActivity {
     ArrayList<String> txnTypeList;
     ArrayList<String> txnTimeList;
     ArrayList<String> txnDescriptionList;
+    ArrayList<String> txnImagePathList;
 
     Animation fadeInAnimation, fadeOutAnimation;
+
+    String selectedImageUri = null;
+    String offlineImage = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,7 +165,7 @@ public class HomepageActivity extends AppCompatActivity {
 
         Date date = new Date();
         LocalDate localDate = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             year = Integer.toString(localDate.getYear());
             month = Integer.toString(localDate.getMonthValue());
@@ -161,6 +186,7 @@ public class HomepageActivity extends AppCompatActivity {
         txnTypeList = new ArrayList<>();
         txnTimeList = new ArrayList<>();
         txnDescriptionList = new ArrayList<>();
+        txnImagePathList = new ArrayList<>();
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerAdapter = new RecyclerAdapter(getApplicationContext(), txnAmountList, txnAmountPathList, txnTypeList, txnTimeList, txnDescriptionList);
@@ -176,6 +202,9 @@ public class HomepageActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+
+
+
 
         homepageBinding.transactionTxt.setText(months[Integer.parseInt(month) - 1] + " " + year);
 
@@ -203,6 +232,8 @@ public class HomepageActivity extends AppCompatActivity {
         path = "Users/" + GG_ID + "/" + year + "/" + month;
         DatabaseReference databaseReference = database.getReference(path);
         TransactionsLoader(databaseReference, view);
+
+
 
         homepageBinding.addExpenseAndIncome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -248,7 +279,7 @@ public class HomepageActivity extends AppCompatActivity {
             @Override
             public boolean onLongClick(View v) {
 
-                if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
                     Log.d(TAG, "Loaded  above lollipop");
                     // Do something for above lollipop and above versions
                     fadeInAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadein);
@@ -403,7 +434,30 @@ public class HomepageActivity extends AppCompatActivity {
     }
 
 
+    ActivityResultLauncher<String> mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
+            new ActivityResultCallback<Uri>() {
+                @Override
+                public void onActivityResult(Uri uri) {
+                    // Handle the returned Uri
+                    selectedImageUri = String.valueOf(uri);
+
+                    try {
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
+                        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                        byte[] byteArray = outputStream.toByteArray();
+                        String base64String = Base64.encodeToString(byteArray, Base64.DEFAULT);
+//                        Log.d("base64",base64String);
+                        offlineImage = base64String;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
     private String showAddExpenseAndIncomeDialog(Context c, String _amountType, DatabaseReference databaseReference) {
+
+
 
         LayoutInflater inflater = this.getLayoutInflater();
 
@@ -413,6 +467,7 @@ public class HomepageActivity extends AppCompatActivity {
         final MaterialButtonToggleGroup mtGrp = (MaterialButtonToggleGroup) dialogView.findViewById(R.id.txnTypeToggleGroup);
         final Button btnTypeExp = (Button) dialogView.findViewById(R.id.btnTypeExp);
         final Button btnTypeInc = (Button) dialogView.findViewById(R.id.btnTypeInc);
+        final Button btnAddImg = (Button) dialogView.findViewById(R.id.add_desc_image);
 
 //      set default expense type
         Log.d(TAG, "Default select" + mtGrp.getCheckedButtonId());
@@ -434,6 +489,16 @@ public class HomepageActivity extends AppCompatActivity {
                 }
             }
         });
+
+        btnAddImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mGetContent.launch("image/*");
+
+            }
+        });
+
+        // catching returned result
 
         MaterialAlertDialogBuilder dialog = new MaterialAlertDialogBuilder(c);
 //        dialog.setTitle("New Transaction")
@@ -469,15 +534,27 @@ public class HomepageActivity extends AppCompatActivity {
                                 transactions.setTxn_type("exp");
                                 Log.d(TAG, "pDebug Exp");
                             }
-                            transactions.setTxn_description(description);
+
 
                             transactions.setTime_stamp(currentTime);
                             Log.d(TAG, "pDebug Txn info " + transactions);
                             Log.d(TAG, "pDebug Data stored to " + databaseReference);
 
+                            if (selectedImageUri!=null)
+                            {
+                                FileUploader fileUploader = new FileUploader();
+                                String fileName = fileUploader.uploadFile(selectedImageUri);
+
+                                transactions.setTxn_description(stringToJson(description,fileName,offlineImage));
+                            }else {
+                                transactions.setTxn_description(stringToJson(description,"no_image","no_image"));
+                            }
+
                             databaseReference.push()
                                     .setValue(transactions);
                             Log.d(TAG, "pDebug Data Pushed");
+
+
 
                             expenseIncomeAmount.setText("");
 
@@ -490,6 +567,8 @@ public class HomepageActivity extends AppCompatActivity {
         dialog.show();
         return amount;
     }
+
+
 
     public void ShowNotification() {
 
